@@ -15,7 +15,7 @@ class RegistroController{
     public function procesarRegistro(){
         if( empty($_POST['nombre_completo'] ) || empty($_POST['mail'] ) || empty($_POST['password'] ) ){
             $_SESSION["error"] = "Alguno de los campos era erroneo o vacio";
-            Redirect::to('/Preguntados/registro');
+            Redirect::to('/preguntados/registro');
         }
 
         $nombre_completo = $_POST['nombre_completo'];
@@ -36,7 +36,7 @@ class RegistroController{
 
         $data['action'] = '/preguntados/procesarRegistro';
         $data['submitText'] = 'Registrar';
-        $this->render->printView('registroView', $data);
+        $this->render->printView('registro', $data);
     }
 
 }

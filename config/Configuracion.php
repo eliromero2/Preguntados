@@ -28,7 +28,6 @@ class Configuracion {
     }
 
     public function getRender() {
-        return new Render("view/header.php", "view/footer.php");
         return new MustacheRender();
     }
 
