@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro de Usuario</title>
+</head>
+<body>
+<h1>Registro de Usuario</h1>
+<form action="{{action}}" method="post" enctype="multipart/form-data" >
+    <label>Nombre Completo:</label>
+    <input type="text" name="nombre_completo" required><br>
+
+    <label>Año de Nacimiento:</label>
+    <input type="number" name="ano_nacimiento" required><br>
+
+    <label>Sexo:</label>
+    <select name="sexo">
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+        <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
+    </select><br>
+
+    <label>País:</label>
+    <input type="text" name="pais" required><br>
+
+    <label>Ciudad:</label>
+    <input type="text" name="ciudad" required><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" required><br>
+
+    <label>Contraseña:</label>
+    <input type="password" name="password" required><br>
+
+    <label>Repetir Contraseña:</label>
+    <input type="password" name="password_confirm" required><br>
+
+    <label>Nombre de Usuario:</label>
+    <input type="text" name="nombre_usuario" required><br>
+
+    <label>Foto de Perfil:</label>
+    <input type="file" name="foto_perfil" accept="image/*"><br>
+
+    <button type="submit">Registrar</button>
+</form>
+<a href="index.php">{{submitText}}</a>
+</body>
+</html>

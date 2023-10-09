@@ -5,7 +5,7 @@ include_once ("config/Configuracion.php");
 $configuracion = new Configuracion();
 $router = $configuracion->getRouter();
 
-$controller = $_GET['controller'] ?? "home";/*CAMBIARRRRR*/
-$method = $_GET['method'] ?? 'listar';/*CAMBIARRRRR*/
+$controller = isset($_GET['controller']) ? $_GET['controller'] : "home";
+$method = isset($_GET['method']) ? $_GET['method'] : 'registrar';
 
 $router->route($controller, $method);

@@ -6,8 +6,9 @@ include_once("helper/Router.php");
 include_once("helper/Logger.php");
 include_once('helper/Redirect.php');
 
-include_once('controller/PokedexController.php');
-include_once("model/PokedexModel.php");
+include_once('controller/loginController.php');
+include_once('controller/RegistroController.php');
+include_once("model/userModel.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
@@ -27,17 +28,17 @@ class Configuracion {
     }
 
     public function getRender() {
-        //return new Render("view/header.php", "view/footer.php");
+        return new Render("view/header.php", "view/footer.php");
         return new MustacheRender();
     }
 
 
-    public function getPokedexController() {   /*CAMBIAR*/
-        $model = new PokedexModel($this->getDatabase());
-        return new PokedexController($this->getRender(), $model);
+    public function getRegistroController() {
+        $model = new userModel($this->getDatabase());
+        return new RegistroController($this->getRender(), $model);
     }
 
-    public function getRouter() { /*CAMBIAR*/
-        return new Router($this,"getPokedexController","list");
+    public function getRouter() {
+       return new Router($this,"getRegistroController","registro");
     }
 }

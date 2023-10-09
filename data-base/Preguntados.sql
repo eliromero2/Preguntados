@@ -12,7 +12,6 @@ CREATE TABLE users (
                        ciudad VARCHAR(50) DEFAULT NULL,
                        mail VARCHAR(255) NOT NULL,
                        password VARCHAR(255) NOT NULL,
-                       password_rep VARCHAR(255) NOT NULL,
                        user_name VARCHAR(100) UNIQUE NOT NULL,
                        imagen_path varchar(255) DEFAULT NULL
 
