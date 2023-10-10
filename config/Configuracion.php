@@ -6,7 +6,7 @@ include_once("helper/Router.php");
 include_once("helper/Logger.php");
 include_once('helper/Redirect.php');
 
-include_once('controller/loginController.php');
+include_once('controller/LoginController.php');
 include_once('controller/RegistroController.php');
 include_once("model/userModel.php");
 
@@ -33,6 +33,11 @@ class Configuracion {
 
 
     public function getRegistroController() {
+        $model = new userModel($this->getDatabase());
+        return new RegistroController($this->getRender(), $model);
+    }
+
+    public function getLoginController() {
         $model = new userModel($this->getDatabase());
         return new RegistroController($this->getRender(), $model);
     }

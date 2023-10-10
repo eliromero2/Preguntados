@@ -6,6 +6,10 @@
 <body>
 <div class="container p-5">
 
+    {{#error}}
+            {{error}}
+    {{/error}}
+
         <h1>Registro de Usuario</h1>
         <form action="{{action}}" method="post" enctype="multipart/form-data" >
             <div class="mb-3">
@@ -34,7 +38,7 @@
             </div>
             <div class="mb-3">
             <label class="form-label">Email:</label>
-            <input type="email" name="email" required class="form-control"><br>
+            <input type="email" name="mail" required class="form-control"><br>
             </div>
             <div class="mb-3">
             <label class="form-label">Contraseña:</label>
@@ -46,7 +50,7 @@
             </div>
             <div class="mb-3">
             <label class="form-label">Nombre de Usuario:</label>
-            <input type="text" name="nombre_usuario" required class="form-control"><br>
+            <input type="text" name="user_name" required class="form-control"><br>
             </div>
             <div class="mb-3">
             <label class="form-label">Foto de Perfil:</label>
