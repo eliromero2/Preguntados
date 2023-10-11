@@ -6,6 +6,7 @@ $configuracion = new Configuracion();
 $router = $configuracion->getRouter();
 
 $controller = $_GET['controller'] ?? "home";
-$method = $_GET['method'] ?? 'registro';
+$method = $_GET['method'] ?? 'list';
+
 
 $router->route($controller, $method);

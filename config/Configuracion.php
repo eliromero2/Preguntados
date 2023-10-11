@@ -8,6 +8,7 @@ include_once('helper/Redirect.php');
 
 include_once('controller/LoginController.php');
 include_once('controller/RegistroController.php');
+include_once('controller/HomeController.php');
 include_once("model/userModel.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
@@ -39,10 +40,15 @@ class Configuracion {
 
     public function getLoginController() {
         $model = new userModel($this->getDatabase());
-        return new RegistroController($this->getRender(), $model);
+        return new LoginController($this->getRender(), $model);
+    }
+    public function getHomeController() {
+        $model = new userModel($this->getDatabase());
+        return new HomeController($this->getRender(), $model);
     }
 
+
     public function getRouter() {
-       return new Router($this,"getRegistroController","registro");
+       return new Router($this,"getHomeController","list");
     }
 }
