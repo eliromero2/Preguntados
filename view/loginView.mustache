@@ -8,6 +8,24 @@
     <title>Log In</title>
 </head>
 <body>
+{{#error}}
+    {{error}}
+{{/error}}
+<div class="container-xl d-flex   justify-content-center my-5 bg-secondary-subtle">
+    <form action="{{action}}" method="post" enctype="multipart/form-data">
+        <div class="d-flex justify-content-center my-5">
+            <label for="user_name" class="form-label px-3 fs-4">Usuario: </label>
+            <input type="text" name="user_name" id="user_name" required class="form-control">
+        </div>
+        <div class="d-flex justify-content-center my-5">
+            <label for="password" class="form-label px-3 fs-4">Contraseña: </label>
+            <input type="password" name="password" id="password" required class="form-control">
+        </div>
+        <div class="d-flex justify-content-center my-5">
+            <button type="submit" class="btn btn-dark btn-lg">{{submitText}}</button>
+        </div>
 
+    </form>
+</div>
 </body>
 </html>
