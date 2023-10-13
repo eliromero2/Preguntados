@@ -9,5 +9,13 @@
 </head>
 <body>
 <p>Home</p>
+{{#userSession}}
+    {{userSession.nombre_completo}}
+    {{userSession.sexo}}
+    {{userSession.mail}}
+    {{userSession.user_name}}
+
+    <a href="/juego/nuevoJuego" class="btn btn-primary">Nuevo Juego</a>
+{{/userSession}}
 </body>
 </html>
