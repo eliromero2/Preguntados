@@ -1,0 +1,33 @@
+<main class="container my-3">
+        <div class="row">
+            {{#preguntasByModule}}
+                <div class="col-4 mb-3">
+                    <form id="">
+                        <div class="card card-body mb-5">
+                            <div class="card-section mb-3">
+                                <h5 class="card-title">Pregunta:</h5>
+                                <p class="card-text">{{pregunta}}</p>
+                            </div>
+                            <div class="card-section mb-3">
+                                <h5 class="card-title">Opciones:</h5>
+                                <ul class="list-group">
+                                    {{#opciones}}
+                                        <li class="list-group-item">
+                                            <label>
+                                                <input type="radio" name="opcion{{id}}" value="{{.}}" required> {{.}}
+                                            </label>
+                                        </li>
+                                    {{/opciones}}
+                                </ul>
+                            </div>
+                            <div class="card-section">
+                                <h5 class="card-title">Opción Correcta:</h5>
+                                <p class="card-text">{{opcion_correcta}}</p>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Validar Respuestas</button>
+                    </form>
+                </div>
+            {{/preguntasByModule}}
+        </div>
+</main>

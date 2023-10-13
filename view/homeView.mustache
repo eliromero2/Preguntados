@@ -1,21 +1,20 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
-</head>
-<body>
-<p>Home</p>
-{{#userSession}}
-    {{userSession.nombre_completo}}
-    {{userSession.sexo}}
-    {{userSession.mail}}
-    {{userSession.user_name}}
 
-    <a href="/juego/nuevoJuego" class="btn btn-primary">Nuevo Juego</a>
-{{/userSession}}
-</body>
-</html>
+ <main class="container my-3">
+    <div class="row">
+        <div class="col">
+         {{^userSession}}
+            <h1>Hola extraño</h1>
+            {{/userSession}}
+
+            {{#userSession}}
+            <h1>Bienvenido {{user_name}}</h1>
+            <div class="card card-body mb-3">
+                <p>{{nombre_completo}}</p>
+                <p>{{sexo}}</p>
+                <p>{{mail}}</p>
+            </div>
+                <a href="/juego" class="btn btn-primary">Nuevo Juego</a>
+            {{/userSession}}
+        </div>
+    </div>
+ </main>

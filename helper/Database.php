@@ -10,6 +10,10 @@ class Database {
             Logger::error("Error al ingresar a la base de datos con: $servername, $username, $password, $dbname");
             exit();
         }
+
+        // Configura la codificación de caracteres
+        mysqli_set_charset($this->conn, "utf8");
+
     }
 
     public function __destruct() {
@@ -18,11 +22,17 @@ class Database {
 
     public function query($sql) {
         $result = mysqli_query($this->conn, $sql);
-       // Logger::info("Ejecutando Query: ".print_r($result,true));
 
-        if (!is_bool($result))
-            return mysqli_fetch_all($result, MYSQLI_BOTH);
-        else
-            return $result;
+        if ($result === false) {
+            // Handle error, return false, or throw an exception
+            return false;
+        }
+    
+        $rows = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+    
+        return $rows;
     }
 }
