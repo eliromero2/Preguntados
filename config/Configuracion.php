@@ -13,42 +13,51 @@ include_once("model/userModel.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
-class Configuracion {
-    public function __construct() {
+class Configuracion
+{
+    public function __construct()
+    {
     }
 
-    public function getDatabase() {
+    public function getDatabase()
+    {
         $config = parse_ini_file('configuration.ini');
         $database = new Database(
             $config['servername'],
             $config['username'],
             $config['password'],
-            $config['dbname']
+            $config['dbname'],
+            $config['port']
         );
         return $database;
     }
 
-    public function getRender() {
+    public function getRender()
+    {
         return new MustacheRender();
     }
 
 
-    public function getRegistroController() {
+    public function getRegistroController()
+    {
         $model = new userModel($this->getDatabase());
         return new RegistroController($this->getRender(), $model);
     }
 
-    public function getLoginController() {
+    public function getLoginController()
+    {
         $model = new userModel($this->getDatabase());
         return new LoginController($this->getRender(), $model);
     }
-    public function getHomeController() {
+    public function getHomeController()
+    {
         $model = new userModel($this->getDatabase());
         return new HomeController($this->getRender(), $model);
     }
 
 
-    public function getRouter() {
-       return new Router($this,"getHomeController","list");
+    public function getRouter()
+    {
+        return new Router($this, "getHomeController", "list");
     }
 }

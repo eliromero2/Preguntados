@@ -1,22 +1,26 @@
 <?php
 
-class Database {
+class Database
+{
     private $conn;
 
-    public function __construct($servername, $username, $password, $dbname) {
-        $this->conn = mysqli_connect($servername, $username, $password, $dbname);
+    public function __construct($servername, $username, $password, $dbname, $port)
+    {
+        $this->conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
-        if(!$this->conn) {
-            Logger::error("Error al ingresar a la base de datos con: $servername, $username, $password, $dbname");
+        if (!$this->conn) {
+            Logger::error("Error al ingresar a la base de datos con: $servername, $username, $password, $dbname, $port");
             exit();
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         mysqli_close($this->conn);
     }
 
-    public function query($sql) {
+    public function query($sql)
+    {
         Logger::info("Ejecutando Query $sql ");
         $result = mysqli_query($this->conn, $sql);
 

@@ -1,16 +1,19 @@
 <?php
-class HomeController{
+class HomeController
+{
 
     private $userModel;
 
     private $render;
 
-    public function __construct($render, $userModel) {
+    public function __construct($render, $userModel)
+    {
         $this->render = $render;
         $this->userModel = $userModel;
     }
 
-    public function list() {
+    public function list()
+    {
         $this->render->printView('home');
     }
 }
