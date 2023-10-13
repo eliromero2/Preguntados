@@ -10,7 +10,54 @@ class LoginController{
         $this->userModel = $userModel;
     }
 
-    public function list() {
-        $this->render->printView('login');
+    private function redirectIfMissParams($params){
+        if( empty($params['password'] ) || empty($params['user_name'] )  ){
+            $_SESSION["error"] = "Alguno de los campos era erroneo o vacio";
+            Redirect::to('/login');
+        }else{
+            Logger::info("redirectIfMissParams: ".print_r($params,true));
+        }
     }
+
+    public function list() {
+        $data = [
+            'action' => '/login/procesarLogin',
+            'submitText' => 'Ingresar',
+        ];
+
+        $this->render->printView('login', $data);
+    }
+
+    public function login(){
+        $data = [];
+
+
+        if(!empty($_SESSION['error'])){
+            $data["error"] = $_SESSION['error'];
+            unset( $_SESSION['error']);
+        }
+
+        $data['action'] = '/login/procesarLogin';
+        $data['submitText'] = 'Ingresar';
+        $this->render->printView('login', $data);
+
+
+    }
+
+    public function procesarLogin(){
+        $this->redirectIfMissParams($_POST);
+       
+        $user_name = $_POST['user_name'];
+        $password = $_POST['password'];
+
+        $this->userModel->validarUsuario($user_name,$password);
+        Redirect::to('/home/list');
+    }
+
+    public function cerrarSesion(){//revisarrrrr
+        session_destroy();
+        echo('Se cerro la sesion');
+        Redirect::to('/home/list');
+    }
+
 }
