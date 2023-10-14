@@ -3,7 +3,6 @@ class JuegoController{
 
     private $userModel;
     private $preguntaModel;
-
     private $render;
 
     public function __construct($render, $userModel, $preguntaModel) {
@@ -15,7 +14,7 @@ class JuegoController{
     public function list() {
         $data['userSession'] = $this->userModel->getCurrentSession();
         $data['modulos'] = $this->preguntaModel->getModules();
-        
-        $this->render->printView('juego', $data);
+      
+        $this->render->authView($data['userSession'],'juego', $data);
     }
 }

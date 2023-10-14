@@ -21,4 +21,9 @@ class MustacheRender {
         $contentAsString .= file_get_contents('view/footer.mustache');
         return $this->mustache->render($contentAsString, $data);
     }
+
+    public function authView($session, $viewName, $viewData, $redirectTo = '/login') {
+        $session ? $this->printView($viewName, $viewData) : Redirect::to($redirectTo);
+
+    }
 }

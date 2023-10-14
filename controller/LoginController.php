@@ -20,27 +20,33 @@ class LoginController{
     }
 
     public function list() {
-        $data = [
-            'action' => '/login/procesarLogin',
-            'submitText' => 'Ingresar',
-        ];
-
-        $this->render->printView('login', $data);
+        
+        if(!isset($_SESSION['user'])){
+            $data = [
+                'action' => '/login/procesarLogin',
+                'submitText' => 'Ingresar',
+            ];
+            $this->render->printView('login', $data);
+        }else{
+            Redirect::to('/home');
+        }
     }
 
     public function login(){
         $data = [];
-
 
         if(!empty($_SESSION['error'])){
             $data["error"] = $_SESSION['error'];
             unset( $_SESSION['error']);
         }
 
-        $data['action'] = '/login/procesarLogin';
-        $data['submitText'] = 'Ingresar';
-        $this->render->printView('login', $data);
-
+        if(!$_SESSION['user']){
+            $data['action'] = '/login/procesarLogin';
+            $data['submitText'] = 'Ingresar';
+            $this->render->printView('login', $data);
+        }else{
+            Redirect::to('/home');
+        }
 
     }
 

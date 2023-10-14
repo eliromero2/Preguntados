@@ -14,20 +14,21 @@ class PreguntaController{
 
     public function list() {
         $data['userSession'] = $this->userModel->getCurrentSession();
-        $this->render->printView('pregunta', $data);
+
+        $this->render->authView($data['userSession'],'pregunta',$data);
     }
 
     public function modulo() {
         $data['userSession'] = $this->userModel->getCurrentSession();
         $data['preguntasByModule'] = $this->preguntaModel->getAllBy($_GET['name']);
 
-        $this->render->printView('pregunta', $data);
+        $this->render->authView($data['userSession'],'pregunta',$data);
     }
 
     public function show(){
         $data['userSession'] = $this->userModel->getCurrentSession();
         $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_GET['id']);
 
-        $this->render->printView('pregunta', $data);
+        $this->render->authView($data['userSession'],'pregunta',$data);
     }
 }

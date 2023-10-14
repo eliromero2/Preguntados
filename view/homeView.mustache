@@ -1,18 +1,23 @@
 
- <main class="container my-3">
-    <div class="row">
+ <main class="container ">
+    <div class="row mt-5">
         <div class="col">
-         {{^userSession}}
-            <h1>Hola extraño</h1>
+            {{^userSession}}
+            <section class="text-center p-3">
+                <h1>Hola extraño</h1>
+                <h2>Create una cuenta, ingresa y juga!</h2>
+                <a href="/login" class="btn btn-primary">Iniciar Sesion</a>
+                <a href="/registro" class="btn btn-secondary">Crear cuenta</a>
+            </section>
             {{/userSession}}
 
             {{#userSession}}
-            <h1>Bienvenido {{user_name}}</h1>
-            <div class="card card-body mb-3">
-                <p>{{nombre_completo}}</p>
-                <p>{{sexo}}</p>
-                <p>{{mail}}</p>
-            </div>
+                <h1>Bienvenido {{user_name}}</h1>
+                <div class="card card-body mb-3">
+                    <p>{{nombre_completo}}</p>
+                    <p>{{sexo}}</p>
+                    <p>{{mail}}</p>
+                </div>
                 <a href="/juego" class="btn btn-primary">Nuevo Juego</a>
             {{/userSession}}
         </div>
