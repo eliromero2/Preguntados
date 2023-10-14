@@ -12,7 +12,6 @@ class HomeController{
 
     public function list() {
         $data['userSession'] = $this->userModel->getCurrentSession();
-        Logger::info(print_r($data,true));
         $this->render->printView('home', $data);
     }
 }
