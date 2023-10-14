@@ -23,4 +23,11 @@ class PreguntaController{
 
         $this->render->printView('pregunta', $data);
     }
+
+    public function show(){
+        $data['userSession'] = $this->userModel->getCurrentSession();
+        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_GET['id']);
+
+        $this->render->printView('pregunta', $data);
+    }
 }
