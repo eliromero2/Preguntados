@@ -2,7 +2,10 @@
 
 class userModel{
 
+    
     private $database;
+    public $attributes = ['nombre_completo', 'ano_nacimiento','sexo','pais','ciudad','mail', 'password', 'user_name'];
+
     public function __construct($database){
         $this->database = $database;
     }

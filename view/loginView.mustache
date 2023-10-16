@@ -11,21 +11,22 @@
 {{#error}}
     {{error}}
 {{/error}}
-<div class="container-xl d-flex   justify-content-center my-5 bg-secondary-subtle">
-    <form action="{{action}}" method="post" enctype="multipart/form-data">
-        <div class="d-flex justify-content-center my-5">
-            <label for="user_name" class="form-label px-3 fs-4">Usuario: </label>
+<div class="container mt-5 ">
+<form action="{{action}}" method="post" enctype="multipart/form-data" class="row card card-body w-25 mx-auto">
+        <div class="col-12 ">
+            <label for="user_name" class="form-label fs-4">Usuario: </label>
             <input type="text" name="user_name" id="user_name" required class="form-control">
         </div>
-        <div class="d-flex justify-content-center my-5">
-            <label for="password" class="form-label px-3 fs-4">Contraseña: </label>
+        <div class="col-12 my-5">
+            <label for="password" class="form-label fs-4">Contraseña: </label>
             <input type="password" name="password" id="password" required class="form-control">
         </div>
-        <div class="d-flex justify-content-center my-5">
-            <button type="submit" class="btn btn-dark btn-lg">{{submitText}}</button>
+        <div class="col-12">
+            <button type="submit" class="btn btn-dark btn-lg w-100">{{submitText}}</button>
         </div>
 
-    </form>
+</div>
+    
 </div>
 </body>
 </html>

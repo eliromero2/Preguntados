@@ -3,8 +3,8 @@
 class RegistroController{
 
     private $userModel;
-
     private $render;
+    private $need = ['nombre_completo','mail','password'];
 
     public function __construct($render, $userModel) {
         $this->render = $render;
@@ -18,10 +18,7 @@ class RegistroController{
 
     public function procesarRegistro(){
 
-        if( empty($_POST['nombre_completo'] ) || empty($_POST['mail'] ) || empty($_POST['password'] ) ){
-            $_SESSION["error"] = "Alguno de los campos era erroneo o vacio";
-            Redirect::to('/registro');
-        }
+        Request::validate($_POST, $this->need);
 
         $nombre_completo = $_POST['nombre_completo'];
         $mail = $_POST['mail'];
