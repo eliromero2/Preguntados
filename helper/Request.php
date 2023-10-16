@@ -2,7 +2,7 @@
 
 class Request {
 
-    public static function validate($data, $need = []) {
+    public static function validate($data, $need = [], $redirectTo = '/registro') {
 
         $valid = true;
 
@@ -12,7 +12,7 @@ class Request {
 
         if(!$valid){
             $_SESSION["error"] = "Alguno de los campos era erroneo o vacio";
-            Redirect::to('/registro');
+            Redirect::to($redirectTo);
         }
     }
 }

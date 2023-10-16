@@ -15,13 +15,13 @@ class juegoModel{
 
     public function buscarUsuario($user_name,$password){
         $sql="SELECT * FROM users WHERE user_name = '$user_name'";
-    $this->database->query($sql);
+    $this->database->select($sql);
 
 }
 
     public function validarUsuario($user_name, $password){
         $sql="SELECT * FROM users WHERE user_name = '$user_name'";
-        $resultado = $this->database->query($sql);
+        $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
             Logger::info('NO econtro el usuario: ' . $sql);

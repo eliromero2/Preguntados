@@ -31,4 +31,9 @@ class Logger {
     private static function getDate() {
         return date("Y-m-d");
     }
+
+    public static function dd(...$data) {
+        var_dump($data);
+        die();
+    }
 }

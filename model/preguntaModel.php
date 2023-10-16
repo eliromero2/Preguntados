@@ -9,7 +9,7 @@ class preguntaModel{
     
     public function all(){
         $sql="SELECT * FROM preguntas";
-        $resultado = $this->database->query($sql);
+        $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
             Logger::info('NO econtro: ' . $sql);
@@ -24,7 +24,7 @@ class preguntaModel{
 
     public function getModules(){
         $sql="SELECT DISTINCT modulo FROM preguntas";
-        $resultado = $this->database->query($sql);
+        $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
             Logger::info('NO econtro: ' . $sql);
@@ -37,8 +37,7 @@ class preguntaModel{
     public function getAllBy($moduleName){
         $sql = "SELECT pregunta, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE modulo = ".$moduleName." GROUP BY pregunta";
 
-        $resultado = $this->database->query($sql);
-       // Logger::info(print_r($resultado,true));
+        $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
             Logger::info('NO econtro: ' . $sql);
@@ -57,13 +56,13 @@ class preguntaModel{
 
         $sql2= "SELECT pregunta from preguntas where id = $id";
 
-        $preguntaRow = $this->database->query($sql2);
+        $preguntaRow = $this->database->select($sql2);
 
         $pregunta = $preguntaRow[0]['pregunta'];
 
         $sql = "SELECT pregunta, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE pregunta = '$pregunta' GROUP BY pregunta";
 
-        $resultado = $this->database->query($sql);
+        $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
             Logger::info('NO econtro: ' . $sql);

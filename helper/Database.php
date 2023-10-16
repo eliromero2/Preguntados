@@ -20,19 +20,35 @@ class Database {
         mysqli_close($this->conn);
     }
 
+
     public function query($sql) {
+        $result = mysqli_query($this->conn, $sql);
+
+       //Logger::dd($sql, $result);
+
+        if ($result === false) {
+            // Handle error, return false, or throw an exception
+            return false;
+        }
+
+    }
+    
+
+    public function select($sql) {
         $result = mysqli_query($this->conn, $sql);
 
         if ($result === false) {
             // Handle error, return false, or throw an exception
             return false;
         }
-    
+
         $rows = array();
+
         while ($row = mysqli_fetch_assoc($result)) {
             $rows[] = $row;
         }
-    
         return $rows;
+       
     }
+
 }
