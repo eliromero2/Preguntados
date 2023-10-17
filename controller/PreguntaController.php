@@ -31,4 +31,23 @@ class PreguntaController{
 
         $this->render->authView($data['userSession'],'pregunta',$data);
     }
+
+    public function validarOpcion(){
+
+        $data['userSession'] = $this->userModel->getCurrentSession();
+        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_GET['id']);
+
+        $opcionSeleccionada = $_POST['opcion'];
+
+        $opcionCorrecta = $this->preguntaModel->getRespuestaCorrecta($_GET['id']);
+
+        if ($opcionSeleccionada == $opcionCorrecta){
+            $data['opcionEsCorrecta']= "La es opcion correcta ";
+        }else{
+            Redirect::to('/juego/list');
+        }
+
+        $this->render->authView($data['userSession'],'pregunta',$data);
+
+    }
 }

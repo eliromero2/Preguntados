@@ -6,17 +6,18 @@
             <section class="text-center p-3">
                 <h1>Hola extraño</h1>
                 <h2>Create una cuenta, ingresa y juga!</h2>
-                <a href="/login" class="btn btn-primary">Iniciar Sesion</a>
-                <a href="/registro" class="btn btn-secondary">Crear cuenta</a>
+                <a href="/login/login" class="btn btn-primary">Iniciar Sesion</a>
+                <a href="/registro/registro" class="btn btn-secondary">Crear cuenta</a>
             </section>
             {{/userSession}}
 
             {{#userSession}}
-                <h1>Bienvenido {{user_name}}</h1>
+                <h1>Bienvenido {{user_name}}!</h1>
                 <div class="card card-body mb-3">
-                    <p>{{nombre_completo}}</p>
-                    <p>{{sexo}}</p>
-                    <p>{{mail}}</p>
+                    <h4>Informacion del usuario: </h4>
+                    <p>Nombre: {{nombre_completo}}</p>
+                    <p>Sexo: {{sexo}}</p>
+                    <p>Mail: {{mail}}</p>
                 </div>
                 <a href="/juego" class="btn btn-primary">Nuevo Juego</a>
             {{/userSession}}

@@ -75,4 +75,28 @@ class preguntaModel{
         
         return $resultado;
     }
+
+    public function getRespuestaCorrecta($id){
+
+        $sql1 = "SELECT pregunta FROM preguntas WHERE id = $id";
+        $preguntaRow = $this->database->select($sql1);
+
+        if (!$preguntaRow || count($preguntaRow) === 0) {
+            Logger::info('No se encontró la pregunta con ID: ' . $id);
+            return false;
+        }
+
+        $pregunta = $preguntaRow[0]['pregunta'];
+        //
+        $sql2 = "SELECT opcion FROM preguntas WHERE pregunta = '$pregunta' AND opcion_correcta = 'SI'";
+        $resultado = $this->database->select($sql2);
+
+        if (!$resultado || count($resultado) === 0) {
+            Logger::info('No se encontró una respuesta correcta para la pregunta: ' . $pregunta);
+            return false;
+        }
+
+        return $resultado[0]['opcion_correcta'];
+    }
+
 }

@@ -21,11 +21,11 @@ CREATE TABLE preguntas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pregunta TEXT NOT NULL,
     estado VARCHAR(255) NOT NULL,
-    modulo VARCHAR(10),
+    modulo VARCHAR(100),
     verificada VARCHAR(2) DEFAULT 'NO',
     accesible VARCHAR(2) DEFAULT 'NO',
-    tipo VARCHAR(10) NOT NULL,
-    opcion VARCHAR(10) NOT NULL,
+    tipo VARCHAR(100) NOT NULL,
+    opcion VARCHAR(255) NOT NULL,
     opcion_correcta VARCHAR(10)
 );
 
