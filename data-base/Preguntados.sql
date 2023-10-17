@@ -3,16 +3,16 @@ USE preguntados;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-                       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                       nombre_completo VARCHAR(255) NOT NULL,
-                       ano_nacimiento INT DEFAULT NULL,
-                       sexo ENUM('Masculino', 'Femenino', 'Prefiero no decirlo') DEFAULT NULL,
-                       pais VARCHAR(50) DEFAULT NULL,
-                       ciudad VARCHAR(50) DEFAULT NULL,
-                       mail VARCHAR(255) NOT NULL,
-                       password VARCHAR(255) NOT NULL,
-                       user_name VARCHAR(100) UNIQUE NOT NULL,
-                       imagen_path varchar(255) DEFAULT NULL
+   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   nombre_completo VARCHAR(255) NOT NULL,
+   ano_nacimiento INT DEFAULT NULL,
+   sexo ENUM('Masculino', 'Femenino', 'Prefiero no decirlo') DEFAULT NULL,
+   pais VARCHAR(50) DEFAULT NULL,
+   ciudad VARCHAR(50) DEFAULT NULL,
+   mail VARCHAR(255) NOT NULL,
+   password VARCHAR(255) NOT NULL,
+   user_name VARCHAR(100) UNIQUE NOT NULL,
+   imagen_path varchar(255) DEFAULT NULL
 
 );
 
@@ -146,17 +146,18 @@ Se trata de:','ACTIVA','MVC / POO','NO','NO','Opciones con respuesta única','In
 ('La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:','ACTIVA','Introduccion a HTTP y a las Aplicaciones Web','SI','NO','Opciones con respuesta única','Una API','NO'),
 ('La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:','ACTIVA','Introduccion a HTTP y a las Aplicaciones Web','SI','NO','Opciones con respuesta única','Ninguna de las anteriores','NO');
 
+DROP TABLE IF EXISTS partidas;
 CREATE TABLE partidas (
-                           id INT AUTO_INCREMENT PRIMARY KEY,
-                           user_id INT NOT NULL,
-                           puntaje VARCHAR(255) NOT NULL,
-                           FOREIGN KEY (user_id) REFERENCES users(id),
-
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   user_id INT NOT NULL,
+   puntaje VARCHAR(255) NOT NULL,
+   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+DROP TABLE IF EXISTS ranking;
 CREATE TABLE ranking (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        user_id INT NOT NULL,
-                        puntaje VARCHAR(255) NOT NULL,
-                        FOREIGN KEY (user_id) REFERENCES users(id),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    puntaje VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
