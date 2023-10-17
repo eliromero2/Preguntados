@@ -76,7 +76,7 @@ class preguntaModel{
         return $resultado;
     }
 
-    public function getRespuestaCorrecta($id){
+   /* public function getRespuestaCorrecta($id){
 
         $sql1 = "SELECT pregunta FROM preguntas WHERE id = $id";
         $preguntaRow = $this->database->select($sql1);
@@ -97,6 +97,6 @@ class preguntaModel{
         }
 
         return $resultado[0]['opcion_correcta'];
-    }
+    }*/
 
 }
