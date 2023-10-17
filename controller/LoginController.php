@@ -10,8 +10,26 @@ class LoginController{
         $this->userModel = $userModel;
     }
 
+    private function redirectIfMissParams($params){
+        if( empty($params['password'] ) || empty($params['user_name'] )  ){
+            $_SESSION["error"] = "Alguno de los campos era erroneo o vacio";
+            Redirect::to('/login');
+        }else{
+            Logger::info("redirectIfMissParams: ".print_r($params,true));
+        }
+    }
+
     public function list() {
-        $this->render->printView('login');
+        
+        if(!isset($_SESSION['user'])){
+            $data = [
+                'action' => '/login/procesarLogin',
+                'submitText' => 'Ingresar',
+            ];
+            $this->render->printView('login', $data);
+        }else{
+            Redirect::to('/home');
+        }
     }
 
     public function login(){
@@ -22,18 +40,19 @@ class LoginController{
             unset( $_SESSION['error']);
         }
 
-        $data['action'] = '/login/procesarLogin';
-        $data['submitText'] = 'Ingresar';
-        $this->render->printView('login', $data);
-
+        if(!$_SESSION['user']){
+            $data['action'] = '/login/procesarLogin';
+            $data['submitText'] = 'Ingresar';
+            $this->render->printView('login', $data);
+        }else{
+            Redirect::to('/home');
+        }
 
     }
 
     public function procesarLogin(){
-        if( empty($_POST['password'] ) || empty($_POST['user_name'] )  ){
-            $_SESSION["error"] = "Alguno de los campos era erroneo o vacio";
-            Redirect::to('/login');
-        }
+        $this->redirectIfMissParams($_POST);
+       
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];
 

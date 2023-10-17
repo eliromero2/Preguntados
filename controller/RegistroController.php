@@ -3,8 +3,8 @@
 class RegistroController{
 
     private $userModel;
-
     private $render;
+    private $need = ['nombre_completo','mail','password'];
 
     public function __construct($render, $userModel) {
         $this->render = $render;
@@ -18,10 +18,7 @@ class RegistroController{
 
     public function procesarRegistro(){
 
-        if( empty($_POST['nombre_completo'] ) || empty($_POST['mail'] ) || empty($_POST['password'] ) ){
-            $_SESSION["error"] = "Alguno de los campos era erroneo o vacio";
-            Redirect::to('/registro');
-        }
+        Request::validate($_POST, $this->need);
 
         $nombre_completo = $_POST['nombre_completo'];
         $mail = $_POST['mail'];
@@ -31,7 +28,14 @@ class RegistroController{
         $pais=$_POST['pais'];
         $ciudad=$_POST['ciudad'];
         $user_name=$_POST['user_name'];
-        $image_path= $_POST['image_path'];
+        $image_path=null;
+
+        $folderSave = __DIR__."/../assets/users/".$_FILES['foto_perfil']['name'];
+
+        if(move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $folderSave))
+        {
+             $image_path= $_FILES['foto_perfil']["name"]; 
+        }
 
         $this->userModel->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path);
         Redirect::to('/home/list');

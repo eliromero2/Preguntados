@@ -1,13 +1,26 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
-</head>
-<body>
-<p>Home</p>
-</body>
-</html>
+
+ <main class="container ">
+    <div class="row mt-5">
+        <div class="col">
+            {{^userSession}}
+            <section class="text-center p-3">
+                <h1>Hola extraño</h1>
+                <h2>Create una cuenta, ingresa y juga!</h2>
+                <a href="/login/login" class="btn btn-primary">Iniciar Sesion</a>
+                <a href="/registro/registro" class="btn btn-secondary">Crear cuenta</a>
+            </section>
+            {{/userSession}}
+
+            {{#userSession}}
+                <h1>Bienvenido {{user_name}}!</h1>
+                <div class="card card-body mb-3">
+                    <h4>Informacion del usuario: </h4>
+                    <p>Nombre: {{nombre_completo}}</p>
+                    <p>Sexo: {{sexo}}</p>
+                    <p>Mail: {{mail}}</p>
+                </div>
+                <a href="/juego" class="btn btn-primary">Nuevo Juego</a>
+            {{/userSession}}
+        </div>
+    </div>
+ </main>
