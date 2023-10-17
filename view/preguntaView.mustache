@@ -5,6 +5,8 @@
             {{#pregunta}}
                 <div class="col mb-3">
                     <form id="" method="post" action="/pregunta/validarOpcion">
+                        <input type="hidden" name="id" value="{{id}}">
+
                         <div class="card card-body mb-5">
                             <div class="card-section mb-3">
                                 <h5 class="card-title">Pregunta:</h5>
@@ -16,7 +18,7 @@
                                     {{#opciones}}
                                         <li class="list-group-item">
                                             <label>
-                                                <input type="radio" name="opcion{{id}}" value="{{.}}" required> {{.}}
+                                                <input type="radio" name="opcion" value="{{.}}" required> {{.}}
                                             </label>
                                         </li>
                                     {{/opciones}}

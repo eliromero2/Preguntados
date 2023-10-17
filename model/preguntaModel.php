@@ -60,7 +60,7 @@ class preguntaModel{
 
         $pregunta = $preguntaRow[0]['pregunta'];
 
-        $sql = "SELECT pregunta, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE pregunta = '$pregunta' GROUP BY pregunta";
+        $sql = "SELECT pregunta,id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE pregunta = '$pregunta' GROUP BY pregunta";
 
         $resultado = $this->database->select($sql);
 

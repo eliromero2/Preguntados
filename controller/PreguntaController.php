@@ -35,16 +35,17 @@ class PreguntaController{
     public function validarOpcion(){
 
         $data['userSession'] = $this->userModel->getCurrentSession();
-        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_GET['id']);
+        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_POST['id']);
 
         $opcionSeleccionada = $_POST['opcion'];
 
-        $opcionCorrecta = $this->preguntaModel->getRespuestaCorrecta($_GET['id']);
+       $opcionCorrecta = $data['pregunta'][0]['opcion_correcta'];
 
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
         }else{
             Redirect::to('/juego/list');
+
         }
 
         $this->render->authView($data['userSession'],'pregunta',$data);

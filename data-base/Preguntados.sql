@@ -145,3 +145,20 @@ Se trata de:','ACTIVA','MVC / POO','NO','NO','Opciones con respuesta única','In
 ('La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:','ACTIVA','Introduccion a HTTP y a las Aplicaciones Web','SI','NO','Opciones con respuesta única','Un DNS','NO'),
 ('La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:','ACTIVA','Introduccion a HTTP y a las Aplicaciones Web','SI','NO','Opciones con respuesta única','Una API','NO'),
 ('La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:','ACTIVA','Introduccion a HTTP y a las Aplicaciones Web','SI','NO','Opciones con respuesta única','Ninguna de las anteriores','NO');
+
+CREATE TABLE partidas (
+                           id INT AUTO_INCREMENT PRIMARY KEY,
+                           user_id TEXT NOT NULL,
+                           puntaje VARCHAR(255) NOT NULL,
+
+
+
+);
+
+CREATE TABLE ranking (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        user_id TEXT NOT NULL,
+                        puntaje VARCHAR(255) NOT NULL,
+
+
+);
