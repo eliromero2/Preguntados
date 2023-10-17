@@ -148,17 +148,15 @@ Se trata de:','ACTIVA','MVC / POO','NO','NO','Opciones con respuesta única','In
 
 CREATE TABLE partidas (
                            id INT AUTO_INCREMENT PRIMARY KEY,
-                           user_id TEXT NOT NULL,
+                           user_id INT NOT NULL,
                            puntaje VARCHAR(255) NOT NULL,
-
-
+                           FOREIGN KEY (user_id) REFERENCES users(id),
 
 );
 
 CREATE TABLE ranking (
                         id INT AUTO_INCREMENT PRIMARY KEY,
-                        user_id TEXT NOT NULL,
+                        user_id INT NOT NULL,
                         puntaje VARCHAR(255) NOT NULL,
-
-
+                        FOREIGN KEY (user_id) REFERENCES users(id),
 );
