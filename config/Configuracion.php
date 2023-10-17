@@ -29,7 +29,7 @@ class Configuracion {
             $config['username'],
             $config['password'],
             $config['dbname'],
-            $config['port']
+            $config['port'] ?? 3306
         );
         return $database;
     }
