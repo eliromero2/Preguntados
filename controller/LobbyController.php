@@ -21,7 +21,7 @@ class LobbyController {
         }
 
         // Recupera las partidas del usuario
-        $partidas = $this->partidasModel->getPartidas($id); // Implementa esta función en tu modelo
+        $partidas = $this->partidasModel->getPartidas(); // Implementa esta función en tu modelo
 
         // Calcula el puntaje total del usuario
         $puntajeTotal = $this->partidasModel->getPuntajeTotal($id); // Implementa esta función en tu modelo

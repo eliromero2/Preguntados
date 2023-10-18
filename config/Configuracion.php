@@ -12,9 +12,12 @@ include_once('controller/RegistroController.php');
 include_once('controller/HomeController.php');
 include_once('controller/JuegoController.php');
 include_once('controller/PreguntaController.php');
+include_once('controller/RankingController.php');
+include_once('controller/PartidaController.php');
 
 include_once("model/userModel.php");
 include_once("model/preguntaModel.php");
+include_once("model/partidaModel.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
@@ -49,14 +52,16 @@ class Configuracion {
     }
     public function getHomeController() {
         $model = new userModel($this->getDatabase());
-        return new HomeController($this->getRender(), $model);
+        $partida = new partidaModel($this->getDatabase());
+        return new HomeController($this->getRender(), $model, $partida);
     }
 
     public function getJuegoController() {
         $user = new userModel($this->getDatabase());
         $pregunta = new preguntaModel($this->getDatabase());
+        $partida = new partidaModel($this->getDatabase());
 
-        return new JuegoController($this->getRender(), $user, $pregunta);
+        return new JuegoController($this->getRender(), $user, $pregunta,$partida);
     }
 
     public function getPreguntaController() {
@@ -65,6 +70,22 @@ class Configuracion {
 
         return new PreguntaController($this->getRender(), $user, $pregunta);
     }
+
+    public function getRankingController() {
+        $user = new userModel($this->getDatabase());
+        $partida = new partidaModel($this->getDatabase());
+
+        return new RankingController($this->getRender(), $user, $partida);
+    }
+
+    public function getPartidaController() {
+        $user = new userModel($this->getDatabase());
+        $partida = new partidaModel($this->getDatabase());
+
+        return new PartidaController($this->getRender(), $user, $partida);
+    }
+
+
 
 
     public function getRouter() {

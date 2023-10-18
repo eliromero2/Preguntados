@@ -29,6 +29,7 @@ class PreguntaController{
         $data['userSession'] = $this->userModel->getCurrentSession();
         $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_GET['id']);
 
+//Logger::dd($data['pregunta'], $_GET['id']);
         $this->render->authView($data['userSession'],'pregunta',$data);
     }
 

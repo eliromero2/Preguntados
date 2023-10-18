@@ -53,16 +53,16 @@ class preguntaModel{
 
 
     public function getPreguntaBy($id){
-
         $sql2= "SELECT pregunta from preguntas where id = $id";
 
         $preguntaRow = $this->database->select($sql2);
 
         $pregunta = $preguntaRow[0]['pregunta'];
 
-        $sql = "SELECT pregunta,id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE pregunta = '$pregunta' GROUP BY pregunta";
+        $sql = "SELECT pregunta,id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE pregunta = '".$pregunta."' GROUP BY pregunta";
 
         $resultado = $this->database->select($sql);
+        //Logger::dd($sql, $resultado);
 
         if (!$resultado || count($resultado) === 0) {
             Logger::info('NO econtro: ' . $sql);

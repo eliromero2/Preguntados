@@ -7,26 +7,37 @@ class partidaModel{
         $this->database = $database;
     }
 
-    public function getPartidas($id){
-        $sql = "SELECT * FROM partidas WHERE user_id = :id";
-        $params = array(':id' => $id);
+    public function createPartida($id){
+        $sql ="INSERT INTO partidas (user_id, puntaje) VALUES ($id,0)";
 
-        $resultado = $this->database->select($sql, $params);
+        $this->database->query($sql);
+    }
+
+    public function getPartidas(){
+        $sql = "SELECT user_id, SUM(puntaje) as puntaje FROM partidas group by user_id";
+
+        $resultado = $this->database->select($sql);
 
         return $resultado;
     }
 
-    public function getPuntajeTotal($id){
-        $sql = "SELECT SUM(puntaje) AS puntaje_total FROM partidas WHERE user_id = :id";
-        $params = array(':id' => $id);
+    public function getPartidasUser($id){
+        $sql = "SELECT * FROM partidas WHERE user_id = $id";
+        $resultado = $this->database->select($sql);
 
-        $resultado = $this->database->select($sql, $params);
+        return $resultado ?? 0;
+    }
+
+    public function getPuntajeUser($id){
+        $sql = "SELECT SUM(puntaje) AS puntaje_total FROM partidas WHERE user_id = $id";
+
+        $resultado = $this->database->select($sql);
 
         if (isset($resultado[0]['puntaje_total'])) {
             return $resultado[0]['puntaje_total'];
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
 }

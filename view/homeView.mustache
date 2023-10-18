@@ -18,10 +18,12 @@
                     <p>Nombre: {{nombre_completo}}</p>
                     <p>Sexo: {{sexo}}</p>
                     <p>Mail: {{mail}}</p>
+                    <p>Puntaje: {{puntaje}}</p>
                     {{imagen_path}}
-
                 </div>
-                <a href="/juego" class="btn btn-primary">Nuevo Juego</a>
+                <a href="/juego/crear" class="btn btn-success">Nuevo Juego</a>
+                <a href="/ranking" class="btn btn-secondary">Ranking</a>
+                <a href="/partida" class="btn btn-info">Partidas</a>
             {{/userSession}}
         </div>
     </div>
