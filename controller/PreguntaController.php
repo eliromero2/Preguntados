@@ -27,9 +27,11 @@ class PreguntaController{
 
     public function show(){
         $data['userSession'] = $this->userModel->getCurrentSession();
-        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_GET['id']);
 
-//Logger::dd($data['pregunta'], $_GET['id']);
+        $idPregunta = isset($_GET['params']) ? $_GET['params'] : null;
+
+        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($idPregunta);
+
         $this->render->authView($data['userSession'],'pregunta',$data);
     }
 

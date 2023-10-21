@@ -22,9 +22,10 @@ class JuegoController{
 
     public function crear() {
         $data['userSession'] = $this->userModel->getCurrentSession();
-        $this->partidaModel->createPartida($data['userSession']['id']);
+        //Logger::dd($data);
+        $this->partidaModel->createPartida($data['userSession']['user']['id']);
 
-        Redirect::to("/pregunta/show?id=1");
+        Redirect::to("/pregunta/show/1");
         //$this->render->authView($data['userSession'],'/pregunta/show?id=1', $data);
     }
 }

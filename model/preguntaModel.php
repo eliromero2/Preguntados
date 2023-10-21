@@ -79,8 +79,7 @@ class preguntaModel{
 
 
     public function getPreguntaBy($id){
-
-        $sql = "SELECT pregunta FROM preguntas WHERE id = $id";
+        $sql = "SELECT * FROM preguntas WHERE id = $id";
         $preguntaRow = $this->database->select($sql);
 
         if (empty($preguntaRow)) {
@@ -88,23 +87,24 @@ class preguntaModel{
             return false;
         }
 
-        $pregunta = $preguntaRow[0]['pregunta'];
-
-        //opciones para la pregunta
-        $sql = "SELECT id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM opciones WHERE pregunta_id = $pregunta GROUP BY pregunta_id";
-
+        $idPregunta = $preguntaRow[0]['id'];
+        $sql = "SELECT pregunta_id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM opciones WHERE pregunta_id = $idPregunta GROUP BY pregunta_id";
 
         $resultado = $this->database->select($sql);
+        $resultado[0]['pregunta'] = $preguntaRow[0]['pregunta'];
 
-        if (empty($resultado)) {
+
+
+        if (empty($resultado[0])) {
             Logger::info('No se encontraron opciones para la pregunta con ID: ' . $id);
             return false;
         }
 
+        $resultado[0]['opciones'] = explode(';', $resultado[0]['opciones']);
+
         // Procesa las opciones
-        foreach ($resultado as &$row) {
-            $row['opciones'] = explode(';', $row['opciones']);
-        }
+       // Logger::dd($resultado);
+
 
         return $resultado;
     }

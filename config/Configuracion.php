@@ -19,6 +19,9 @@ include_once("model/userModel.php");
 include_once("model/preguntaModel.php");
 include_once("model/partidaModel.php");
 
+include_once('services/PartidaService.php');
+
+
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
 class Configuracion {
@@ -37,27 +40,37 @@ class Configuracion {
         return $database;
     }
 
+    public function getPartidaService(){
+        $model = new partidaModel($this->getDatabase());
+        return new PartidaService($model);
+    }
+
     public function getRender() {
         return new MustacheRender();
     }
 
+    public function getModel($database){
+
+        return new userModel($database, $this->getPartidaService());
+    }
+
     public function getRegistroController() {
-        $model = new userModel($this->getDatabase());
+        $model = $this->getModel($this->getDatabase());
         return new RegistroController($this->getRender(), $model);
     }
 
     public function getLoginController() {
-        $model = new userModel($this->getDatabase());
+        $model = $this->getModel($this->getDatabase());
         return new LoginController($this->getRender(), $model);
     }
     public function getHomeController() {
-        $model = new userModel($this->getDatabase());
+        $model = $this->getModel($this->getDatabase());
         $partida = new partidaModel($this->getDatabase());
         return new HomeController($this->getRender(), $model, $partida);
     }
 
     public function getJuegoController() {
-        $user = new userModel($this->getDatabase());
+        $user = $this->getModel($this->getDatabase());
         $pregunta = new preguntaModel($this->getDatabase());
         $partida = new partidaModel($this->getDatabase());
 
@@ -65,21 +78,21 @@ class Configuracion {
     }
 
     public function getPreguntaController() {
-        $user = new userModel($this->getDatabase());
+        $user = $this->getModel($this->getDatabase());
         $pregunta = new preguntaModel($this->getDatabase());
 
         return new PreguntaController($this->getRender(), $user, $pregunta);
     }
 
     public function getRankingController() {
-        $user = new userModel($this->getDatabase());
+        $user = $this->getModel($this->getDatabase());
         $partida = new partidaModel($this->getDatabase());
 
         return new RankingController($this->getRender(), $user, $partida);
     }
 
     public function getPartidaController() {
-        $user = new userModel($this->getDatabase());
+        $user = $this->getModel($this->getDatabase());
         $partida = new partidaModel($this->getDatabase());
 
         return new PartidaController($this->getRender(), $user, $partida);
