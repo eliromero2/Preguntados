@@ -30,12 +30,16 @@ class RegistroController{
         $user_name=$_POST['user_name'];
         $image_path=null;
 
-        $folderSave = __DIR__."/../assets/users/".$_FILES['foto_perfil']['name'];
+        $folderSave = __DIR__."/../public/avatar/".$user_name;
 
-        if(move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $folderSave))
+        if($error = move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $folderSave))
         {
-             $image_path= $_FILES['foto_perfil']["name"]; 
+             $image_path= $user_name;
+        }else{
+            echo json_encode($error);
+            die();
         }
+
 
         $this->userModel->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path);
         Redirect::to('/home/list');

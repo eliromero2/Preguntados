@@ -14,7 +14,7 @@ class HomeController{
 
     public function list() {
         $data['userSession'] = $this->userModel->getCurrentSession();
-        $data['puntaje'] = $this->partidaModel->getPartidasUser($data['userSession']['id']);
+        $data['puntaje'] = $this->partidaModel->getPuntajeUser($data['userSession']['id']);
         $this->render->printView('home', $data);
     }
 }
