@@ -7,8 +7,29 @@ class preguntaModel{
         $this->database = $database;
     }
     
-    public function all(){
-        $sql="SELECT * FROM preguntas";
+    public function all()
+    {
+        $sql = "SELECT p.*, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones, GROUP_CONCAT(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END SEPARATOR ';') AS opciones_correctas FROM preguntas AS p
+                                                                                                                                                                                    LEFT JOIN opciones AS o
+                                                                                                                                                                                    ON p.id = o.pregunta_id
+                                                                                                                                                                                    GROUP BY p.id";
+
+        $resultado = $this->database->select($sql);
+
+        if (empty($resultado)) {
+            Logger::info('No se encontraron preguntas con opciones.');
+            return false;
+        }
+
+        foreach ($resultado as &$row) {
+            $row['opciones'] = explode(';', $row['opciones']);
+            $row['opciones_correctas'] = explode(';', $row['opciones_correctas']);
+        }
+
+        return $resultado;
+    }
+
+        /*$sql="SELECT * FROM preguntas";
         $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
@@ -18,8 +39,8 @@ class preguntaModel{
 
         $preguntas = $resultado;
         
-        return $preguntas;
-    }
+        return $preguntas;*/
+
 
 
     public function getModules(){
@@ -35,68 +56,79 @@ class preguntaModel{
     }
 
     public function getAllBy($moduleName){
-        $sql = "SELECT pregunta, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE modulo = ".$moduleName." GROUP BY pregunta";
+        $sql = "SELECT p.pregunta, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END) AS opcion_correcta FROM preguntas AS p
+                                                                                                                                                                LEFT JOIN opciones AS o
+                                                                                                                                                                ON p.id = o.pregunta_id
+                                                                                                                                                                WHERE p.modulo = ".$moduleName."
+                                                                                                                                                                GROUP BY  p.id";
 
         $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
-            Logger::info('NO econtro: ' . $sql);
+            Logger::info('No se encontraron resultados para el módulo: ' . $moduleName);
             return false;
         }
 
         foreach ($resultado as &$row) {
             $row['opciones'] = explode(';', $row['opciones']);
         }
-        
+
         return $resultado;
+
     }
 
 
     public function getPreguntaBy($id){
-        $sql2= "SELECT pregunta from preguntas where id = $id";
 
-        $preguntaRow = $this->database->select($sql2);
+        $sql = "SELECT pregunta FROM preguntas WHERE id = $id";
+        $preguntaRow = $this->database->select($sql);
 
-        $pregunta = $preguntaRow[0]['pregunta'];
-
-        $sql = "SELECT pregunta,id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM preguntas WHERE pregunta = '".$pregunta."' GROUP BY pregunta";
-
-        $resultado = $this->database->select($sql);
-        //Logger::dd($sql, $resultado);
-
-        if (!$resultado || count($resultado) === 0) {
-            Logger::info('NO econtro: ' . $sql);
+        if (empty($preguntaRow)) {
+            Logger::info('No se encontró la pregunta con el ID: ' . $id);
             return false;
         }
 
+        $pregunta = $preguntaRow[0]['pregunta'];
+
+        //opciones para la pregunta
+        $sql = "SELECT id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM opciones WHERE pregunta_id = $pregunta GROUP BY pregunta_id";
+
+
+        $resultado = $this->database->select($sql);
+
+        if (empty($resultado)) {
+            Logger::info('No se encontraron opciones para la pregunta con ID: ' . $id);
+            return false;
+        }
+
+        // Procesa las opciones
         foreach ($resultado as &$row) {
             $row['opciones'] = explode(';', $row['opciones']);
         }
-        
+
         return $resultado;
     }
 
-   /* public function getRespuestaCorrecta($id){
+    /*OTRA OPCION CON UNA SOLA CONSULTA DE SQL (no probe cual funcoina)
+     * $sql = "SELECT p.pregunta, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones,MAX(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END) AS opcion_correcta
+            FROM preguntas AS p
+            LEFT JOIN opciones AS o
+            ON p.id = o.pregunta_id
+            WHERE p.id = $id
+            GROUP BY p.id";
 
-        $sql1 = "SELECT pregunta FROM preguntas WHERE id = $id";
-        $preguntaRow = $this->database->select($sql1);
+    $resultado = $this->database->select($sql);
 
-        if (!$preguntaRow || count($preguntaRow) === 0) {
-            Logger::info('No se encontró la pregunta con ID: ' . $id);
-            return false;
-        }
+    if (empty($resultado)) {
+        Logger::info('No se encontró la pregunta con el ID: ' . $id);
+        return false;
+    }
+    foreach ($resultado as &$row) {
+        $row['opciones'] = explode(';', $row['opciones']);
+    }
+    return $resultado;
+}*/
 
-        $pregunta = $preguntaRow[0]['pregunta'];
-        //
-        $sql2 = "SELECT opcion FROM preguntas WHERE pregunta = '$pregunta' AND opcion_correcta = 'SI'";
-        $resultado = $this->database->select($sql2);
 
-        if (!$resultado || count($resultado) === 0) {
-            Logger::info('No se encontró una respuesta correcta para la pregunta: ' . $pregunta);
-            return false;
-        }
-
-        return $resultado[0]['opcion_correcta'];
-    }*/
 
 }

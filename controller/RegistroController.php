@@ -36,8 +36,8 @@ class RegistroController{
         {
              $image_path= $user_name;
         }else{
-            echo json_encode($error);
-            die();
+          //  echo json_encode($error);
+          //  die();
         }
 
 

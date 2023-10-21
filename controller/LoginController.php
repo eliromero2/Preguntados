@@ -62,7 +62,8 @@ class LoginController{
 
     public function cerrarSesion(){//revisarrrrr
         session_destroy();
-        echo('Se cerro la sesion');
+        var_dump(session_destroy());
+        Logger::info("Se cerro Session");
         Redirect::to('/home/list');
     }
 

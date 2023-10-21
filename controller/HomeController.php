@@ -16,5 +16,6 @@ class HomeController{
         $data['userSession'] = $this->userModel->getCurrentSession();
         $data['puntaje'] = $this->partidaModel->getPuntajeUser($data['userSession']['id']);
         $this->render->printView('home', $data);
+
     }
 }
