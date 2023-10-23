@@ -9,9 +9,9 @@
 </head>
 <body>
 <p>Juego</p>
-        {{#userSession}}
+        {{#userSession.user}}
             <p>{{user_name}}</p>
-        {{/userSession}}
+        {{/userSession.user}}
 
         {{#modulos}}
             <a href="/pregunta/modulo?name='{{modulo}}'" class="btn btn-info">{{modulo}}</a>

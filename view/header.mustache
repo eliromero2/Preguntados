@@ -18,20 +18,20 @@
             </button>
             <div class="collapse navbar-collapse " id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
-                    {{#userSession}}
+                    {{#userSession.user}}
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="/login/cerrarSesion">Cerrar sesion</a>
                         </li>
-                    {{/userSession}}
+                    {{/userSession.user}}
 
-                    {{^userSession}}
+                    {{^userSession.user}}
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="/registro/registro">Registrarse</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="/login/list">Iniciar sesion</a>
                         </li>
-                    {{/userSession}}
+                    {{/userSession.user}}
                 </ul>
             </div>
         </div>
