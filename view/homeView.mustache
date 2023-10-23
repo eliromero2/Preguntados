@@ -19,17 +19,18 @@
                 <h1>Bienvenido {{user_name}}!</h1>
 
                 <div class="card card-body mb-3 ">
-                    <div class="d-flex align-items-center justify-content-around mb-3">
-                        <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img src="../public/avatar/{{user_name}}.jpg" class="rounded-circle" alt="">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
                             <h4>Informacion del usuario: </h4>
                             <p>Nombre: {{nombre_completo}}</p>
                             <p>Sexo: {{sexo}}</p>
                             <p>Mail: {{mail}}</p>
                             <p>Puntaje: {{puntaje}}</p>
                         </div>
-                        <div class="p-4">
-                            <img src="../public/avatar/{{user_name}}.jpg" class="rounded-circle" alt="">
-                        </div>
+
                     </div>
                 </div>
             <div class="d-flex align-items-center justify-content-around mb-3">
