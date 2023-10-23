@@ -109,6 +109,13 @@ class preguntaModel{
         return $resultado;
     }
 
+    public function getRandomId(){
+        $sql = "SELECT COUNT(pregunta) total FROM preguntas";
+        $result = $this->database->select($sql);
+        $total = intval($result[0]['total']);
+        return rand(1,$total);
+    }
+
     /*OTRA OPCION CON UNA SOLA CONSULTA DE SQL (no probe cual funcoina)
      * $sql = "SELECT p.pregunta, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones,MAX(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END) AS opcion_correcta
             FROM preguntas AS p

@@ -12,7 +12,9 @@ CREATE TABLE users (
    mail VARCHAR(255) NOT NULL,
    password VARCHAR(255) NOT NULL,
    user_name VARCHAR(100) UNIQUE NOT NULL,
-   imagen_path varchar(255) DEFAULT NULL
+   imagen_path varchar(255) DEFAULT NULL,
+   preguntas_contestadas INT(10) DEFAULT 0,
+    preguntas_fallidas INT(10) DEFAULT 0,
 
 );
 
@@ -24,7 +26,9 @@ CREATE TABLE preguntas (
     modulo VARCHAR(100),
     verificada VARCHAR(2) DEFAULT 'NO',
     accesible VARCHAR(2) DEFAULT 'NO',
-    tipo VARCHAR(100) NOT NULL
+    tipo VARCHAR(100) NOT NULL,
+    entregadas INT(10) DEFAULT 0,
+    contestada INT(10) DEFAULT 0,
 );
 
 DROP TABLE IF EXISTS opciones;
