@@ -25,7 +25,8 @@ class JuegoController{
         //Logger::dd($data);
         $this->partidaModel->createPartida($data['userSession']['user']['id']);
 
-        Redirect::to("/pregunta/show/1");
-        //$this->render->authView($data['userSession'],'/pregunta/show?id=1', $data);
+        $idRandom = $this->preguntaModel->getRandomId();
+
+        Redirect::to("/pregunta/show/$idRandom");
     }
 }
