@@ -79,7 +79,9 @@ class preguntaModel{
 
 
     public function getPreguntaBy($id){
-        $sql = "SELECT * FROM preguntas WHERE id = $id";
+
+        $sql = "SELECT * FROM preguntas WHERE id ='$id'";
+
         $preguntaRow = $this->database->select($sql);
 
         if (empty($preguntaRow)) {
@@ -108,6 +110,8 @@ class preguntaModel{
 
         return $resultado;
     }
+
+
 
     /*OTRA OPCION CON UNA SOLA CONSULTA DE SQL (no probe cual funcoina)
      * $sql = "SELECT p.pregunta, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones,MAX(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END) AS opcion_correcta

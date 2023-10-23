@@ -40,13 +40,18 @@ class PreguntaController{
         $data['userSession'] = $this->userModel->getCurrentSession();
         $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_POST['id']);
 
+
         $opcionSeleccionada = $_POST['opcion'];
 
        $opcionCorrecta = $data['pregunta'][0]['opcion_correcta'];
-
+        logger::dd( $data['pregunta']);
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
+            logger::dd($data['opcionEsCorrecta']);
         }else{
+            $data['opcionEsCorrecta']= "fin ";
+            logger::dd($data['opcionEsCorrecta']);
+
             Redirect::to('/juego/list');
 
         }

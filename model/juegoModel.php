@@ -16,7 +16,7 @@ class juegoModel{
 
     public function buscarUsuario($user_name,$password){
         $sql="SELECT * FROM users WHERE user_name = '$user_name'";
-    $this->database->select($sql);
+         $this->database->select($sql);
 
 }
 
