@@ -29,8 +29,9 @@ class RegistroController{
         $ciudad=$_POST['ciudad'];
         $user_name=$_POST['user_name'];
         $image_path=null;
+        $extension_image = ".jpg";
 
-        $folderSave = __DIR__."/../public/avatar/".$user_name;
+        $folderSave = __DIR__."/../public/avatar/".$user_name.$extension_image ;
 
         if($error = move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $folderSave))
         {
