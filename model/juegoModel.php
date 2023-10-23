@@ -39,8 +39,8 @@ class juegoModel{
             return true;
 
         } else {
-            Logger::info('Contraseña incorrecta');
-            unset($_SESSION["user"]);
+           $_SESSION['error']= "Credenciales Incorrectas";
+           unset($_SESSION['error']);
             return false;
         }
     }

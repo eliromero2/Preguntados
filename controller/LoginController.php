@@ -25,6 +25,7 @@ class LoginController{
             $data = [
                 'action' => '/login/procesarLogin',
                 'submitText' => 'Ingresar',
+                'error' => $_SESSION['error'] 
             ];
             $this->render->printView('login', $data);
         }else{
@@ -56,14 +57,12 @@ class LoginController{
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];
 
-        $this->userModel->validarUsuario($user_name,$password);
-        Redirect::to('/home/list');
+        $response = $this->userModel->validarUsuario($user_name,$password);
+        $this->render->printView('home', $response);
     }
 
     public function cerrarSesion(){//revisarrrrr
         session_destroy();
-        var_dump(session_destroy());
-        Logger::info("Se cerro Session");
         Redirect::to('/home/list');
     }
 

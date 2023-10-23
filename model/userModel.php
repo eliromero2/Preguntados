@@ -28,36 +28,27 @@ class userModel{
         $sql="SELECT * FROM users WHERE user_name = '$user_name'";
         $resultado = $this->database->select($sql);
 
+        $response = [];
+
         if (!$resultado || count($resultado) === 0) {
-            Logger::info('NO econtro el usuario: ' . $sql);
-            return false;
+            $response["error"] = "Credenciales invalidas";
+            return $response;
         }
 
         $user = $resultado;
-        Logger::info(print_r($user,true));
-
-        // Compara la contraseña ingresada con la contraseña almacenada en la base de datos.
-        if ($password === $user[0]['password']) {
-            Logger::info('La contraseña es correcta');
-            $_SESSION["user"] = $user[0];
-            return true;
-
-        } else {
-            Logger::info('Contraseña incorrecta');
-            unset($_SESSION["user"]);
-            return false;
-        }
+     
+        Logger::info('La contraseña es correcta');
+        $_SESSION["user"] = $user[0];
+        $response['user'] = $user[0];
+        return $response;
     }
 
     public function getCurrentSession(){
         $data['user'] = $_SESSION['user'] ?? null;
-     //   Logger::info(print_r($data['user'], $_GET['params']));
 
         if(isset($data['user']['id'])){
             $data['puntaje'] = $this->partidaService->getPuntajeUser($data['user']['id']);
         }
-
-
 
         return $data;
     }
