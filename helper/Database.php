@@ -23,11 +23,9 @@ class Database {
 
     public function query($sql) {
         $result = mysqli_query($this->conn, $sql);
-
-       //Logger::dd($sql, $result);
-
+        
         if ($result === false) {
-            // Handle error, return false, or throw an exception
+            $_SESSION['error'] = 'El sql fallo: $sql';
             return false;
         }
 
@@ -39,6 +37,7 @@ class Database {
 
         if ($result === false) {
             // Handle error, return false, or throw an exception
+            $_SESSION['error'] = 'El sql fallo: $sql';
             return false;
         }
 

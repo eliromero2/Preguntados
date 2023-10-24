@@ -4,7 +4,7 @@
             {{#pregunta}}
                 <div class="col mb-3">
                     <form id="" method="post" action="/pregunta/validarOpcion">
-                        <input type="hidden" name="id" value="{{id}}">
+                        <input type="hidden" name="id" value="{{pregunta_id}}">
 
                         <div class="card card-body mb-5">
                             <div class="card-section mb-3">
@@ -30,7 +30,6 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Validar Respuestas</button>
                     </form>
-                    <p>{{opcionEsCorrecta}}</p>
                 </div>
             {{/pregunta}}
 

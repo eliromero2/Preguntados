@@ -29,19 +29,6 @@ class preguntaModel{
         return $resultado;
     }
 
-        /*$sql="SELECT * FROM preguntas";
-        $resultado = $this->database->select($sql);
-
-        if (!$resultado || count($resultado) === 0) {
-            Logger::info('NO econtro: ' . $sql);
-            return false;
-        }
-
-        $preguntas = $resultado;
-        
-        return $preguntas;*/
-
-
 
     public function getModules(){
         $sql="SELECT DISTINCT modulo FROM preguntas";
@@ -78,7 +65,7 @@ class preguntaModel{
     }
 
 
-    public function getPreguntaBy($id){
+    public function getPreguntaBy($id, $forUser = false){
 
         $sql = "SELECT * FROM preguntas WHERE id ='$id'";
 
@@ -96,17 +83,16 @@ class preguntaModel{
         $resultado[0]['pregunta'] = $preguntaRow[0]['pregunta'];
 
 
-
         if (empty($resultado[0])) {
             Logger::info('No se encontraron opciones para la pregunta con ID: ' . $id);
             return false;
         }
+        
+        if($forUser){
+            $this->database->query("UPDATE preguntas SET entregadas = entregadas + 1 WHERE id = $id");
+        }
 
         $resultado[0]['opciones'] = explode(';', $resultado[0]['opciones']);
-
-        // Procesa las opciones
-       // Logger::dd($resultado);
-
 
         return $resultado;
     }
@@ -118,28 +104,5 @@ class preguntaModel{
         $total = intval($result[0]['total']);
         return rand(1,$total);
     }
-
-
-    /*OTRA OPCION CON UNA SOLA CONSULTA DE SQL (no probe cual funcoina)
-     * $sql = "SELECT p.pregunta, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones,MAX(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END) AS opcion_correcta
-            FROM preguntas AS p
-            LEFT JOIN opciones AS o
-            ON p.id = o.pregunta_id
-            WHERE p.id = $id
-            GROUP BY p.id";
-
-    $resultado = $this->database->select($sql);
-
-    if (empty($resultado)) {
-        Logger::info('No se encontró la pregunta con el ID: ' . $id);
-        return false;
-    }
-    foreach ($resultado as &$row) {
-        $row['opciones'] = explode(';', $row['opciones']);
-    }
-    return $resultado;
-}*/
-
-
 
 }

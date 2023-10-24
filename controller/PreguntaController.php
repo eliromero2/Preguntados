@@ -28,9 +28,9 @@ class PreguntaController{
     public function show(){
         $data['userSession'] = $this->userModel->getCurrentSession();
 
-        $idPregunta = isset($_GET['params']) ? $_GET['params'] : null;
+        $idPregunta = isset($_GET['params']) ? $_GET['params'] : $this->preguntaModel->getRandomId();
 
-        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($idPregunta);
+        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($idPregunta,true);
 
         $this->render->authView($data['userSession'],'pregunta',$data);
     }
@@ -38,19 +38,20 @@ class PreguntaController{
     public function validarOpcion(){
 
         $data['userSession'] = $this->userModel->getCurrentSession();
+        Logger::dd($_POST);
+
         $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_POST['id']);
 
 
         $opcionSeleccionada = $_POST['opcion'];
 
+
        $opcionCorrecta = $data['pregunta'][0]['opcion_correcta'];
-        logger::dd( $data['pregunta']);
+
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
-            logger::dd($data['opcionEsCorrecta']);
         }else{
             $data['opcionEsCorrecta']= "fin ";
-            logger::dd($data['opcionEsCorrecta']);
 
             Redirect::to('/juego/list');
 

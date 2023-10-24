@@ -22,7 +22,6 @@ class JuegoController{
 
     public function crear() {
         $data['userSession'] = $this->userModel->getCurrentSession();
-        //Logger::dd($data);
         $this->partidaModel->createPartida($data['userSession']['user']['id']);
 
         $idRandom = $this->preguntaModel->getRandomId();

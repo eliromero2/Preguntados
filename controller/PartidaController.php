@@ -15,10 +15,10 @@ class PartidaController{
     public function list() {
         $data = [
             'partidas' => $this->partidaModel->getPartidasUser($_SESSION['user']['id']),
-            'userSession' => $this->userModel->getCurrentSession()
+            'userSession' => $this->userModel->getCurrentSession(),
+            'error' => $_SESSION['error'],
+            'success' => $_SESSION['success'],
         ];
-
-        //Logger::dd($data);
 
         $this->render->authView($data['userSession'],'partida', $data,'/login');
 
