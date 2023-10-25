@@ -26,4 +26,10 @@ class MustacheRender {
         $session ? $this->printView($viewName, $viewData) : Redirect::to($redirectTo);
 
     }
+
+    public function adminView($session, $viewName, $viewData, $redirectTo = '/login') {
+        
+        $session['rol'] == 'ADMIN' ? $this->printView($viewName, $viewData) : Redirect::to($redirectTo);
+
+    }
 }

@@ -9,7 +9,10 @@ include_once("config/Configuracion.php");
 $configuracion = new Configuracion();
 $router = $configuracion->getRouter();
 
-$controller = $_GET['controller'] ?? "home";
+$controller = ($_GET['controller'] && $_GET['controller'] != '') ?$_GET['controller'] : "home";
 $method = $_GET['method'] ?? 'list';
+
+//Logger::dd($controller, $method, $_GET);
+
 
 $router->route($controller, $method);

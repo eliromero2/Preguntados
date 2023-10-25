@@ -1,19 +1,19 @@
 <?php
 class HomeController{
 
-    private $userModel;
-    private $partidaModel;
+    private $userService;
+    private $partidaService;
 
     private $render;
 
-    public function __construct($render, $userModel, $partidaModel) {
+    public function __construct($render, $userService, $partidaService) {
         $this->render = $render;
-        $this->userModel = $userModel;
-        $this->partidaModel = $partidaModel;
+        $this->userService = $userService;
+        $this->partidaService = $partidaService;
     }
 
     public function list() {
-        $data['userSession'] = $this->userModel->getCurrentSession();
+        $data['userSession'] = $this->userService->getCurrentSession();
         $data['error'] = $_SESSION['error'];
         unset($_SESSION['error']);
         

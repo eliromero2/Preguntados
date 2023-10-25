@@ -15,6 +15,7 @@ CREATE TABLE users (
    imagen_path varchar(255) DEFAULT NULL,
    preguntas_contestadas INT(10) DEFAULT 0,
     preguntas_fallidas INT(10) DEFAULT 0,
+    rol varchar(10) DEFAULT 'USER'
 
 );
 

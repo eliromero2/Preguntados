@@ -14,18 +14,48 @@ include_once('controller/JuegoController.php');
 include_once('controller/PreguntaController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
+include_once('controller/AdminController.php');
 
 include_once("model/userModel.php");
 include_once("model/preguntaModel.php");
 include_once("model/partidaModel.php");
 
 include_once('services/PartidaService.php');
+include_once('services/PreguntaService.php');
+include_once('services/UsuarioService.php');
 
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
 class Configuracion {
+
+    private $models;
+    private $controllers;
+    private $services;
     public function __construct() {
+        $this->models = [
+            'user' => 'userModel',
+            'pregunta' => 'preguntaModel',
+            'partida' => 'partidaModel'
+        ];
+
+        $this->services = [
+            'UsuarioService' => ['model' => ['user']],
+            'PreguntaService' => [ 'model' => ['pregunta']],
+            'PartidaService' => [ 'model' => ['partida']],
+            'CategoriaService' => [ 'model' => ['categoria']]
+        ];
+
+        $this->controllers = [
+            'RegistroController' => ['render', 'service' => ['UsuarioService']],
+            'LoginController' => ['render', 'service' => ['UsuarioService']],
+            'HomeController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
+            'JuegoController' => ['render', 'service' => ['UsuarioService', 'PreguntaService', 'PartidaService']],
+            'PreguntaController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
+            'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
+            'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
+            'AdminController' => ['render', 'service' => ['UsuarioService']],
+        ];
     }
 
     public function getDatabase() {
@@ -49,59 +79,73 @@ class Configuracion {
         return new MustacheRender();
     }
 
-    public function getModel($database){
-
-        return new userModel($database, $this->getPartidaService());
+    public function getModel($modelName){
+    
+        if (array_key_exists($modelName, $this->models)) {
+            $className = $this->models[$modelName];
+            switch ($modelName) {
+                case 'user':
+                    return new $className($this->getDatabase(), $this->getPartidaService());
+                default:
+                    return new $className($this->getDatabase());
+            }
+        }
+    
+        Logger::dd("El modelo ($modelName) no esta declarado en el proyecto");
     }
 
-    public function getRegistroController() {
-        $model = $this->getModel($this->getDatabase());
-        return new RegistroController($this->getRender(), $model);
+    public function getService($serviceName) {
+    
+        if (!isset($this->services[$serviceName])) {
+            Logger::dd("El servicio ($serviceName) no esta declarado en el proyecto");
+        }
+    
+        $classData = $this->services[$serviceName];
+        $models = [];
+    
+        foreach ($classData['model'] as $modelName) {
+            $model = $this->getModel($modelName);
+            $models[] = $model;
+        }
+    
+        return new $serviceName(...$models);
     }
 
-    public function getLoginController() {
-        $model = $this->getModel($this->getDatabase());
-        return new LoginController($this->getRender(), $model);
-    }
-    public function getHomeController() {
-        $model = $this->getModel($this->getDatabase());
-        $partida = new partidaModel($this->getDatabase());
-        return new HomeController($this->getRender(), $model, $partida);
-    }
-
-    public function getJuegoController() {
-        $user = $this->getModel($this->getDatabase());
-        $pregunta = new preguntaModel($this->getDatabase());
-        $partida = new partidaModel($this->getDatabase());
-
-        return new JuegoController($this->getRender(), $user, $pregunta,$partida);
-    }
-
-    public function getPreguntaController() {
-        $user = $this->getModel($this->getDatabase());
-        $pregunta = new preguntaModel($this->getDatabase());
-
-        return new PreguntaController($this->getRender(), $user, $pregunta);
+    public function getControllerWorks($controllerName) {
+    
+        if (!isset($this->controllers[$controllerName])) {
+            Logger::dd("El controlador ($controllerName) no esta declarado en el proyecto");
+        }
+    
+        $classData = $this->controllers[$controllerName];
+        $models = [];
+    
+        foreach ($classData['model'] as $modelName) {
+            $model = $this->getModel($modelName);
+            $models[] = $model;
+        }
+    
+        return new $controllerName($this->getRender(),...$models);
     }
 
-    public function getRankingController() {
-        $user = $this->getModel($this->getDatabase());
-        $partida = new partidaModel($this->getDatabase());
-
-        return new RankingController($this->getRender(), $user, $partida);
+    public function getController($controllerName) {
+    
+        if (!isset($this->controllers[$controllerName])) {
+            Logger::dd("El controlador ($controllerName) no esta declarado en el proyecto");
+        }
+    
+        $classData = $this->controllers[$controllerName];
+        $services = [];
+    
+        foreach ($classData['service'] as $serviceName) {
+            $service = $this->getService($serviceName);
+            $services[] = $service;
+        }
+    
+        return new $controllerName($this->getRender(),...$services);
     }
-
-    public function getPartidaController() {
-        $user = $this->getModel($this->getDatabase());
-        $partida = new partidaModel($this->getDatabase());
-
-        return new PartidaController($this->getRender(), $user, $partida);
-    }
-
-
-
 
     public function getRouter() {
-       return new Router($this,"getHomeController","list");
+       return new Router($this,"HomeController","list");
     }
 }
