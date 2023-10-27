@@ -24,6 +24,7 @@ include_once('services/PartidaService.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
+
 class Configuracion {
     public function __construct() {
     }

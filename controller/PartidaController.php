@@ -16,8 +16,8 @@ class PartidaController{
         $data = [
             'partidas' => $this->partidaModel->getPartidasUser($_SESSION['user']['id']),
             'userSession' => $this->userModel->getCurrentSession(),
-            'error' => $_SESSION['error'],
-            'success' => $_SESSION['success'],
+            'error' => @$_SESSION['error'],
+            'success' => @$_SESSION['success'],
         ];
 
         $this->render->authView($data['userSession'],'partida', $data,'/login');

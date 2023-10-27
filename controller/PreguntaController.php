@@ -38,7 +38,6 @@ class PreguntaController{
     public function validarOpcion(){
 
         $data['userSession'] = $this->userModel->getCurrentSession();
-        Logger::dd($_POST);
 
         $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_POST['id']);
 

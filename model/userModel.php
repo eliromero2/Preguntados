@@ -11,11 +11,22 @@ class userModel{
         $this->database = $database;
         $this->partidaService = $partidaService;
     }
-    public function registrar($nombre_completo, $ano_nacimiento, $sexo,$pais, $cuidad,$mail, $password,$user_name,$foto_perfil) {
-        $sql = "INSERT INTO `users` ( `nombre_completo`, `ano_nacimiento`, `sexo`,`pais`,`ciudad`,`mail`,`password`,`user_name`,`imagen_path` ) VALUES ( '$nombre_completo', '$ano_nacimiento', '$sexo','$pais', '$cuidad','$mail', '$password', '$user_name','$foto_perfil');";
+    public function registrar($nombre_completo, $ano_nacimiento, $sexo,$pais, $cuidad,$email, $password,$user_name,$foto_perfil) {
+        $sql = "INSERT INTO `users` ( `nombre_completo`, `ano_nacimiento`, `sexo`,`pais`,`ciudad`,`mail`,`password`,`user_name`,`imagen_path` ) VALUES ( '$nombre_completo', '$ano_nacimiento', '$sexo','$pais', '$cuidad','$email', '$password', '$user_name','$foto_perfil');";
         Logger::info('Usuario registro: ' . $sql);
 
         $this->database->query($sql);
+    }
+    public function userExists($user_name) {
+        $sql = "SELECT COUNT(*) as count FROM users WHERE user_name = '$user_name'";
+        $result = $this->database->query($sql);
+
+        if ($result && $result->numRows() > 0) {
+            $row = $result->fetchAssoc();
+            return $row['count'] > 0;
+        }
+
+        return false;
     }
 
     public function buscarUsuario($user_name,$password){
