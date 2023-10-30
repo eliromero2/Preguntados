@@ -1,0 +1,32 @@
+ <main class="container">
+    <div class="row mt-5">
+        <div class="col">
+            {{#error}}
+                <div class="alert alert-danger" role="alert">{{.}}</div>
+            {{/error}}
+
+            <h1 class="mb-5">Todas las preguntas</h1>
+            <a class="btn btn-success mb-3" href="/admin/crearPregunta" >Agregar pregunta</a>
+            
+            <div id="accordion">
+                {{#preguntas}}
+                    <div class="card">
+                        <div class="card-header" id="pregunta_{{id}}">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{id}}" aria-expanded="true" aria-controls="collapse_{{id}}">
+                                    {{pregunta}}
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapse_{{id}}" class="collapse" aria-labelledby="pregunta_{{id}}" data-bs-parent="#accordion">
+                            <div class="card-body">
+                                <a class="btn btn-primary" href="/admin/pregunta/{{id}}" >Editar</a>
+                                <a class="btn btn-danger" href="/admin/eliminarPregunta/{{id}}" >Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                {{/preguntas}}
+            </div>
+        </div>
+    </div>
+ </main>

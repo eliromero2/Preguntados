@@ -13,7 +13,16 @@ class UsuarioService
     }
 
     public function getCurrentSession(){
-        return $this->model->getCurrentSession();
+        $modelResponse = $this->model->getCurrentSession();
+        $modelResponse["isAdmin"] = $modelResponse["user"]["rol"] === "ADMIN"; 
+        return $modelResponse;
+    }
+
+    public function validarUsuario($user_name,$password){
+        $modelResponse = $this->model->validarUsuario($user_name,$password);
+        $modelResponse["isAdmin"] = $modelResponse["user"]["rol"] === "ADMIN"; 
+        
+        return $modelResponse;
     }
 
 }

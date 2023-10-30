@@ -54,7 +54,7 @@ class Configuracion {
             'PreguntaController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
-            'AdminController' => ['render', 'service' => ['UsuarioService']],
+            'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
         ];
     }
 

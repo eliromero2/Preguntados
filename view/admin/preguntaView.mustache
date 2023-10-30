@@ -1,0 +1,132 @@
+<main class="container">
+    <div class="row mt-5">
+        <div class="col">
+            {{#error}}
+                <div class="alert alert-danger" role="alert">{{.}}</div>
+            {{/error}}
+
+            {{#pregunta}}
+                <h1 class="mb-5">Editar pregunta</h1>
+            {{/pregunta}}
+
+            {{^pregunta}}
+                <h1 class="mb-5">Crear pregunta</h1>
+            {{/pregunta}}
+
+            <form action="{{action}}" method="post" enctype="multipart/form-data" class="card card-body">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-label">Pregunta:</label>
+                                <textarea name="pregunta" required class="form-control">{{pregunta.pregunta}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{#pregunta.preguntaRow}}
+                        <div class="row">
+                            <div class="col-6 col-md-3 my-auto">
+                                <div class="form-group d-flex align-items-center">
+                                    <label class="form-label">Activo:</label>
+                                    <input type="checkbox" value="{{estado}}" name="estado" class="ms-2" required >
+                                </div>
+                            </div>
+                             <div class="col-6 col-md-3 my-auto">
+                                <div class="form-group d-flex align-items-center">
+                                    <label class="form-label">Accsesible:</label>
+                                    <input type="checkbox" value="{{accesible}}" name="accesible" class="ms-2" required >
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Tipo:</label>
+                                    <input type="text" value="{{tipo}}" name="tipo" required class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Modulo:</label>
+                                    <input type="text" value="{{modulo}}" name="modulo" required class="form-control">
+                                </div>
+                            </div>
+                           
+                        </div>
+                    {{/pregunta.preguntaRow}}
+
+                    
+
+                    <div class="row">
+                        <label class="form-label">Respuestas:</label>
+
+                        {{#pregunta.opciones}}
+                            <div class="col-sm-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Opcion {{index}}:</label>
+                                    <input type="text" value="{{opcion}}" name="respuesta[]" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-check-label">Respuesta correcta:</label>
+                                    <input type="checkbox" {{#opcion_correcta}} checked {{/opcion_correcta}} name="correctas[]" value="{{index}}">
+                                </div>
+                            </div>
+                        {{/pregunta.opciones}}
+
+                        {{^pregunta.opciones}}
+                            <div class="col-sm-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Opcion 1:</label>
+                                    <input type="text" name="respuesta[]" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-check-label">Respuesta correcta:</label>
+                                    <input type="checkbox" name="correctas[]" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Opcion 2:</label>
+                                    <input type="text" name="respuesta[]" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-check-label">Respuesta correcta:</label>
+                                    <input type="checkbox" name="correctas[]" value="1">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Opcion 3:</label>
+
+                                    <input type="text" name="respuesta[]" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-check-label">Respuesta correcta:</label>
+                                    <input type="checkbox" name="correctas[]" value="2">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Opcion 4:</label>
+                                    <input type="text" name="respuesta[]" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-check-label">Respuesta correcta:</label>
+                                    <input type="checkbox" name="correctas[]" value="3">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    {{/pregunta.opciones}}
+                        
+
+                </div>
+                <div class="my-3">
+                    <button type="submit" class="btn btn-dark btn-lg">{{submitText}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
