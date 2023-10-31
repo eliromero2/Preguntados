@@ -1,13 +1,13 @@
 <?php
 class LoginController{
 
-    private $userModel;
+    private $userService;
 
     private $render;
 
-    public function __construct($render, $userModel) {
+    public function __construct($render, $userService) {
         $this->render = $render;
-        $this->userModel = $userModel;
+        $this->userService = $userService;
     }
 
     private function redirectIfMissParams($params){
@@ -57,7 +57,7 @@ class LoginController{
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];
 
-        $response = $this->userModel->validarUsuario($user_name,$password);
+        $response = $this->userService->validarUsuario($user_name,$password);
         $this->render->printView('home', $response);
     }
 

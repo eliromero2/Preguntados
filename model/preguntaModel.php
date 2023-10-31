@@ -93,14 +93,22 @@ class preguntaModel{
         }
 
         $resultado[0]['opciones'] = explode(';', $resultado[0]['opciones']);
+        $resultado[0]['preguntaRow'] = $preguntaRow[0];
 
-        return $resultado;
+        return $resultado[0];
     }
 
 
     public function getRandomId(){
         $sql = "SELECT COUNT(pregunta) total FROM preguntas";
         $result = $this->database->select($sql);
+        $total = intval($result[0]['total']);
+        return rand(1,$total);
+    }
+
+    public function update($data){
+        $sql = "SELECT COUNT(pregunta) total FROM preguntas";
+        $result = $this->database->query($sql);
         $total = intval($result[0]['total']);
         return rand(1,$total);
     }
