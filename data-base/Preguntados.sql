@@ -30,6 +30,12 @@ CREATE TABLE preguntas (
     entregadas INT(10) DEFAULT 0,
     contestada INT(10) DEFAULT 0,
 );
+DROP TABLE IF EXISTS confirmacion_registros;
+CREATE TABLE confirmacion_registros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    correo_electronico VARCHAR(255) NOT NULL,
+    token VARCHAR(32) NOT NULL
+);
 
 DROP TABLE IF EXISTS opciones;
 CREATE TABLE opciones (

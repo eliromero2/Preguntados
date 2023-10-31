@@ -23,6 +23,7 @@ include_once('services/PartidaService.php');
 
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
+include_once('third-party/phpmailer/src/PHPMailer.php');
 
 
 class Configuracion {

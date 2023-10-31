@@ -1,4 +1,7 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 require 'third-party/phpmailer/src/Exception.php';
 require 'third-party/phpmailer/src/PHPMailer.php';
 require 'third-party/phpmailer/src/SMTP.php';
@@ -41,41 +44,70 @@ class RegistroController{
              $image_path= $user_name;
         }else{
         }
+
         $this->userModel->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$email,$password,$user_name,$image_path);
 
+        $correoEnviado = $this->enviarCorreoConfirmacion($email);
 
-        $mail = new PHPMailer(true);
+        if ($correoEnviado) {
+            // El correo de confirmación se envió con éxito
+            Redirect::to('/home/list');
 
-        try {
-            //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'elianaromero002@gmail.com';
-            $mail->Password   = 'inop ujof mggb ejzl';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  //ssl
-            $mail->Port       = 465;
-
-            //Recipients
-            $mail->setFrom('elianaromero002@gmail.com', 'Administrador');
-            $mail->addAddress($_POST['mail'], 'usuario');
-
-            //$mail->addAttachment('/var/tmp/file.tar.gz');
-
-            //Content
-            $mail->isHTML(true);
-            $mail->Subject = 'Verificacion de cuenta';
-            $mail->Body    = 'Verifique su correo electronico para iniciar sesion <b>ahora!</b>';
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-            $mail->send();
-            echo 'Se envio el mail';
-        } catch (Exception $e) {
-            echo "No se puedo enviar el email. Mailer Error: {$mail->ErrorInfo}";
+        } else {
+            // Error al enviar el correo de confirmación, puedes manejar esto según tus necesidades
+            $_SESSION['error'] = 'Error al enviar el correo de confirmación.';
+            Redirect::to('/registro/registro');
         }
 
+
+
         Redirect::to('/home/list');
+    }
+
+
+    function generarToken($longitud = 5) {
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $token = '';
+
+        for ($i = 0; $i < $longitud; $i++) {
+            $token .= $caracteres[random_int(0, strlen($caracteres) - 1)];
+        }
+
+        return $token;
+    }
+
+
+    public function enviarCorreoConfirmacion($correoDestinatario) {
+       $token = $this->generarToken();
+        $mail = new PHPMailer();
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'elianaromero002@gmail.com';
+        $mail->Password = 'inop ujof mggb ejzl';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //ssl
+        $mail->Port = 465;
+
+        //Recipients
+        $mail->setFrom('elianaromero002@gmail.com', 'Administrador');
+        $mail->addAddress($_POST['mail'], 'usuario');
+
+        //$mail->addAttachment('/var/tmp/file.tar.gz');
+
+        //Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Verificacion de cuenta';
+        $mail->Body = 'Verifique su correo electronico para iniciar sesion <b>SU CODIGO ES!:  </b>'.$token;
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+
+
+        if ($mail->Send()) {
+            return true; // Éxito al enviar el correo
+        } else {
+            return false; // Error al enviar el correo
+        }
     }
 
     public function registro(){
