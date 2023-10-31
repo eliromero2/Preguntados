@@ -82,8 +82,9 @@ class Configuracion {
     public function getPreguntaController() {
         $user = $this->getModel($this->getDatabase());
         $pregunta = new preguntaModel($this->getDatabase());
+        $partida = new partidaModel($this->getDatabase());
 
-        return new PreguntaController($this->getRender(), $user, $pregunta);
+        return new PreguntaController($this->getRender(), $user, $pregunta, $partida);
     }
 
     public function getRankingController() {
