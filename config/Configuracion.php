@@ -96,6 +96,7 @@ class Configuracion {
         Logger::dd("El modelo ($modelName) no esta declarado en el proyecto");
     }
 
+
     public function getService($serviceName) {
     
         if (!isset($this->services[$serviceName])) {
@@ -111,6 +112,14 @@ class Configuracion {
         }
     
         return new $serviceName(...$models);
+
+    public function getPreguntaController() {
+        $user = $this->getModel($this->getDatabase());
+        $pregunta = new preguntaModel($this->getDatabase());
+        $partida = new partidaModel($this->getDatabase());
+
+        return new PreguntaController($this->getRender(), $user, $pregunta, $partida);
+
     }
 
     public function getControllerWorks($controllerName) {

@@ -12,7 +12,20 @@ class partidaModel{
 
         $this->database->query($sql);
     }
+    
+    public function actualizarPartida($user_id, $puntaje){
+        
+        $sql = "SELECT id FROM partidas WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
+        $resultado = $this->database->select($sql);
+        
+        if (isset($resultado[0]['id'])) {
+            $id = $resultado[0]['id'];
+        }
 
+        $sqlUpdate ="UPDATE partidas SET puntaje = $puntaje WHERE id = $id";
+
+        $this->database->query($sqlUpdate);
+    }
     public function getPartidas(){
         $sql = "SELECT user_id, SUM(puntaje) as puntaje FROM partidas group by user_id";
 
