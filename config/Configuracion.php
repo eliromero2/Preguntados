@@ -6,6 +6,7 @@ include_once("helper/Router.php");
 include_once("helper/Logger.php");
 include_once('helper/Redirect.php');
 include_once('helper/Request.php');
+include_once('helper/Mailer.php');
 
 include_once('controller/LoginController.php');
 include_once('controller/RegistroController.php');
@@ -27,6 +28,7 @@ include_once('services/UsuarioService.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpmailer/src/PHPMailer.php');
+include_once('third-party/phpmailer/src/SMTP.php');
 
 
 class Configuracion {
@@ -50,7 +52,7 @@ class Configuracion {
         ];
 
         $this->controllers = [
-            'RegistroController' => ['render', 'service' => ['UsuarioService']],
+            'RegistroController' => ['render', 'mailer' ,'service' => ['UsuarioService']],
             'LoginController' => ['render', 'service' => ['UsuarioService']],
             'HomeController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'JuegoController' => ['render', 'service' => ['UsuarioService', 'PreguntaService', 'PartidaService']],
@@ -72,6 +74,17 @@ class Configuracion {
             $config['port'] ?? 3306
         );
         return $database;
+    }
+
+    public function getMailer() {
+        $config = parse_ini_file('configuration.ini');
+        $mailer = new Mailer(
+            $config['mailer_user'],
+            $config['mailer_password'],
+            $config['mailer_port'],
+            $config['mailer_host']
+        );
+        return $mailer;
     }
 
     public function getPartidaService(){
@@ -130,8 +143,12 @@ class Configuracion {
             $service = $this->getService($serviceName);
             $services[] = $service;
         }
-    
-        return new $controllerName($this->getRender(),...$services);
+
+        if($controllerName == 'RegistroController'){
+            return new $controllerName($this->getRender(),$this->getMailer(),...$services);
+        }else{
+            return new $controllerName($this->getRender(),...$services);
+        }
     }
 
     public function getRouter() {

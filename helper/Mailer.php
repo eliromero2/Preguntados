@@ -2,53 +2,58 @@
 
 class Mailer
 {
+    private $mail;
 
-    private $conn;
+    public function __construct($username, $password, $port,$host) {
+        $this->mail = new \PHPMailer\PHPMailer\PHPMailer();
+        $this->mail->SMTPDebug = \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+        $this->mail->isSMTP();
+        $this->mail->Host = $host;
+        $this->mail->SMTPAuth = true;
+        $this->mail->Username = $username;
+        $this->mail->Password = $password;
+        $this->mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS; //ssl
+        $this->mail->Port = $port;
 
-    public function __construct($Username, $Password, $Port,$Host) {
-
+        //Recipients
+        $this->mail->setFrom($username, 'Administrador');
     }
 
     public function enviarCorreoConfirmacion($correoDestinatario) {
-        $token = $this->generarToken();
-        $mail = new PHPMailer();
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'elianaromero002@gmail.com';
-        $mail->Password = 'inop ujof mggb ejzl';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //ssl
-        $mail->Port = 465;
 
-        //Recipients
-        $mail->setFrom($Username, 'Administrador');
-        $mail->addAddress($_POST['mail'], 'usuario');
-
+        $this->mail->addAddress($correoDestinatario, 'usuario');
         //$mail->addAttachment('/var/tmp/file.tar.gz');
-
         //Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Verificacion de cuenta';
-        $mail->Body = 'Verifique su correo electronico para iniciar sesion <b>SU CODIGO ES!:  </b>'.$token;
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        $subject = 'Verificacion de cuenta';
+        $body = 'Verifique su correo electronico para iniciar sesion <b>SU CODIGO ES!: putoi el que lee </b>';
+
+        $this->prepareMail($subject, $body);
+    }
 
 
+    public function prepareMail($subject, $body){
+        $this->mail->isHTML(true);
+        $this->mail->Subject = $subject;
+        $this->mail->Body = $body;
+        $this->mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-        if ($mail->Send()) {
-            return true; // Éxito al enviar el correo
-        } else {
-            return false; // Error al enviar el correo
+        $this->sendMail();
+    }
+
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
+    public function sendMail(){
+        try {
+            $mailSend = $this->mail->Send();
+            $_SESSION['success'] = 'SE MANDO CARAJO';
+            Logger::info($mailSend);
+            Redirect::to('/home/list');
+        }catch(Exception $exception){
+            Logger::error($exception);
+            $_SESSION['error'] = 'Error al enviar el correo de confirmación.';
+            Redirect::to('/registro/registro');
         }
     }
-
-    public function __destruct() {
-        mysqli_close($this->conn);
-    }
-
-
-
-
-
 
 }

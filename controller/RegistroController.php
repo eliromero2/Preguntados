@@ -1,19 +1,15 @@
 <?php
-/*use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-require_once 'third-party/phpmailer/src/Exception.php';
-require_once 'third-party/phpmailer/src/PHPMailer.php';
-require_once 'third-party/phpmailer/src/SMTP.php';*/
 
 class RegistroController{
 
     private $userService;
     private $render;
+    private $mailer;
     private $need = ['nombre_completo','mail','password'];
 
-    public function __construct($render, $userService) {
+    public function __construct($render,$mailer, $userService) {
         $this->render = $render;
+        $this->mailer = $mailer;
         $this->userService = $userService;
     }
 
@@ -45,39 +41,11 @@ class RegistroController{
         }else{
         }
 
-        $this->userService->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path);
+        $this->userService->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$email,$password,$user_name,$image_path);
 
-       
-        $correoEnviado = $this->enviarCorreoConfirmacion($email);
+        $this->mailer->enviarCorreoConfirmacion($email);
 
-        if ($correoEnviado) {
-            // El correo de confirmación se envió con éxito
-            Redirect::to('/home/list');
-
-        } else {
-            // Error al enviar el correo de confirmación, puedes manejar esto según tus necesidades
-            $_SESSION['error'] = 'Error al enviar el correo de confirmación.';
-            Redirect::to('/registro/registro');
-        }
-
-
-
-
-    
     }
-
-
-    function generarToken($longitud = 5) {
-        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $token = '';
-
-        for ($i = 0; $i < $longitud; $i++) {
-            $token .= $caracteres[random_int(0, strlen($caracteres) - 1)];
-        }
-
-        return $token;
-    }
-
 
 
 
