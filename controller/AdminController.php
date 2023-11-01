@@ -80,4 +80,9 @@ class AdminController{
         
         $this->render->adminView($userRow,'admin/index', $data);
     }
+
+    public function test(){
+        $modelRespose = $this->preguntaService->getPregunta("1");
+        echo json_encode(['userSession' => $modelRespose]);
+    }
 }

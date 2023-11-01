@@ -1,15 +1,15 @@
 <?php
 class RankingController{
 
-    private $userModel;
-    private $partidaModel;
+    private $userService;
+    private $partidaService;
 
     private $render;
 
-    public function __construct($render, $userModel, $partidaModel) {
+    public function __construct($render, $userService, $partidaService) {
         $this->render = $render;
-        $this->userModel = $userModel;
-        $this->partidaModel = $partidaModel;
+        $this->userService = $userService;
+        $this->partidaService = $partidaService;
     }
 
     private function redirectIfMissParams($params){
@@ -22,15 +22,11 @@ class RankingController{
     }
 
     public function list() {
-
-
         $data = [
-            'partidas' => $this->partidaModel->getPartidas(),
+            'partidas' => $this->partidaService->getPartidas(),
         ];
 
-
         $this->render->authView($_SESSION['user'],'ranking', $data,'/login');
-
     }
 
 

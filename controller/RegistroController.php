@@ -2,13 +2,13 @@
 
 class RegistroController{
 
-    private $userModel;
+    private $userService;
     private $render;
     private $need = ['nombre_completo','mail','password'];
 
-    public function __construct($render, $userModel) {
+    public function __construct($render, $userService) {
         $this->render = $render;
-        $this->userModel = $userModel;
+        $this->userService = $userService;
     }
 
     public function list() {
@@ -41,8 +41,7 @@ class RegistroController{
           //  die();
         }
 
-
-        $this->userModel->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path);
+        $this->userService->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path);
         Redirect::to('/home/list');
     }
 

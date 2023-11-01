@@ -36,7 +36,8 @@ class Configuracion {
         $this->models = [
             'user' => 'userModel',
             'pregunta' => 'preguntaModel',
-            'partida' => 'partidaModel'
+            'partida' => 'partidaModel',
+            'categoria' => 'categoriaModel'
         ];
 
         $this->services = [
@@ -55,6 +56,7 @@ class Configuracion {
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
+            'ApiController' => ['render', 'service' => ['CategoriaService', 'TipoService']],
         ];
     }
 

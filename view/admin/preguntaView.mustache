@@ -13,7 +13,7 @@
                 <h1 class="mb-5">Crear pregunta</h1>
             {{/pregunta}}
 
-            <form action="{{action}}" method="post" enctype="multipart/form-data" class="card card-body">
+            <form id="form" action="{{action}}" method="post" enctype="multipart/form-data" class="card card-body">
                 <div class="container">
                     <div class="row mb-4">
                         <div class="col-12">
@@ -61,7 +61,7 @@
 
                         {{#pregunta.opciones}}
                             <div class="col-sm-12 col-md-6 mb-4">
-                                <div class="form-group">
+                                <div id="opcion_{{index}}" class="form-group">
                                     <label class="form-label">Opcion {{index}}:</label>
                                     <input type="text" value="{{opcion}}" name="respuesta[]" required class="form-control">
                                 </div>
@@ -127,6 +127,16 @@
                     <button type="submit" class="btn btn-dark btn-lg">{{submitText}}</button>
                 </div>
             </form>
+            <script>
+                fetch("/admin/test")
+                        .then( res => res.json())
+                        .then(data => {
+                            document.getElementById("form").addEventListener('click', (evt) =>{
+                                console.log({evt}, data)
+                            })
+                        })
+                        .catch(err => console.warn(err))
+            </script>
         </div>
     </div>
 </main>
