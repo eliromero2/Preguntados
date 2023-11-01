@@ -112,32 +112,8 @@ class Configuracion {
         }
     
         return new $serviceName(...$models);
-
-    public function getPreguntaController() {
-        $user = $this->getModel($this->getDatabase());
-        $pregunta = new preguntaModel($this->getDatabase());
-        $partida = new partidaModel($this->getDatabase());
-
-        return new PreguntaController($this->getRender(), $user, $pregunta, $partida);
-
     }
 
-    public function getControllerWorks($controllerName) {
-    
-        if (!isset($this->controllers[$controllerName])) {
-            Logger::dd("El controlador ($controllerName) no esta declarado en el proyecto");
-        }
-    
-        $classData = $this->controllers[$controllerName];
-        $models = [];
-    
-        foreach ($classData['model'] as $modelName) {
-            $model = $this->getModel($modelName);
-            $models[] = $model;
-        }
-    
-        return new $controllerName($this->getRender(),...$models);
-    }
 
     public function getController($controllerName) {
     
