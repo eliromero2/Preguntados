@@ -13,8 +13,10 @@ class HomeController{
     }
 
     public function list() {
-        $data['userSession'] = $this->userService->getCurrentSession();
-        $data['error'] = $_SESSION['error'];
+
+        $data['userSession'] = $this->userModel->getCurrentSession();
+        $data['error'] = @$_SESSION['error'];
+
         unset($_SESSION['error']);
 
        // Logger::dd($data, $_SESSION);
