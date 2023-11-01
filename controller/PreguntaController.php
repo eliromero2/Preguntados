@@ -1,48 +1,49 @@
 <?php
 class PreguntaController{
 
-    private $userModel;
-    private $preguntaModel;
-    private $partidaModel;
+    private $userService;
+    private $preguntaService;
+    private $partidaService;
     private $render;
 
-    public function __construct($render, $userModel, $preguntaModel, $partidaModel) {
+    public function __construct($render, $userService, $preguntaService, $partidaService) {
         $this->render = $render;
-        $this->userModel = $userModel;
-        $this->preguntaModel = $preguntaModel;
-        $this->partidaModel = $partidaModel;
+        $this->userService = $userService;
+        $this->preguntaService = $preguntaService;
+        $this->partidaService = $partidaService;
     }
 
     public function list() {
-        $data['userSession'] = $this->userModel->getCurrentSession();
+        $data['userSession'] = $this->userService->getCurrentSession();
 
         $this->render->authView($data['userSession'],'pregunta',$data);
     }
 
     public function modulo() {
-        $data['userSession'] = $this->userModel->getCurrentSession();
-        $data['preguntasByModule'] = $this->preguntaModel->getAllBy($_GET['name']);
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $data['preguntasByModule'] = $this->preguntaService->getAllBy($_GET['name']);
 
         $this->render->authView($data['userSession'],'pregunta',$data);
     }
 
     public function show(){
-        $data['userSession'] = $this->userModel->getCurrentSession();
+        $data['userSession'] = $this->userService->getCurrentSession();
         $data['puntaje'] = 0;
 
-        $idPregunta = isset($_GET['params']) ? $_GET['params'] : $this->preguntaModel->getRandomId();
+        $idPregunta = $_GET['params'] ?? $this->preguntaService->getRandomId();
 
-        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($idPregunta,true);
+        $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
 
-        $this->render->authView($data['userSession'],'pregunta',$data);
+       // Logger::dd($data['pregunta']);
+        $this->render->printView('pregunta',$data);
     }
 
     public function validarOpcion(){
 
-        $data['userSession'] = $this->userModel->getCurrentSession();
+        $data['userSession'] = $this->userService->getCurrentSession();
         Logger::info(print_r($_POST,true));
 
-        $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_POST['id']);
+        $data['pregunta'] = $this->preguntaService->getPreguntaBy($_POST['id']);
 
 
         $opcionSeleccionada = $_POST['opcion'];
@@ -54,13 +55,13 @@ class PreguntaController{
             $data['opcionEsCorrecta']= "La es opcion correcta ";
             $data['puntaje'] =  $puntajeActual + 1;
 
-            $idPregunta = $this->preguntaModel->getRandomId();
-            $data['pregunta'] = $this->preguntaModel->getPreguntaBy($idPregunta,true);
+            $idPregunta = $this->preguntaService->getRandomId();
+            $data['pregunta'] = $this->preguntaService->getPreguntaBy($idPregunta,true);
 
         }else{
             $data['opcionEsCorrecta']= "fin ";
 
-            $this->partidaModel->actualizarPartida($data['userSession']['user']['id'], $puntajeActual);
+            $this->partidaService->actualizarPartida($data['userSession']['user']['id'], $puntajeActual);
 
             Redirect::to('/juego/list');
 

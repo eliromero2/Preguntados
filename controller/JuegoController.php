@@ -1,30 +1,30 @@
 <?php
 class JuegoController{
 
-    private $userModel;
-    private $preguntaModel;
-    private $partidaModel;
+    private $userService;
+    private $preguntaService;
+    private $partidaService;
     private $render;
 
-    public function __construct($render, $userModel, $preguntaModel, $partidaModel) {
+    public function __construct($render, $userService, $preguntaService, $partidaService) {
         $this->render = $render;
-        $this->userModel = $userModel;
-        $this->preguntaModel = $preguntaModel;
-        $this->partidaModel = $partidaModel;
+        $this->userService = $userService;
+        $this->preguntaService = $preguntaService;
+        $this->partidaService = $partidaService;
     }
 
     public function list() {
-        $data['userSession'] = $this->userModel->getCurrentSession();
-        $data['modulos'] = $this->preguntaModel->getModules();
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $data['modulos'] = $this->preguntaService->getModules();
       
         $this->render->authView($data['userSession'],'juego', $data);
     }
 
     public function crear() {
-        $data['userSession'] = $this->userModel->getCurrentSession();
-        $this->partidaModel->createPartida($data['userSession']['user']['id']);
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $this->partidaService->createPartida($data['userSession']['user']['id']);
 
-        $idRandom = $this->preguntaModel->getRandomId();
+        $idRandom = $this->preguntaService->getRandomId();
 
         Redirect::to("/pregunta/show/$idRandom");
     }

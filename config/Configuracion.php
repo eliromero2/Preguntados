@@ -56,7 +56,7 @@ class Configuracion {
             'LoginController' => ['render', 'service' => ['UsuarioService']],
             'HomeController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'JuegoController' => ['render', 'service' => ['UsuarioService', 'PreguntaService', 'PartidaService']],
-            'PreguntaController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
+            'PreguntaController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','PartidaService']],
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],

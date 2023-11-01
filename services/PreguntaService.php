@@ -16,6 +16,10 @@ class PreguntaService
         return $this->model->all();
     }
 
+    public function getRandomId(){
+        return $this->model->getRandomId();
+    }
+
     public function getPregunta($id){
         $modelResponse = $this->model->getPreguntaBy($id);
 

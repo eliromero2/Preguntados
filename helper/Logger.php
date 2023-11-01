@@ -41,7 +41,7 @@ class Logger
     }
 
     public static function dd(...$data) {
-        var_dump($data);
+        echo json_encode($data);
         die();
     }
 }

@@ -12,6 +12,10 @@ class PartidaService
         return $this->model->getPuntajeUser($id);
     }
 
+    public function createPartida($id){
+        $this->model->createPartida($id);
+    }
+
     public function getPartidas(){
         $modelRespose = $this->model->getPartidas();
         $modelRespose['cantidad de partida'] = count($modelRespose);
