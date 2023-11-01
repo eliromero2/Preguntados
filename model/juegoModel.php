@@ -45,21 +45,5 @@ class juegoModel{
         }
     }
 
-    public function getCurrentSession(){
-        $data['user'] = $_SESSION['user'] ?? null;
-        Logger::info(print_r($data['user'], $_GET['params']));
-
-        if(isset($data['user']['id'])){
-            $data['puntaje'] = $this->partidaModel->getPuntajeUser($data['user']['id']);
-        }
-
-        if(isset($_GET['params'])){
-            $data['pregunta'] = $this->preguntaModel->getPreguntaBy($_GET['params']);
-        }
-
-
-        return $data;
-    }
-
 
 }

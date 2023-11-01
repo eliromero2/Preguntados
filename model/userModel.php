@@ -48,7 +48,6 @@ class userModel{
 
         $user = $resultado;
      
-        Logger::info('La contraseña es correcta');
         $_SESSION["user"] = $user[0];
         $response['user'] = $user[0];
         return $response;

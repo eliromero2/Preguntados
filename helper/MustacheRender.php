@@ -12,7 +12,7 @@ class MustacheRender {
     }
 
     public function printView($contenido, $datos = null) {
-        echo  $this->generateHtml($contenido, $datos);
+        echo $this->generateHtml($contenido, $datos);
     }
 
     public function generateHtml($contentFile, $data = array()) {
@@ -24,6 +24,9 @@ class MustacheRender {
 
     public function authView($session, $viewName, $viewData, $redirectTo = '/login') {
         $session ? $this->printView($viewName, $viewData) : Redirect::to($redirectTo);
+    }
 
+    public function adminView($session, $viewName, $viewData, $redirectTo = '/login') {
+        $session['rol'] == 'ADMIN' ? $this->printView($viewName, $viewData) : Redirect::to($redirectTo);
     }
 }
