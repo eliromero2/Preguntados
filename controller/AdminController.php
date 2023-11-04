@@ -19,7 +19,7 @@ class AdminController{
 
     public function list() {
         $data['userSession'] = $this->userService->getCurrentSession();
-        $data['error'] = $_SESSION['error'];
+        $data['error'] = @$_SESSION['error'];
         $userRow = $data['userSession']['user'];
         unset($_SESSION['error']);
         
@@ -61,6 +61,15 @@ class AdminController{
         //Logger::dd($data['pregunta']);
         
         $this->render->adminView($userRow,'admin/editarPregunta', $data);
+    }
+
+    public function crearPregunta() {
+        $this->data['action'] = '/admin/crearPregunta';
+        $this->data['submitText'] = 'Crear pregunta';
+
+        $userRow = $this->data['userSession']['user'];
+
+        $this->render->adminView($userRow,'admin/pregunta', $this->data);
     }
 
     public function usuarios() {

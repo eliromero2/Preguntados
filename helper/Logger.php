@@ -41,6 +41,11 @@ class Logger
     }
 
     public static function dd(...$data) {
+        var_dump($data);
+        die();
+    }
+
+    public static function json(...$data) {
         echo json_encode($data);
         die();
     }

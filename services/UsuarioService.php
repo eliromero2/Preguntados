@@ -14,7 +14,7 @@ class UsuarioService
 
     public function getCurrentSession(){
         $modelResponse = $this->model->getCurrentSession();
-        $modelResponse["isAdmin"] = $modelResponse["user"]["rol"] === "ADMIN"; 
+        $modelResponse["isAdmin"] = @$modelResponse["user"]["rol"] === "ADMIN";
         return $modelResponse;
     }
 

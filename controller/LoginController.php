@@ -41,7 +41,7 @@ class LoginController{
             unset( $_SESSION['error']);
         }
 
-        if(!$_SESSION['user']){
+        if(!@$_SESSION['user']){
             $data['action'] = '/login/procesarLogin';
             $data['submitText'] = 'Ingresar';
             $this->render->printView('login', $data);
@@ -57,8 +57,8 @@ class LoginController{
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];
 
-        $response = $this->userService->validarUsuario($user_name,$password);
-        $this->render->printView('home', $response);
+        $this->userService->validarUsuario($user_name,$password);
+        Redirect::to("/home");
     }
 
     public function cerrarSesion(){//revisarrrrr
