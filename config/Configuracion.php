@@ -29,6 +29,7 @@ include_once('services/UsuarioService.php');
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpmailer/src/PHPMailer.php');
 include_once('third-party/phpmailer/src/SMTP.php');
+include_once('third-party/phpmailer/src/Exception.php');
 
 
 class Configuracion {

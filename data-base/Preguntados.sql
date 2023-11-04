@@ -30,7 +30,28 @@ CREATE TABLE preguntas (
     tipo VARCHAR(100) NOT NULL,
     entregadas INT(10) DEFAULT 0,
     contestada INT(10) DEFAULT 0,
+    dificultad_id INT DEFAULT 1,
+    FOREIGN KEY (dificultad_id) REFERENCES dificultad_pregunta(id)
 );
+
+DROP TABLE IF EXISTS dificultad_preguntas;
+CREATE TABLE dificultad_preguntas (
+id INT AUTO_INCREMENT PRIMARY KEY,
+dificultad VARCHAR(50) NOT NULL
+);
+
+INSERT INTO dificultad_preguntas (dificultad) VALUES('Facil'),('Media'),('Dificil');
+
+/*
+-- Agregar la columna
+ALTER TABLE preguntas
+ADD COLUMN dificultad_id INT;
+
+-- Agregar la fk
+ALTER TABLE preguntas
+ADD CONSTRAINT fk_dificultad
+FOREIGN KEY (dificultad_id) REFERENCES dificultad_preguntas(id);*/
+
 DROP TABLE IF EXISTS confirmacion_registros;
 CREATE TABLE confirmacion_registros (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,36 +68,36 @@ CREATE TABLE opciones (
     FOREIGN KEY (pregunta_id) REFERENCES preguntas(id)
 );
 
-INSERT INTO preguntas(pregunta,estado,modulo,verificada,accesible,tipo) VALUES
-    ("Si en un script PHP encuentra una llamada a un método de clase de la siguiente manera: Usuario::traerUsuario(); Se trata de:", "ACTIVA", "MVC / POO", "NO", "NO", "Opciones con respuesta única"),
-    ("Cuando utilizo una Clase en forma estática siempre se ejecuta el método __construct()", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("La S del acrónimo SOLID es por el concepto Single Responsibility, que indica:", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("El concepto de acoplamiento refiere a:", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("Como concepto general podemos decir que a menos acoplamiento mejor software", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("En software se entiende por patrón de diseño a:", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("El patrón MVC se utiliza mucho en aplicaciones web porque:", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("En un modelo MVC el que recibe normalmente la petición del cliente es:", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("El modelo en un esquema MVC es el encargado de almacenar y ejecutar la lógica del negocio", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("Uno de los objetivos del modelo MVC es separar en la aplicación el modelo de negocios de las interfaces de usuario", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("El enrutador en un modelo MVC es el encargado de ejecutar las operaciones de acceso a la base de datos", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("El folding en una aplicación web se refiere a:", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("Si estoy desarrollando usando TDD estoy", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("El patrón MVC esta compuesto por:", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("En un patrón MVC la Vista es la encargada de", "ACTIVA", "MVC / POO", "SI", "NO", "Opciones con respuesta única"),
-    ("La principal diferencia entre los enfoques Responsive y Mobile First es", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("Observando la siguiente imagen, cuál de las dos opciones (A o B) le parece más adecuada para describir el enfoque Mobile first.", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("La principal diferencia entre una Aplicación Web y una Aplicación monolítica (por ejemplo una Win32) es:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("El protocolo a través del cuál se realiza todo el intercambio de datos entre un servidor web y un cliente es:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("El protocolo HTTP tiene entre sus características ser:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("El protocolo DNS es:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("El protocolo HTTP implementa comandos, entre ellos:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 500, ha ocurrido:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 400, ha ocurrido:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 200, ha ocurrido:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "SI", "Opciones con respuesta única"),
-    ("En una petición GET, los parámetros de la petición se pasan a través de....", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "NO", "Opciones con respuesta única"),
-    ("Se denomina Scripting del lado del cliente, o programación Front-end o Client Side Scripting a:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "NO", "Opciones con respuesta única"),
-    ("Se denomina Scripting del lado del servidor, o programación Back-end o Server Side Scripting a:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "NO", "Opciones con respuesta única"),
-    ("La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:", "ACTIVA", "Introducción a HTTP y a las Aplicaciones Web", "SI", "NO", "Opciones con respuesta única");
+INSERT INTO `preguntas` (`id`, `pregunta`, `estado`, `modulo`, `verificada`, `accesible`, `tipo`, `entregadas`, `contestada`, `dificultad_id`) VALUES
+(1, 'Si en un script PHP encuentra una llamada a un método de clase de la siguiente manera: Usuario::traerUsuario(); Se trata de:', 'ACTIVA', 'MVC / POO', 'NO', 'NO', 'Opciones con respuesta única', 0, 0, 1),
+(2, 'Cuando utilizo una Clase en forma estática siempre se ejecuta el método __construct()', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 1),
+(3, 'La S del acrónimo SOLID es por el concepto Single Responsibility, que indica:', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 1),
+(4, 'El concepto de acoplamiento refiere a:', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 1),
+(5, 'Como concepto general podemos decir que a menos acoplamiento mejor software', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 1),
+(6, 'En software se entiende por patrón de diseño a:', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 2, 0, 2),
+(7, 'El patrón MVC se utiliza mucho en aplicaciones web porque:', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 2),
+(8, 'En un modelo MVC el que recibe normalmente la petición del cliente es:', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 2),
+(9, 'El modelo en un esquema MVC es el encargado de almacenar y ejecutar la lógica del negocio', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 2, 0, 2),
+(10, 'Uno de los objetivos del modelo MVC es separar en la aplicación el modelo de negocios de las interfaces de usuario', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 2),
+(11, 'El enrutador en un modelo MVC es el encargado de ejecutar las operaciones de acceso a la base de datos', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 3),
+(12, 'El folding en una aplicación web se refiere a:', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 3),
+(13, 'Si estoy desarrollando usando TDD estoy', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 3),
+(14, 'El patrón MVC esta compuesto por:', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 3),
+(15, 'En un patrón MVC la Vista es la encargada de', 'ACTIVA', 'MVC / POO', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 3),
+(16, 'La principal diferencia entre los enfoques Responsive y Mobile First es', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 1),
+(17, 'Observando la siguiente imagen, cuál de las dos opciones (A o B) le parece más adecuada para describir el enfoque Mobile first.', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 1),
+(18, 'La principal diferencia entre una Aplicación Web y una Aplicación monolítica (por ejemplo una Win32) es:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 1),
+(19, 'El protocolo a través del cuál se realiza todo el intercambio de datos entre un servidor web y un cliente es:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 1, 0, 2),
+(20, 'El protocolo HTTP tiene entre sus características ser:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 2),
+(21, 'El protocolo DNS es:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 2),
+(22, 'El protocolo HTTP implementa comandos, entre ellos:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 3),
+(23, 'El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 500, ha ocurrido:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 3),
+(24, 'El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 400, ha ocurrido:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 3),
+(25, 'El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 200, ha ocurrido:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'SI', 'Opciones con respuesta única', 0, 0, 1),
+(26, 'En una petición GET, los parámetros de la petición se pasan a través de....', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 1),
+(27, 'Se denomina Scripting del lado del cliente, o programación Front-end o Client Side Scripting a:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 1),
+(28, 'Se denomina Scripting del lado del servidor, o programación Back-end o Server Side Scripting a:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 2),
+(29, 'La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:', 'ACTIVA', 'Introducción a HTTP y a las Aplicaciones Web', 'SI', 'NO', 'Opciones con respuesta única', 0, 0, 2);
 
 INSERT INTO opciones (pregunta_id, opcion, opcion_correcta) VALUES
 (1, "Una llamada al método por referencia", 'NO'),

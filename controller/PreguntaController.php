@@ -41,22 +41,22 @@ class PreguntaController{
     public function validarOpcion(){
 
         $data['userSession'] = $this->userService->getCurrentSession();
-        Logger::info(print_r($_POST,true));
 
-        $data['pregunta'] = $this->preguntaService->getPreguntaBy($_POST['id']);
+
+        $data['pregunta'] = $this->preguntaService->getPregunta($_POST['id']);
 
 
         $opcionSeleccionada = $_POST['opcion'];
         $puntajeActual = $_POST['puntaje'];
 
-       $opcionCorrecta = $data['pregunta'][0]['opcion_correcta'];
+       $opcionCorrecta = $data['pregunta']['opcion_correcta'];
 
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
             $data['puntaje'] =  $puntajeActual + 1;
 
             $idPregunta = $this->preguntaService->getRandomId();
-            $data['pregunta'] = $this->preguntaService->getPreguntaBy($idPregunta,true);
+            $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
 
         }else{
             $data['opcionEsCorrecta']= "fin ";
