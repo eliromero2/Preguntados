@@ -54,7 +54,9 @@ class PreguntaController{
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
             $data['puntaje'] =  $puntajeActual + 1;
-
+            if ( $data['puntaje'] >= 10) {
+                Redirect::to('/juego/ganado');
+            }
             $idPregunta = $this->preguntaService->getRandomId();
             $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
 
@@ -63,7 +65,7 @@ class PreguntaController{
 
             $this->partidaService->actualizarPartida($data['userSession']['user']['id'], $puntajeActual);
 
-            Redirect::to('/juego/list');
+            Redirect::to('/juego/perdido');
 
         }
 
