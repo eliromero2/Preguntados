@@ -16,8 +16,17 @@ class JuegoController{
     public function list() {
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['modulos'] = $this->preguntaService->getModules();
-      
         $this->render->authView($data['userSession'],'juego', $data);
+    }
+
+    public function ganado() {
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $this->render->authView($data['userSession'],'juegoGanado', $data);
+    }
+
+    public function perdido() {
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $this->render->authView($data['userSession'],'juegoPerdido', $data);
     }
 
     public function crear() {
