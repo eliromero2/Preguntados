@@ -51,13 +51,13 @@
 
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <label class="form-label">Contraseña:</label>
-                        <input type="password"  name="password" required  class="form-control">
+                        <input type="password" value="{{formulario.password}}"  name="password" required  class="form-control">
                     </div>
 
                     <div class="col-sm-12 col-xl-4">
                     <div class="form-group">
                         <label class="form-label">Repetir Contraseña:</label>
-                        <input type="password"  name="password_confirm" required class="form-control">
+                        <input type="password" value="{{formulario.password_confirm}}"  name="password_confirm" required class="form-control">
                     </div>
                 </div>
                 </div>
@@ -66,7 +66,7 @@
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class=form-group">
                             <label class="form-label">Email:</label>
-                            <input type="email" value="{{formulario.mail}}" name="mail" required class="form-control">
+                            <input type="text" value="{{formulario.mail}}" name="mail" required class="form-control">
                         </div>
                     </div>
 
