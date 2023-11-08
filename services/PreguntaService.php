@@ -43,4 +43,12 @@ class PreguntaService
         $this->model->update($data);
         return $this->model->all();
     }
+
+    public function getModules(){
+        return $this->model->getModules();
+    }
+
+    public function getAllBy($moduleName){
+        return $this->model->getAllBy($moduleName);
+    }
 }

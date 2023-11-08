@@ -113,4 +113,28 @@ class preguntaModel{
         return rand(1,$total);
     }
 
+    public function getPreguntasByDificultad($dificultad) {
+        $sql = "SELECT p.pregunta, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END) AS opcion_correcta 
+            FROM preguntas AS p
+            LEFT JOIN opciones AS o ON p.id = o.pregunta_id
+            WHERE p.dificultad_id = (
+                SELECT id FROM dificultad_preguntas WHERE dificultad = $dificultad
+            )
+            GROUP BY p.id";
+
+
+        $resultado = $this->database->select($sql);
+
+        if (!$resultado || count($resultado) === 0) {
+            Logger::info('No se encontraron resultados para la dificultad: ' . $dificultad);
+            return false;
+        }
+
+        foreach ($resultado as &$row) {
+            $row['opciones'] = explode(';', $row['opciones']);
+        }
+
+        return $resultado;
+    }
+
 }

@@ -25,6 +25,7 @@ class RegistroController{
         $nombre_completo = $_POST['nombre_completo'];
         $email = $_POST['mail'];
         $password = $_POST['password'];
+        $passwordConfirmacion=$_POST['password_confirm'];
         $ano_nacimiento =$_POST['ano_nacimiento'];
         $sexo=$_POST['sexo'];
         $pais=$_POST['pais'];
@@ -35,13 +36,44 @@ class RegistroController{
 
         $folderSave = __DIR__."/../public/avatar/".$user_name.$extension_image ;
 
+        if($password != $passwordConfirmacion){
+            $_SESSION['error'] ='Las contraseñas no coinciden';
+            $data['error']=$_SESSION['error'];
+            $data['action'] = '/registro/procesarRegistro';
+            $data['submitText'] = 'Registrar';
+
+            $data['formulario']=[
+            'nombre_completo' => $_POST['nombre_completo'],
+            'mail' => $_POST['mail'],
+            'password' => $_POST['password'],
+            'password_confirm'=>$_POST['password_confirm'],
+            'ano_nacimiento' =>$_POST['ano_nacimiento'],
+            'sexo'=>$_POST['sexo'],
+            'pais'=>$_POST['pais'],
+            'ciudad'=>$_POST['ciudad'],
+            'user_name'=>$_POST['user_name']];
+
+            unset( $_SESSION['error']);
+            $this->render->printView('registro',$data);
+        }
+
         if($error = move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $folderSave))
         {
              $image_path= $user_name;
         }else{
         }
+    try{
+    $this->userService->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$email,$password,$user_name,$image_path);
+    }catch (\Exception $e){
+        $_SESSION['error'] = $e->getMessage();
+        $data['error']=$_SESSION['error'];
+        $data['action'] = '/registro/procesarRegistro';
+        $data['submitText'] = 'Registrar';
+        unset( $_SESSION['error']);
 
-        $this->userService->registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$email,$password,$user_name,$image_path);
+        $this->render->printView('registro',$data);
+    }
+
 
         $this->mailer->enviarCorreoConfirmacion($email);
 

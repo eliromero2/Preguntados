@@ -24,15 +24,27 @@ CREATE TABLE preguntas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pregunta TEXT NOT NULL,
     estado VARCHAR(255) NOT NULL,
+    modulo VARCHAR(100),
     verificada VARCHAR(2) DEFAULT 'NO',
     accesible VARCHAR(2) DEFAULT 'NO',
+    tipo VARCHAR(100) NOT NULL,
     entregadas INT(10) DEFAULT 0,
     contestada INT(10) DEFAULT 0,
     id_modulo INT,
     id_tipo INT,
+    dificultad_id INT DEFAULT 1,
     FOREIGN KEY (id_modulo) REFERENCES modulos(id),
-    FOREIGN KEY (id_tipo) REFERENCES tipos(id)
+    FOREIGN KEY (id_tipo) REFERENCES tipos(id),
+    FOREIGN KEY (dificultad_id) REFERENCES dificultad_preguntas(id)
 );
+
+DROP TABLE IF EXISTS dificultad_preguntas;
+CREATE TABLE dificultad_preguntas (
+id INT AUTO_INCREMENT PRIMARY KEY,
+dificultad VARCHAR(50) NOT NULL
+);
+
+INSERT INTO dificultad_preguntas (dificultad) VALUES('Facil'),('Media'),('Dificil');
 
 DROP TABLE IF EXISTS confirmacion_registros;
 CREATE TABLE confirmacion_registros (

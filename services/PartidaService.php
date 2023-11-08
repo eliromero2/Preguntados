@@ -22,5 +22,9 @@ class PartidaService
         return $modelRespose;
     }
 
+    public function actualizarPartida($user_id, $puntaje){
+        $this->model->actualizarPartida($user_id, $puntaje);
+    }
+
 
 }
