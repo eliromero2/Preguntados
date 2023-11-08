@@ -19,6 +19,24 @@ CREATE TABLE users (
 
 );
 
+DROP TABLE IF EXISTS modulos;
+CREATE TABLE modulos (
+                         id INT PRIMARY KEY,
+                         name VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS tipos;
+CREATE TABLE tipos (
+                       id INT PRIMARY KEY,
+                       name VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS dificultad_preguntas;
+CREATE TABLE dificultad_preguntas (
+                                      id INT AUTO_INCREMENT PRIMARY KEY,
+                                      dificultad VARCHAR(50) NOT NULL
+);
+
 DROP TABLE IF EXISTS preguntas;
 CREATE TABLE preguntas (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,11 +56,7 @@ CREATE TABLE preguntas (
     FOREIGN KEY (dificultad_id) REFERENCES dificultad_preguntas(id)
 );
 
-DROP TABLE IF EXISTS dificultad_preguntas;
-CREATE TABLE dificultad_preguntas (
-id INT AUTO_INCREMENT PRIMARY KEY,
-dificultad VARCHAR(50) NOT NULL
-);
+
 
 INSERT INTO dificultad_preguntas (dificultad) VALUES('Facil'),('Media'),('Dificil');
 
@@ -60,18 +74,6 @@ CREATE TABLE opciones (
     opcion TEXT NOT NULL,
     opcion_correcta VARCHAR(2) DEFAULT 'NO',
     FOREIGN KEY (pregunta_id) REFERENCES preguntas(id) ON DELETE CASCADE
-);
-
-DROP TABLE IF EXISTS modulos;
-CREATE TABLE modulos (
-     id INT PRIMARY KEY,
-     name VARCHAR(255)
-);
-
-DROP TABLE IF EXISTS tipos;
-CREATE TABLE tipos (
-   id INT PRIMARY KEY,
-   name VARCHAR(255)
 );
 
 INSERT INTO modulos(id,name) VALUES (1,'MVC / POO'), (2,'Introducción a HTTP y a las Aplicaciones Web');
