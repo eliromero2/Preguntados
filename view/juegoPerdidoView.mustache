@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>¡Perdiste el juego!</title>
+</head>
+<body>
+            <div class="d-flex align-items-center justify-content-around mb-3">
+                <h1>¡Perdiste el juego!</h1>
+            </div>
+            <div class="d-flex align-items-center justify-content-around mb-3">
+                <p>Lo siento, no lograste ganar el juego esta vez. ¡Mejor suerte la próxima!</p>
+            </div>
+            <div class="d-flex align-items-center justify-content-around mb-3">
+                {{#userSession.isAdmin}}
+                    <a href="/admin" class="btn btn-success">Panel Administrativo</a>
+                {{/userSession.isAdmin}}
+                <a href="/juego/crear" class="btn btn-success">Nuevo Juego</a>
+            </div>
+</body>
+
+</html>
