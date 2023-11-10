@@ -20,8 +20,8 @@ class PreguntaService
         return $this->model->getRandomId();
     }
 
-    public function getPregunta($id){
-        $modelResponse = $this->model->getPreguntaBy($id);
+    public function getPregunta(){
+        $modelResponse = $this->model->getPreguntasDificultadDificiles();
 
         $indexedOpciones = array_map(function($item, $index) use ($modelResponse) {
             return [
@@ -29,17 +29,15 @@ class PreguntaService
                 'opcion' => $item,
                 'opcion_correcta' => $item === $modelResponse['opcion_correcta'] ?? null
             ];
+
         }, $modelResponse['opciones'], array_keys($modelResponse['opciones']));
 
         $modelResponse['opciones'] = $indexedOpciones;
-
-        //Logger::dd($modelResponse);
 
         return $modelResponse;
     }
 
     public function updatePregunta($data){
-        Logger::dd($data);
         $this->model->update($data);
         return $this->model->all();
     }
@@ -50,5 +48,9 @@ class PreguntaService
 
     public function getAllBy($moduleName){
         return $this->model->getAllBy($moduleName);
+    }
+
+    public function getDificultadPregunta($idPregunta){
+        return $this->model->getDificultadPregunta($idPregunta);
     }
 }

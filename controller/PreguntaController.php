@@ -30,11 +30,12 @@ class PreguntaController{
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['puntaje'] = 0;
 
-        $idPregunta = $_GET['params'] ?? $this->preguntaService->getRandomId();
+        $data['pregunta'] = $this->preguntaService->getPregunta();
 
-        $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
+        Sesion::setPreguntas($data['pregunta']);
 
-       // Logger::dd($data['pregunta']);
+        $data['partidaSesion']= json_encode(Sesion::getPreguntas());
+
         $this->render->printView('pregunta',$data);
     }
 
@@ -43,7 +44,7 @@ class PreguntaController{
         $data['userSession'] = $this->userService->getCurrentSession();
 
 
-        $data['pregunta'] = $this->preguntaService->getPregunta($_POST['id']);
+        $data['pregunta'] = $this->preguntaService->getPregunta();
 
 
         $opcionSeleccionada = $_POST['opcion'];
@@ -52,13 +53,19 @@ class PreguntaController{
        $opcionCorrecta = $data['pregunta']['opcion_correcta'];
 
         if ($opcionSeleccionada == $opcionCorrecta){
-            $data['opcionEsCorrecta']= "La es opcion correcta ";
+
+            $data['opcionEsCorrecta']= "La opcion era correcta, siguiente pregunta";
             $data['puntaje'] =  $puntajeActual + 1;
             if ( $data['puntaje'] >= 10) {
                 Redirect::to('/juego/ganado');
             }
+            $this->partidaService->actualizarPartida($data['userSession']['user']['id'], $data['puntaje']);
+
             $idPregunta = $this->preguntaService->getRandomId();
             $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
+
+
+            Redirect::to('/pregunta/show/'.$idPregunta);
 
         }else{
             $data['opcionEsCorrecta']= "fin ";

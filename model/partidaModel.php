@@ -24,7 +24,8 @@ class partidaModel{
 
         $sqlUpdate ="UPDATE partidas SET puntaje = $puntaje WHERE id = $id";
 
-        $this->database->query($sqlUpdate);
+         $this->database->query($sqlUpdate);
+
     }
     public function getPartidas(){
         $sql = "SELECT user_id, SUM(puntaje) as puntaje FROM partidas group by user_id";

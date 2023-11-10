@@ -28,7 +28,7 @@ class Database {
             $_SESSION['error'] = 'El sql fallo: $sql';
             return false;
         }
-
+        return $result;
     }
     
 
