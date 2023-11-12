@@ -39,31 +39,30 @@ class PreguntaController{
     }
 
     public function validarOpcion(){
-
         $data['userSession'] = $this->userService->getCurrentSession();
-
-
         $data['pregunta'] = $this->preguntaService->getPregunta($_POST['id']);
-
+        $data['partida'] = $this->partidaService->getPartida($data['userSession']['user']['id']);
 
         $opcionSeleccionada = $_POST['opcion'];
-        $puntajeActual = $_POST['puntaje'];
 
        $opcionCorrecta = $data['pregunta']['opcion_correcta'];
 
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
-            $data['puntaje'] =  $puntajeActual + 1;
+            $data['puntaje'] =  intval($data['partida']['puntaje']) + 1;
+
+            $this->partidaService->actualizarPartida($data['userSession']['user']['id'],  $data['puntaje']);
             if ( $data['puntaje'] >= 10) {
                 Redirect::to('/juego/ganado');
             }
+
             $idPregunta = $this->preguntaService->getRandomId();
             $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
 
         }else{
             $data['opcionEsCorrecta']= "fin ";
 
-            $this->partidaService->actualizarPartida($data['userSession']['user']['id'], $puntajeActual);
+            $this->partidaService->actualizarPartida($data['userSession']['user']['id'], $data['partida']['puntaje']);
 
             Redirect::to('/juego/perdido');
 

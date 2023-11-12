@@ -40,14 +40,16 @@ class AdminController{
 
     public function pregunta() {
         $this->data['pregunta'] = $this->preguntaService->getPregunta($_GET["params"]);
-        $this->data['action'] = '/admin/editarPregunta/'.$this->data["pregunta"]["pregunta_id"];
+        $this->data['modulos'] = $this->preguntaService->getAllModules();
+        $this->data['tipos'] = $this->preguntaService->getAllTypes();
+        $this->data['dificultades'] = $this->preguntaService->getAllLevels();
 
+        $this->data['action'] = '/admin/editarPregunta/'.$this->data["pregunta"]["pregunta_id"];
         $this->data['submitText'] = 'Editar pregunta';
 
         $userRow = $this->data['userSession']['user'];
         unset($_SESSION['error']);
 
-        //Logger::dd($this->data['pregunta']['opciones']);
         $this->render->adminView($userRow,'admin/pregunta', $this->data);
     }
 

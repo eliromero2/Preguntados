@@ -53,4 +53,16 @@ class partidaModel{
         return 0;
     }
 
+    public function getPartida($id){
+        $sql = "SELECT * FROM partidas WHERE user_id = $id";
+
+        $resultado = $this->database->select($sql);
+
+        if (isset($resultado[0])) {
+            return $resultado[0];
+        }else{
+           return null;
+        }
+    }
+
 }

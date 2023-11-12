@@ -21,6 +21,7 @@ class preguntaModel{
             return false;
         }
 
+
         foreach ($resultado as &$row) {
             $row['opciones'] = explode(';', $row['opciones']);
             $row['opciones_correctas'] = explode(';', $row['opciones_correctas']);
@@ -107,10 +108,42 @@ class preguntaModel{
     }
 
     public function update($data){
-        $sql = "SELECT COUNT(pregunta) total FROM preguntas";
-        $result = $this->database->query($sql);
-        $total = intval($result[0]['total']);
-        return rand(1,$total);
+        Logger::dd($data);
+        try {
+            $sql = "UPDATE preguntas SET 
+                pregunta = :pregunta,
+                estado = :estado,
+                modulo = :modulo,
+                verificada = :verificada,
+                accesible = :accesible,
+                tipo = :tipo,
+                id_modulo = :id_modulo,
+                id_tipo = :id_tipo,
+                dificultad_id = :dificultad_id
+            WHERE pregunta_id = :pregunta_id";
+
+            $result = $this->database->prepare($sql);
+            $result->execute([
+                ':pregunta' => $data['pregunta'],
+                ':estado' => $data['estado'],
+                ':modulo' => $data['modulo'],
+                ':verificada' => $data['verificada'],
+                ':accesible' => $data['accesible'],
+                ':tipo' => $data['tipo'],
+                ':id_modulo' => $data['id_modulo'],
+                ':id_tipo' => $data['id_tipo'],
+                ':dificultad_id' => $data['dificultad_id'],
+                ':pregunta_id' => $data['pregunta_id'],
+            ]);
+
+            return $result->rowCount() > 0; // Devuelve true si se realizó la actualización, false si no
+
+        } catch (PDOException $e) {
+            // Manejar errores de base de datos
+            // Puedes personalizar este bloque según tus necesidades
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
     public function getPreguntasByDificultad($dificultad) {
@@ -135,6 +168,27 @@ class preguntaModel{
         }
 
         return $resultado;
+    }
+
+    public function getAllTypes(){
+        $sql = "SELECT id, name FROM tipos";
+        $types = $this->database->select($sql);
+
+        return $types;
+    }
+
+    public function getAllModules(){
+        $sql = "SELECT id, name FROM modulos";
+        $modules = $this->database->select($sql);
+
+        return $modules;
+    }
+
+    public function getAllLevels(){
+        $sql = "SELECT id, dificultad FROM dificultad_preguntas";
+        $levels = $this->database->select($sql);
+
+        return $levels;
     }
 
 }

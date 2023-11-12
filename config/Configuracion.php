@@ -16,6 +16,7 @@ include_once('controller/PreguntaController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/AdminController.php');
+include_once('controller/ApiController.php');
 
 include_once("model/userModel.php");
 include_once("model/preguntaModel.php");
@@ -61,7 +62,7 @@ class Configuracion {
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
-            'ApiController' => ['render', 'service' => ['CategoriaService', 'TipoService']],
+            'ApiController' => ['service' => ['PreguntaService']],
         ];
     }
 
@@ -145,11 +146,15 @@ class Configuracion {
             $services[] = $service;
         }
 
-        if($controllerName == 'RegistroController'){
-            return new $controllerName($this->getRender(),$this->getMailer(),...$services);
-        }else{
-            return new $controllerName($this->getRender(),...$services);
+        switch ($controllerName){
+            case 'ApiController':
+                return new $controllerName(...$services);
+            case 'RegristroController':
+                return new $controllerName($this->getRender(),$this->getMailer(),...$services);
+            default:
+                return new $controllerName($this->getRender(),...$services);
         }
+
     }
 
     public function getRouter() {

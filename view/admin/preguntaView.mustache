@@ -13,7 +13,7 @@
                 <h1 class="mb-5">Crear pregunta</h1>
             {{/pregunta}}
 
-            <form id="form" action="{{action}}" method="post" enctype="multipart/form-data" class="card card-body">
+            <form id="formPregunta" action="{{action}}" method="post" enctype="multipart/form-data" class="card card-body">
                 <div class="container">
                     <div class="row mb-4">
                         <div class="col-12">
@@ -35,19 +35,38 @@
                              <div class="col-6 col-md-3 my-auto">
                                 <div class="form-group d-flex align-items-center">
                                     <label class="form-label">Accsesible:</label>
-                                    <input type="checkbox" value="{{accesible}}" name="accesible" class="ms-2" required >
+                                    <input type="checkbox" value="{{accesible}}" name="accesible" class="ms-2" required onchange="changeValue(this)" >
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6 mb-4">
                                 <div class="form-group">
                                     <label class="form-label">Tipo:</label>
-                                    <input type="text" value="{{tipo}}" name="tipo" required class="form-control">
+                                   <select class="form-select" name="id_tipo">
+                                    {{#tipos}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/tipos}}
+                                   </select>
                                 </div>
                             </div>
-                            <div class="col-12 mb-4">
+                            <div class="col-12 col-md-6  mb-4">
                                 <div class="form-group">
                                     <label class="form-label">Modulo:</label>
-                                    <input type="text" value="{{modulo}}" name="modulo" required class="form-control">
+                                    <select class="form-select" name="id_modulo">
+                                        {{#modulos}}
+                                            <option value="{{id}}">{{name}}</option>
+                                        {{/modulos}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Dificultad:</label>
+                                    <select class="form-select" name="dificultad_id">
+                                        {{#dificultades}}
+                                            <option value="{{id}}">{{dificultad}}</option>
+                                        {{/dificultades}}
+                                    </select>
                                 </div>
                             </div>
                            
@@ -71,13 +90,32 @@
                             <div class="col-sm-12 col-md-6 mb-4">
                                 <div class="form-group">
                                     <label class="form-label">Tipo:</label>
-                                    <input type="text"  name="tipo" required class="form-control">
+                                    <select class="form-select" name="id_tipo">
+                                        {{#tipos}}
+                                            <option value="{{id}}">{{name}}</option>
+                                        {{/tipos}}
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-12 mb-4">
+                            <div class="col-12 col-md-6  mb-4">
                                 <div class="form-group">
                                     <label class="form-label">Modulo:</label>
-                                    <input type="text" name="modulo" required class="form-control">
+                                    <select class="form-select" name="id_modulo">
+                                        {{#modulos}}
+                                            <option value="{{id}}">{{name}}</option>
+                                        {{/modulos}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label">Dificultad:</label>
+                                    <select class="form-select" name="dificultad_id">
+                                        {{#dificultades}}
+                                            <option value="{{id}}">{{dificultad}}</option>
+                                        {{/dificultades}}
+                                    </select>
                                 </div>
                             </div>
 
@@ -158,14 +196,67 @@
                 </div>
             </form>
             <script>
-                fetch("/admin/test")
-                        .then( res => res.json())
-                        .then(data => {
-                            document.getElementById("form").addEventListener('click', (evt) =>{
-                                console.log({evt}, data)
+                const formElement = document.getElementById("formPregunta");
+                const getPregunta = () => {
+                    const id = Number(window.location.pathname.split("/").pop());
+                    const selectType = formElement[3].children;
+                    const selectModule = formElement[4].children;
+                    const selectDifficult = formElement[5].children;
+
+                    fetch(`/api/pregunta/${id}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log({data})
+
+                                for(let option of selectType){
+                                    if(option.value === data.preguntaRow.tipo){
+                                        option.defaultSelected = true;
+                                    }
+                                }
+
+                                for(let option of selectModule){
+                                    if(option.value === data.preguntaRow.modulo){
+                                        option.defaultSelected = true;
+                                    }
+                                }
+
+                                for(let option of selectDifficult){
+                                    if(option.value === data.preguntaRow.dificultad_id){
+                                        option.defaultSelected = true;
+                                    }
+                                }
+
                             })
-                        })
-                        .catch(err => console.warn(err))
+                            .catch(err => console.error({err}))
+                }
+
+                getPregunta()
+
+               function changeValue(e){
+                   switch (e.name){
+                       case 'accesible':
+                           e.value = !e.value
+                           break;
+                   }
+                   console.log(e)
+               }
+
+
+
+                // Form submit
+                formElement.addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    const formData = new FormData(event.target);
+
+                    // Crear un objeto con los valores del formulario
+                    const formValues = {};
+                    formData.forEach((value, key) => {
+                        formValues[key] = value;
+                    });
+
+                    console.log({ form: formValues });
+                })
+
             </script>
         </div>
     </div>

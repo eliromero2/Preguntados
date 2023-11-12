@@ -39,7 +39,7 @@ class PreguntaService
     }
 
     public function updatePregunta($data){
-        Logger::dd($data);
+        Logger::json($data);
         $this->model->update($data);
         return $this->model->all();
     }
@@ -50,5 +50,17 @@ class PreguntaService
 
     public function getAllBy($moduleName){
         return $this->model->getAllBy($moduleName);
+    }
+
+    public function getAllTypes(){
+        return $this->model->getAllTypes();
+    }
+
+    public function getAllModules(){
+        return $this->model->getAllModules();
+    }
+
+    public function getAllLevels(){
+        return $this->model->getAllLevels();
     }
 }
