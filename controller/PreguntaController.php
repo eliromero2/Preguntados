@@ -41,7 +41,7 @@ class PreguntaController{
     public function validarOpcion(){
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['pregunta'] = $this->preguntaService->getPregunta($_POST['id']);
-        $data['partida'] = $this->partidaService->getPartida($data['userSession']['user']['id']);
+        //$data['partida'] = $this->partidaService->getPartida($data['userSession']['user']['id']);
 
         $opcionSeleccionada = $_POST['opcion'];
 

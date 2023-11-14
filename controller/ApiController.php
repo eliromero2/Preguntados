@@ -6,7 +6,7 @@ class ApiController
     private $tipoService;
     private $categoriaService;
 
-    public function __construct(PreguntaService $preguntaService){
+    public function __construct($preguntaService){
         $this->preguntaService = $preguntaService;
     }
 
