@@ -17,6 +17,7 @@ include_once('controller/PreguntaController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/AdminController.php');
+include_once('controller/PerfilController.php');
 
 include_once("model/userModel.php");
 include_once("model/preguntaModel.php");
@@ -63,6 +64,7 @@ class Configuracion {
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
             'ApiController' => ['render', 'service' => ['CategoriaService', 'TipoService']],
+            'PerfilController' => ['render','service' => ['UsuarioService']],
         ];
     }
 
