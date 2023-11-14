@@ -14,6 +14,7 @@ class PreguntaController{
     }
 
     public function list() {
+
         $data['userSession'] = $this->userService->getCurrentSession();
 
         $this->render->authView($data['userSession'],'pregunta',$data);
@@ -27,10 +28,12 @@ class PreguntaController{
     }
 
     public function show(){
+
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['puntaje'] = 0;
 
         $data['pregunta'] = $this->preguntaService->getPregunta();
+
 
 
         Sesion::setPreguntas($data['pregunta']);
@@ -73,6 +76,7 @@ class PreguntaController{
 
         $duracionMaxima = 30;
 
+
         if($tiempoTranscurrido > $duracionMaxima){
             $data['opcionEsCorrecta']= "fin ";
 
@@ -81,6 +85,7 @@ class PreguntaController{
             Redirect::to('/juego/perdido');
         }
         if ($opcionSeleccionada == $opcionCorrecta){
+
 
             $data['opcionEsCorrecta']= "La opcion era correcta, siguiente pregunta";
             $data['puntaje'] =  $puntajeActual + 1;
@@ -91,6 +96,7 @@ class PreguntaController{
 
             $idPregunta = $this->preguntaService->getRandomId();
             $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
+
 
 
             Redirect::to('/pregunta/show/'.$idPregunta);

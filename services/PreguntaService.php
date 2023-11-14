@@ -21,7 +21,7 @@ class PreguntaService
     }
 
     public function getPregunta(){
-        $modelResponse = $this->model->getPreguntasDificultadDificiles();
+        $modelResponse = $this->model->getPreguntasDificultadFaciles();
 
         $indexedOpciones = array_map(function($item, $index) use ($modelResponse) {
             return [

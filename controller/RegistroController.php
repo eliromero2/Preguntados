@@ -81,7 +81,7 @@ class RegistroController{
             }
             try {
                 $this->userService->registrar($nombre_completo, $ano_nacimiento, $sexo, $pais, $ciudad, $email, $password, $user_name, $image_path);
-                $this->mailer->enviarCorreoConfirmacion($email);
+                $this->mailer->enviarCorreoConfirmacion($email,$nombre_completo,$user_name,$password);
 
             } catch (\Exception $e) {
                 $_SESSION['error'] = $e->getMessage();
