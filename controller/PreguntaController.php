@@ -14,6 +14,7 @@ class PreguntaController{
     }
 
     public function list() {
+
         $data['userSession'] = $this->userService->getCurrentSession();
 
         $this->render->authView($data['userSession'],'pregunta',$data);
@@ -27,10 +28,13 @@ class PreguntaController{
     }
 
     public function show(){
+
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['puntaje'] = 0;
 
         $data['pregunta'] = $this->preguntaService->getPregunta();
+
+        $_SESSION['tiempo_inicio'] = time();
 
         Sesion::setPreguntas($data['pregunta']);
 
@@ -50,9 +54,15 @@ class PreguntaController{
         $opcionSeleccionada = $_POST['opcion'];
         $puntajeActual = $_POST['puntaje'];
 
-       $opcionCorrecta = $data['pregunta']['opcion_correcta'];
+        $opcionCorrecta = $data['pregunta']['opcion_correcta'];
 
-        if ($opcionSeleccionada == $opcionCorrecta){
+        $tiempoInicio = $_SESSION['tiempo_inicio'];
+
+        $tiempoTranscurrido = time() - $tiempoInicio;
+
+        $duracionMaxima = 30;
+
+        if ($opcionSeleccionada == $opcionCorrecta || !($tiempoTranscurrido > $duracionMaxima)){
 
             $data['opcionEsCorrecta']= "La opcion era correcta, siguiente pregunta";
             $data['puntaje'] =  $puntajeActual + 1;
@@ -63,6 +73,7 @@ class PreguntaController{
 
             $idPregunta = $this->preguntaService->getRandomId();
             $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
+
 
 
             Redirect::to('/pregunta/show/'.$idPregunta);
