@@ -6,7 +6,7 @@ CREATE TABLE users (
    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
    nombre_completo VARCHAR(255) NOT NULL,
    ano_nacimiento INT DEFAULT NULL,
-   sexo ENUM('Masculino', 'Femenino', 'Prefiero no decirlo') DEFAULT NULL,
+   sexo ENUM('Masculino', 'Femenino', 'Otro') DEFAULT 'Otro',
    pais VARCHAR(50) DEFAULT NULL,
    ciudad VARCHAR(50) DEFAULT NULL,
    mail VARCHAR(255) NOT NULL,
