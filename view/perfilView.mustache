@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Perfil</title>
+</head>
+<body>
+
+{{#error}}
+    <div class="alert alert-danger" role="alert">{{.}}</div>
+{{/error}}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Perfil de Usuario</h3>
+        </div>
+{{#userSession.user}}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 text-center mb-3">
+                    <img src="../public/avatar/{{user_name}}.jpg" alt="Imagen de perfil" class="img-fluid">
+                </div>
+                <div class="col-md-8 offset-md-2">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Nombre:</strong> {{nombre_completo}}</li>
+                        <li class="list-group-item"><strong>Año de nacimiento:</strong> {{ano_nacimiento}}</li>
+                        <li class="list-group-item"><strong>Sexo:</strong> {{sexo}}</li>
+                        <li class="list-group-item"><strong>País:</strong> {{pais}}</li>
+                        <li class="list-group-item"><strong>Ciudad:</strong> {{ciudad}}</li>
+                        <li class="list-group-item"><strong>Email:</strong> {{mail}}</li>
+                        <li class="list-group-item"><strong>Nombre de usuario:</strong> {{user_name}}</li>
+                        <li class="list-group-item"><strong>Rol:</strong> {{rol}}</li>
+                    </ul>
+                </div>
+                <div class="col-md-12 text-center mb-3">
+                    <img src="../{{qrPerfil}}" alt="Código QR" class="img-fluid">
+                </div>
+            </div>
+        </div>
+{{/userSession.user}}
+    </div>
+</div>
+</body>
+</html>

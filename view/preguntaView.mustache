@@ -3,7 +3,10 @@
 
             {{#pregunta}}
                 <div class="col mb-3">
-                    <form id="" method="post" action="/pregunta/validarOpcion">
+                    <div class="progress">
+                        <div id="barraProgreso" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
+                    <form id="formulario-pregunta" method="post" action="/pregunta/validarOpcion">
                         <input type="hidden" name="id" value="{{pregunta_id}}">
 
                         <div class="card card-body mb-5">
@@ -69,7 +72,29 @@
                     <p>{{opcionEsCorrecta}}</p>
                 </div>
             {{/preguntasByModule}}
-    <script src="/js/ruleta.js"></script>
 
+            <script>
+
+                var duracionMaxima = 30; // Duración máxima en segundos
+                var tiempoRestante = duracionMaxima;
+
+                // Actualiza la barra de progreso cada segundo
+                var temporizador = setInterval(function() {
+                    // Calcula el porcentaje completado
+                    var porcentajeCompletado = (duracionMaxima - tiempoRestante) / duracionMaxima * 100;
+
+                    // Actualiza el ancho de la barra de progreso
+                    document.getElementById('barraProgreso').style.width = porcentajeCompletado + '%';
+
+                    // Disminuye el tiempo restante
+                    tiempoRestante--;
+
+                    // Si el tiempo ha llegado a cero, detén el temporizador
+                    if (tiempoRestante < 0) {
+                        clearInterval(temporizador);
+                        document.getElementById('formulario-pregunta').submit();
+                    }
+                }, 1000); // 1000 milisegundos = 1 segundo
+            </script>
         </div>
 </main>

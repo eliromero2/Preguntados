@@ -32,8 +32,11 @@ class PreguntaController{
 
         $idPregunta = $_GET['params'] ?? $this->preguntaService->getRandomId();
 
-        $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
 
+
+        $_SESSION['id_pregunta_actual'] = $idPregunta;
+        $_SESSION['tiempo_inicio'] = time();
+        $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta, true);
        // Logger::dd($data['pregunta']);
         $this->render->printView('pregunta',$data);
     }
@@ -41,12 +44,29 @@ class PreguntaController{
     public function validarOpcion(){
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['pregunta'] = $this->preguntaService->getPregunta($_POST['id']);
-        //$data['partida'] = $this->partidaService->getPartida($data['userSession']['user']['id']);
+        // Obtener el ID de la pregunta actual desde la sesión
+        $idPreguntaActual = $_SESSION['id_pregunta_actual'];
+
+        // Obtener la pregunta actual basada en el ID almacenado
+        $data['pregunta'] = $this->preguntaService->getPregunta($idPreguntaActual, true);
 
         $opcionSeleccionada = $_POST['opcion'];
 
-       $opcionCorrecta = $data['pregunta']['opcion_correcta'];
+        $opcionCorrecta = $data['pregunta']['opcion_correcta'];
 
+        $tiempoInicio = $_SESSION['tiempo_inicio'];
+
+        $tiempoTranscurrido = time() - $tiempoInicio;
+
+        $duracionMaxima = 30;
+
+        if($tiempoTranscurrido > $duracionMaxima){
+            $data['opcionEsCorrecta']= "fin ";
+
+            $this->partidaService->actualizarPartida($data['userSession']['user']['id'], $puntajeActual);
+
+            Redirect::to('/juego/perdido');
+        }
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
             $data['puntaje'] =  intval($data['partida']['puntaje']) + 1;
