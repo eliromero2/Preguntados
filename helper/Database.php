@@ -23,12 +23,19 @@ class Database {
 
     public function query($sql) {
         $result = mysqli_query($this->conn, $sql);
-        
+
         if ($result === false) {
             $_SESSION['error'] = 'El sql fallo: $sql';
             return false;
         }
 
+        if (strpos(strtoupper($sql), 'INSERT') === 0) {
+            return mysqli_insert_id($this->conn);
+        }
+
+
+
+        return boolval($result);
     }
     
 

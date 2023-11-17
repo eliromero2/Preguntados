@@ -108,35 +108,20 @@ class preguntaModel{
     }
 
     public function update($data){
-        Logger::dd($data);
         try {
+            $accesible = $data->accesible ?? null;
             $sql = "UPDATE preguntas SET 
-                pregunta = :pregunta,
-                estado = :estado,
-                modulo = :modulo,
-                verificada = :verificada,
-                accesible = :accesible,
-                tipo = :tipo,
-                id_modulo = :id_modulo,
-                id_tipo = :id_tipo,
-                dificultad_id = :dificultad_id
-            WHERE pregunta_id = :pregunta_id";
+                pregunta = '$data->pregunta',
+                estado = '$data->estado',
+                accesible = '$accesible',
+                id_modulo = '$data->id_modulo',
+                id_tipo = '$data->id_tipo',
+                dificultad_id = '$data->dificultad_id'
+            WHERE id = '$data->pregunta_id'";
 
-            $result = $this->database->prepare($sql);
-            $result->execute([
-                ':pregunta' => $data['pregunta'],
-                ':estado' => $data['estado'],
-                ':modulo' => $data['modulo'],
-                ':verificada' => $data['verificada'],
-                ':accesible' => $data['accesible'],
-                ':tipo' => $data['tipo'],
-                ':id_modulo' => $data['id_modulo'],
-                ':id_tipo' => $data['id_tipo'],
-                ':dificultad_id' => $data['dificultad_id'],
-                ':pregunta_id' => $data['pregunta_id'],
-            ]);
+            $result = $this->database->query($sql);
 
-            return $result->rowCount() > 0; // Devuelve true si se realizó la actualización, false si no
+            return $result;
 
         } catch (PDOException $e) {
             // Manejar errores de base de datos
@@ -144,6 +129,28 @@ class preguntaModel{
             echo "Error: " . $e->getMessage();
             return false;
         }
+    }
+
+    public function create($data){
+        try {
+            $accesible = $data->accesible ?? null;
+            $sql = "INSERT INTO preguntas (pregunta, estado, accesible, id_modulo, id_tipo, dificultad_id)  VALUES ('$data->pregunta', '$data->estado','$accesible','$data->id_modulo','$data->id_tipo','$data->dificultad_id')";
+
+            $result = $this->database->query($sql);
+
+            return $result;
+
+        } catch (PDOException $e) {
+            // Manejar errores de base de datos
+            // Puedes personalizar este bloque según tus necesidades
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function delete($id){
+        $sql = "DELETE FROM preguntas WHERE id = '$id'";
+        return $this->database->query($sql);
     }
 
     public function getPreguntasByDificultad($dificultad) {

@@ -21,10 +21,12 @@ include_once('controller/ApiController.php');
 include_once("model/userModel.php");
 include_once("model/preguntaModel.php");
 include_once("model/partidaModel.php");
+include_once("model/opcionModel.php");
 
 include_once('services/PartidaService.php');
 include_once('services/PreguntaService.php');
 include_once('services/UsuarioService.php');
+include_once('services/OpcionService.php');
 
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
@@ -43,14 +45,16 @@ class Configuracion {
             'user' => 'userModel',
             'pregunta' => 'preguntaModel',
             'partida' => 'partidaModel',
-            'categoria' => 'categoriaModel'
+            'categoria' => 'categoriaModel',
+            'opcion' => 'opcionModel',
         ];
 
         $this->services = [
             'UsuarioService' => ['model' => ['user']],
             'PreguntaService' => [ 'model' => ['pregunta']],
             'PartidaService' => [ 'model' => ['partida']],
-            'CategoriaService' => [ 'model' => ['categoria']]
+            'CategoriaService' => [ 'model' => ['categoria']],
+            'OpcionService' => [ 'model' => ['opcion']]
         ];
 
         $this->controllers = [
@@ -61,8 +65,8 @@ class Configuracion {
             'PreguntaController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','PartidaService']],
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
-            'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService']],
-            'ApiController' => ['service' => ['PreguntaService']],
+            'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','OpcionService']],
+            'ApiController' => ['service' => ['PreguntaService','OpcionService']],
         ];
     }
 

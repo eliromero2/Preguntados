@@ -39,10 +39,18 @@ class PreguntaService
     }
 
     public function updatePregunta($data){
-        Logger::json($data);
-        $this->model->update($data);
-        return $this->model->all();
+        $jsonData = json_decode($data);
+        return $this->model->update($jsonData);
     }
+
+    public function createPregunta($data){
+        return $this->model->create($data);
+    }
+
+    public function deletePregunta($id){
+        return $this->model->delete($id);
+    }
+
 
     public function getModules(){
         return $this->model->getModules();
