@@ -156,7 +156,7 @@ class Configuracion {
         switch ($controllerName){
             case 'ApiController':
                 return new $controllerName(...$services);
-            case 'RegristroController':
+            case 'RegistroController':
                 return new $controllerName($this->getRender(),$this->getMailer(),...$services);
             default:
                 return new $controllerName($this->getRender(),...$services);

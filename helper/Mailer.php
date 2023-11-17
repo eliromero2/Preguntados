@@ -19,13 +19,13 @@ class Mailer
         $this->mail->setFrom($username, 'Administrador');
     }
 
-    public function enviarCorreoConfirmacion($correoDestinatario,$nombreUsuario,$nickUsuario,$passwordUsuario) {
+    public function enviarCorreoConfirmacion($correoDestinatario,$nombreUsuario,$passwordUsuario) {
 
         $this->mail->addAddress($correoDestinatario, 'usuario');
         //$mail->addAttachment('/var/tmp/file.tar.gz');
         //Content
         $subject = 'Verificacion de cuenta';
-        $body = 'Su Correo ha sido verificado con Exito, Bienvenido '.$nombreUsuario.' !</br> <b>Datos de la Cuenta: </b></br><b>Usuario: '.$nickUsuario.'</br>Contraseña: '.$passwordUsuario.'</b>';
+        $body = 'Su Correo ha sido verificado con Exito, Bienvenido '.$nombreUsuario.' !</br> <b>Datos de la Cuenta: </b></br><b>Usuario: '.$nombreUsuario.'</br>Contraseña: '.$passwordUsuario.'</b>';
 
         $this->prepareMail($subject, $body);
     }
