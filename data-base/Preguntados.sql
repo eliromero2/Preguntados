@@ -42,10 +42,8 @@ CREATE TABLE preguntas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pregunta TEXT NOT NULL,
     estado VARCHAR(255) NOT NULL,
-    modulo VARCHAR(100),
     verificada VARCHAR(2) DEFAULT 'NO',
     accesible VARCHAR(2) DEFAULT 'NO',
-    tipo VARCHAR(100) NOT NULL,
     entregadas INT(10) DEFAULT 0,
     contestada INT(10) DEFAULT 0,
     id_modulo INT,
@@ -79,7 +77,7 @@ CREATE TABLE opciones (
 INSERT INTO modulos(id,name) VALUES (1,'MVC / POO'), (2,'Introducción a HTTP y a las Aplicaciones Web');
 INSERT INTO tipos(id,name) VALUES (1,'Opciones con respuesta única');
 
-INSERT INTO preguntas(pregunta,estado,modulo,verificada,accesible,tipo) VALUES
+INSERT INTO preguntas(pregunta,estado,id_modulo,verificada,accesible,id_tipo) VALUES
     ('Si en un script PHP encuentra una llamada a un método de clase de la siguiente manera: Usuario::traerUsuario(); Se trata de:', 'ACTIVA', 1, 'NO', 'NO', 1),
     ('Cuando utilizo una Clase en forma estática siempre se ejecuta el método __construct()', 'ACTIVA', 1, 'SI', 'NO', 1),
     ('La S del acrónimo SOLID es por el concepto Single Responsibility, que indica:', 'ACTIVA', 1, 'SI', 'NO', 1),

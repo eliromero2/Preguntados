@@ -21,6 +21,7 @@ class preguntaModel{
             return false;
         }
 
+
         foreach ($resultado as &$row) {
             $row['opciones'] = explode(';', $row['opciones']);
             $row['opciones_correctas'] = explode(';', $row['opciones_correctas']);
@@ -107,10 +108,49 @@ class preguntaModel{
     }
 
     public function update($data){
-        $sql = "SELECT COUNT(pregunta) total FROM preguntas";
-        $result = $this->database->query($sql);
-        $total = intval($result[0]['total']);
-        return rand(1,$total);
+        try {
+            $accesible = $data->accesible ?? null;
+            $sql = "UPDATE preguntas SET 
+                pregunta = '$data->pregunta',
+                estado = '$data->estado',
+                accesible = '$accesible',
+                id_modulo = '$data->id_modulo',
+                id_tipo = '$data->id_tipo',
+                dificultad_id = '$data->dificultad_id'
+            WHERE id = '$data->pregunta_id'";
+
+            $result = $this->database->query($sql);
+
+            return $result;
+
+        } catch (PDOException $e) {
+            // Manejar errores de base de datos
+            // Puedes personalizar este bloque según tus necesidades
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function create($data){
+        try {
+            $accesible = $data->accesible ?? null;
+            $sql = "INSERT INTO preguntas (pregunta, estado, accesible, id_modulo, id_tipo, dificultad_id)  VALUES ('$data->pregunta', '$data->estado','$accesible','$data->id_modulo','$data->id_tipo','$data->dificultad_id')";
+
+            $result = $this->database->query($sql);
+
+            return $result;
+
+        } catch (PDOException $e) {
+            // Manejar errores de base de datos
+            // Puedes personalizar este bloque según tus necesidades
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function delete($id){
+        $sql = "DELETE FROM preguntas WHERE id = '$id'";
+        return $this->database->query($sql);
     }
 
     public function getPreguntasByDificultad($dificultad) {
@@ -135,6 +175,27 @@ class preguntaModel{
         }
 
         return $resultado;
+    }
+
+    public function getAllTypes(){
+        $sql = "SELECT id, name FROM tipos";
+        $types = $this->database->select($sql);
+
+        return $types;
+    }
+
+    public function getAllModules(){
+        $sql = "SELECT id, name FROM modulos";
+        $modules = $this->database->select($sql);
+
+        return $modules;
+    }
+
+    public function getAllLevels(){
+        $sql = "SELECT id, dificultad FROM dificultad_preguntas";
+        $levels = $this->database->select($sql);
+
+        return $levels;
     }
 
 }

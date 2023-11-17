@@ -39,10 +39,18 @@ class PreguntaService
     }
 
     public function updatePregunta($data){
-        Logger::dd($data);
-        $this->model->update($data);
-        return $this->model->all();
+        $jsonData = json_decode($data);
+        return $this->model->update($jsonData);
     }
+
+    public function createPregunta($data){
+        return $this->model->create($data);
+    }
+
+    public function deletePregunta($id){
+        return $this->model->delete($id);
+    }
+
 
     public function getModules(){
         return $this->model->getModules();
@@ -50,5 +58,17 @@ class PreguntaService
 
     public function getAllBy($moduleName){
         return $this->model->getAllBy($moduleName);
+    }
+
+    public function getAllTypes(){
+        return $this->model->getAllTypes();
+    }
+
+    public function getAllModules(){
+        return $this->model->getAllModules();
+    }
+
+    public function getAllLevels(){
+        return $this->model->getAllLevels();
     }
 }
