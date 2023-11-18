@@ -23,6 +23,7 @@ class RankingController{
 
     public function list() {
         $data = [
+            'userSession' => $this->userService->getCurrentSession(),
             'partidas' => $this->partidaService->getPartidas(),
             'userSession' => $this->userService->getCurrentSession(),
         ];

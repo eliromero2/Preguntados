@@ -83,6 +83,29 @@
                             <input type="text" value="{{formulario.ciudad}}" name="ciudad" id="ciudad" class="form-control">
                         </div>
                     </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class=form-group">
+                            <label class="form-label">Latitud:</label>
+                            <input id="lat" value="{{formulario.lat}}" type="text" name="lat" class="form-control" disabled >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class=form-group">
+                            <label class="form-label">Longitud:</label>
+                            <input id="lng" value="{{formulario.lng}}" type="text" name="lng" class="form-control" disabled >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class=form-group">
+                            <label class="form-label">Dirección:</label>
+                            <input id="direccion" value="{{formulario.direccion}}" type="text" name="direccion" class="form-control" disabled >
+                        </div>
+                    </div>
 
                     <div class="col-sm-12 col-xl-4">
                         <div class="form-group">
@@ -92,11 +115,92 @@
                     </div>
                 </div>
             </div>
+            <div id="map" style="margin-left: 35px; width:50%; float:left; height:502px"></div>
+    <script>
+    var map;
+    var markers = [];
+    var geocoder;
+
+      function initMap() {
+        var myLatlng = {lat: -34.6707576, lng: -58.5628052};
+        
+        var mapOptions = {
+            zoom: 14,
+            center: myLatlng,
+            scrollwheel: false,
+            streetViewControl: false,
+            mapTypeControl: false
+        };
+
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        map.addListener("click", (mapsMouseEvent) => {
+            deleteMarkers();
+            addMarker(mapsMouseEvent.latLng, map);
+            showMarkers();
+        });
+
+      }
+
+        function addMarker(location, map) {
+            var marker = new google.maps.Marker({
+              position: location,
+              map: map
+            });
+            
+            document.getElementById('lat').value=location.lat();
+            document.getElementById('lng').value=location.lng();
+            getAddress(location);
+            markers.push(marker);
+        }
+
+        function getAddress(latLng) {
+            geocoder.geocode( {'latLng': latLng},
+            function(results, status) {
+                if(status == google.maps.GeocoderStatus.OK) {
+                    if(results[0]) {
+                        document.getElementById("direccion").value = results[0].formatted_address;
+                    }
+                    else {
+                        document.getElementById("direccion").value = "No results";
+                    }
+                }
+                else {
+                    document.getElementById("direccion").value = status;
+                }
+            });
+        }
+
+          function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+              markers[i].setMap(map);
+            }
+          }
+
+          // Removes the markers from the map, but keeps them in the array.
+          function clearMarkers() {
+            setMapOnAll(null);
+          }
+
+          // Shows any markers currently in the array.
+          function showMarkers() {
+            setMapOnAll(map);
+          }
+
+          // Deletes all markers in the array by removing references to them.
+          function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+          }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZ4U0tSPDNKv8sDaK-cpPbU7z2IzvxuEA&callback=initMap">
+    </script>
             <div class="my-3">
             <button type="submit" class="btn btn-dark btn-lg">{{submitText}}</button>
             </div>
         </form>
 </div>
-
 </body>
 </html>

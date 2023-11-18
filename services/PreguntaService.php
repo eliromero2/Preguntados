@@ -20,8 +20,8 @@ class PreguntaService
         return $this->model->getRandomId();
     }
 
-    public function getPregunta(){
-        $modelResponse = $this->model->getPreguntasDificultadFaciles();
+    public function getPregunta($id){
+        $modelResponse = $this->model->getPreguntaBy($id);
 
         $indexedOpciones = array_map(function($item, $index) use ($modelResponse) {
             return [
@@ -29,18 +29,28 @@ class PreguntaService
                 'opcion' => $item,
                 'opcion_correcta' => $item === $modelResponse['opcion_correcta'] ?? null
             ];
-
         }, $modelResponse['opciones'], array_keys($modelResponse['opciones']));
 
         $modelResponse['opciones'] = $indexedOpciones;
+
+        //Logger::dd($modelResponse);
 
         return $modelResponse;
     }
 
     public function updatePregunta($data){
-        $this->model->update($data);
-        return $this->model->all();
+        $jsonData = json_decode($data);
+        return $this->model->update($jsonData);
     }
+
+    public function createPregunta($data){
+        return $this->model->create($data);
+    }
+
+    public function deletePregunta($id){
+        return $this->model->delete($id);
+    }
+
 
     public function getModules(){
         return $this->model->getModules();
@@ -50,7 +60,15 @@ class PreguntaService
         return $this->model->getAllBy($moduleName);
     }
 
-    public function getDificultadPregunta($idPregunta){
-        return $this->model->getDificultadPregunta($idPregunta);
+    public function getAllTypes(){
+        return $this->model->getAllTypes();
+    }
+
+    public function getAllModules(){
+        return $this->model->getAllModules();
+    }
+
+    public function getAllLevels(){
+        return $this->model->getAllLevels();
     }
 }

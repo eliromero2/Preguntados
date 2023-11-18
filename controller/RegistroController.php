@@ -31,6 +31,9 @@ class RegistroController{
         $pais=$_POST['pais'];
         $ciudad=$_POST['ciudad'];
         $user_name=$_POST['user_name'];
+        $lat=$_POST['lat'];
+        $lng=$_POST['lng'];
+        $direccion=$_POST['direccion'];
         $image_path=null;
         $extension_image = ".jpg";
 
@@ -49,7 +52,10 @@ class RegistroController{
             'sexo'=>$_POST['sexo'],
             'pais'=>$_POST['pais'],
             'ciudad'=>$_POST['ciudad'],
-            'user_name'=>$_POST['user_name']];
+            'user_name'=>$_POST['user_name'],
+            'lat'=>$_POST['lat'],
+            'lng'=>$_POST['lng'],
+            'direccion'=>$_POST['direccion']];
 
             unset( $_SESSION['error']);
             $this->render->printView('registro',$data);
@@ -69,8 +75,10 @@ class RegistroController{
                 'sexo' => $_POST['sexo'],
                 'pais' => $_POST['pais'],
                 'ciudad' => $_POST['ciudad'],
-                'user_name' => $_POST['user_name']
-            ];
+                'user_name' => $_POST['user_name'],
+                'lat' => $_POST['lat'],
+                'lng' => $_POST['lng'],
+                'direccion' => $_POST['direccion']];
 
             unset($_SESSION['error']);
             $this->render->printView('registro', $data);
@@ -80,8 +88,8 @@ class RegistroController{
                 $image_path = $user_name;
             }
             try {
-                $this->userService->registrar($nombre_completo, $ano_nacimiento, $sexo, $pais, $ciudad, $email, $password, $user_name, $image_path);
-                $this->mailer->enviarCorreoConfirmacion($email,$nombre_completo,$user_name,$password);
+                $this->userService->registrar($nombre_completo, $ano_nacimiento, $sexo, $pais, $ciudad, $email, $password, $user_name, $image_path, $lat, $lng, $direccion);
+                $this->mailer->enviarCorreoConfirmacion($email, $user_name, $password);
 
             } catch (\Exception $e) {
                 $_SESSION['error'] = $e->getMessage();

@@ -25,8 +25,8 @@ class UsuarioService
         return $modelResponse;
     }
 
-    public function registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path){
-        $data = [$nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path];
+    public function registrar($nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path,$lat,$lng,$direccion){
+        $data = [$nombre_completo,$ano_nacimiento,$sexo,$pais,$ciudad,$mail,$password,$user_name,$image_path,$lat,$lng,$direccion];
 
         $modelResponse = $this->model->registrar(...$data);
 
