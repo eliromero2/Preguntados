@@ -23,13 +23,19 @@ class PerfilController{
 
         unset($_SESSION['error']);
 
+        $userId = $_SESSION['user']['id'];
+
+        $userData = $this->userService->getUserById($userId);
+
+        $data['userData'] = $userData;
+
         $dir='public/qr/';
 
         if(!file_exists($dir)){
             mkdir($dir);
         }
         $nombreArchivo=$dir.'qrPerfil.png';
-        $tamanio=10;
+        $tamanio=7;
         $level='Q';
         $framesize=3;
         $contenido= 'http://localhost/perfil/list';

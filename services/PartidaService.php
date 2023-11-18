@@ -27,5 +27,9 @@ class PartidaService
 
     }
 
+    public function getPartidasUser($id){
+        return $this->model->getPartidasUser($id);
+    }
+
 
 }
