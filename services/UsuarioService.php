@@ -33,4 +33,9 @@ class UsuarioService
         return $modelResponse;
     }
 
+    public function getUserById($id){
+        $modelResponse=$this->model->getUserById($id);
+        return $modelResponse;
+    }
+
 }

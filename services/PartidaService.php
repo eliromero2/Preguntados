@@ -31,6 +31,11 @@ class PartidaService
 
     public function actualizarPartida($user_id, $puntaje){
         $this->model->actualizarPartida($user_id, $puntaje);
+
+    }
+
+    public function getPartidasUser($id){
+        return $this->model->getPartidasUser($id);
     }
 
 

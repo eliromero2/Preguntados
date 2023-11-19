@@ -6,12 +6,14 @@
                     <div class="progress">
                         <div id="barraProgreso" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                     </div>
+
                     <form id="formulario-pregunta" method="post" action="/pregunta/validarOpcion">
                         <input type="hidden" name="id" value="{{pregunta_id}}">
 
                         <div class="card card-body mb-5">
                             <div class="card-section mb-3">
                                 <h5 class="card-title">Mi puntaje es: {{puntaje}}</h5>
+                                <h5 class="card-title">La dificultad de la pregunta es: {{dificultad}}</h5>
                                 <input type="hidden" id="puntaje" name="puntaje" value={{puntaje}} >
                             </div>
                             <div class="card-section mb-3">
@@ -38,6 +40,9 @@
                         <p>{{opcionEsCorrecta}}</p>
                         <button type="submit" class="btn btn-primary">Validar Respuestas</button>
                     </form>
+                {{#partidaSesion}}
+                    <pre>{{.}}</pre>
+                    {{/partidaSesion}}
                 </div>
             {{/pregunta}}
 
