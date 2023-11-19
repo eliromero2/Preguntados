@@ -27,7 +27,7 @@ class RankingController{
             'partidas' => $this->partidaService->getPartidas(),
             'userSession' => $this->userService->getCurrentSession(),
         ];
-
+        
         $this->render->authView($data['userSession'],'ranking', $data,'/login');
     }
 
