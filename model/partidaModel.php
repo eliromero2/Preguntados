@@ -1,6 +1,6 @@
 <?php
 
-class partidaModel{
+class  partidaModel{
 
     private $database;
     public function __construct($database){
@@ -31,7 +31,7 @@ class partidaModel{
 
         $resultado = $this->database->select($sql);
 
-        return $resultado;
+        return $resultado[0];
     }
 
     public function getPartidasUser($id){
