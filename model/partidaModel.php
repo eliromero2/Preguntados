@@ -27,8 +27,29 @@ class  partidaModel{
          $this->database->query($sqlUpdate);
 
     }
-    public function getPartidas(){
-        $sql = "SELECT user_id, SUM(puntaje) as puntaje FROM partidas group by user_id";
+
+    public function getPartidaPuntaje($user_id){
+
+        $sql = "SELECT id, puntaje FROM partidas WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
+        $resultado = $this->database->select($sql);
+
+        if (isset($resultado[0]['id'])) {
+           return $resultado[0];
+        }
+
+        return false;
+    }
+
+    public function getPartidas($sort = false){
+        if($sort){
+            $sql = "SELECT users.id as user_id ,users.user_name as name, SUM(partidas.puntaje) as puntaje
+                        FROM partidas
+                        JOIN users ON partidas.user_id = users.id
+                        GROUP BY users.id
+                        ORDER BY puntaje DESC";
+        }else{
+            $sql = "SELECT user_id, SUM(puntaje) as puntaje FROM partidas group by user_id";
+        }
 
         $resultado = $this->database->select($sql);
 

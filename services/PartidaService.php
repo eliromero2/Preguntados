@@ -23,7 +23,7 @@ class PartidaService
     }
 
     public function getPartidasAPI(){
-        $modelRespose['partidas'] = $this->model->getPartidas();
+        $modelRespose['partidas'] = $this->model->getPartidas(true);
         $modelRespose['cantidad_partidas'] = count($modelRespose['partidas']);
 
         return $modelRespose;
@@ -38,5 +38,10 @@ class PartidaService
         return $this->model->getPartidasUser($id);
     }
 
+    public function getPartidaPuntaje($session){
+        $user_id = $session['user']['id'];
+        $puntaje = $this->model->getPartidaPuntaje($user_id);
 
+        return $puntaje['puntaje'];
+    }
 }

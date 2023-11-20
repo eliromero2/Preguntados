@@ -28,16 +28,13 @@ class PreguntaController{
 
     public function show(){
         $data['userSession'] = $this->userService->getCurrentSession();
-        $data['puntaje'] = 0;
+        $data['puntaje'] = $this->partidaService->getPartidaPuntaje($data['userSession']);
+
 
         $idPregunta = $_GET['params'] ?? $this->preguntaService->getRandomId();
-
-
-
-        $_SESSION['id_pregunta_actual'] = $idPregunta;
         $_SESSION['tiempo_inicio'] = time();
         $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta, true);
-       // Logger::dd($data['pregunta']);
+
         $this->render->printView('pregunta',$data);
     }
 
@@ -79,6 +76,8 @@ class PreguntaController{
 
             $idPregunta = $this->preguntaService->getRandomId();
             $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
+
+            Redirect::to("/pregunta/show/$idPregunta");
 
         }else{
             $data['opcionEsCorrecta']= "fin ";

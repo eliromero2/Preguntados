@@ -43,7 +43,8 @@ class ApiController
     }
 
     public function partidasJugadas(){
-        echo json_encode($this->partidaService->getPartidasAPI());
+        $partidas = $this->partidaService->getPartidasAPI();
+        echo json_encode($partidas);
     }
 
 }

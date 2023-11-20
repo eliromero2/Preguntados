@@ -69,5 +69,10 @@ class userModel{
         return $resultado;
     }
 
+    public function getByUserName($sql){
+        $resultado = $this->database->select($sql);
+        return $resultado;
+    }
+
 
 }

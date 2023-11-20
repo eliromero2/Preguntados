@@ -6,6 +6,7 @@
                 <thead>
                 <tr>
                     <th>User ID</th>
+                    <th>User Name</th>
                     <th>Puntaje</th>
                 </tr>
                 </thead>
@@ -35,10 +36,17 @@
                         const userIdCell = document.createElement("td");
                         userIdCell.textContent = partida.user_id;
 
+                        const userNameCell = document.createElement("td");
+                        const userLink = document.createElement("a");
+                        userLink.textContent = partida.name;
+                        userLink.href = `/perfil/show/${partida.name}`;
+                        userNameCell.appendChild(userLink);
+
                         const puntajeCell = document.createElement("td");
                         puntajeCell.textContent = partida.puntaje;
 
                         row.appendChild(userIdCell);
+                        row.appendChild(userNameCell);
                         row.appendChild(puntajeCell);
 
                         tbody.appendChild(row);
