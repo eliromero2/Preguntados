@@ -3,8 +3,8 @@
 
             {{#pregunta}}
                 <div class="col mb-3">
-                    <div class="progress">
-                        <div id="barraProgreso" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    <div class="progress my-2">
+                        <div id="barraProgreso" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
 
                     <form id="formulario-pregunta" method="post" action="/pregunta/validarOpcion">
@@ -16,9 +16,14 @@
                                 <h5 class="card-title">La dificultad de la pregunta es: {{dificultad}}</h5>
                                 <input type="hidden" id="puntaje" name="puntaje" value={{puntaje}} >
                             </div>
-                            <div class="card-section mb-3">
-                                <h5 class="card-title">Pregunta:</h5>
-                                <p class="card-text">{{pregunta}}</p>
+                            <div class="d-flex justify-content-between ">
+                                <div class="card-section mb-3">
+                                    <h5 class="card-title">Pregunta:</h5>
+                                    <p class="card-text">{{pregunta}}</p>
+                                </div>
+                                <div class="card-section mb-3 d-flex align-content-center">
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#reportingModal">Reportar Pregunta</button>
+                                </div>
                             </div>
                             <div class="card-section mb-3">
                                 <h5 class="card-title">Opciones:</h5>
@@ -78,9 +83,41 @@
                 </div>
             {{/preguntasByModule}}
 
+            <div class="modal" id="reportingModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modal Heading</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form id="reportingModalForm">
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <label for="">Caso:</label>
+                                <select class="form-select mb-3" name="caso" required >
+                                    <option value="pregunta mal escrita">Pregunta mal escrita</option>
+                                    <option value="La respuesta no es la correcta">La respuesta no es la correcta</option>
+                                </select>
+                                <label for="">Comentario:</label>
+                                <textarea class="form-control"  name="comentario" cols="20" rows="10" placeholder="Escriba brevemente el problema que experimenta" required></textarea>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Reportar</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
             <script>
 
-                var duracionMaxima = 30; // Duración máxima en segundos
+                var duracionMaxima = 100000; // Duración máxima en segundos
                 var tiempoRestante = duracionMaxima;
 
                 // Actualiza la barra de progreso cada segundo
@@ -100,6 +137,23 @@
                         document.getElementById('formulario-pregunta').submit();
                     }
                 }, 1000); // 1000 milisegundos = 1 segundo
+                const inputId = document.querySelector("form#formulario-pregunta > input[name='id']");
+                console.log({asd: inputId.value})
+                const reportPregunta = (e) =>{
+
+                    let options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formValues)
+                    };
+
+                    fetch(`api/reportPregunta/${input.value}`, options)
+                            .then(res => res.json())
+                            .then( data => console.log({data}))
+                            .catch(err => console.error({err}))
+                }
             </script>
         </div>
 </main>
