@@ -2,7 +2,7 @@
     <section class="row">
         <article class="col-12">
             <h1>Ranking</h1>
-            <table class="table table-striped">
+            <table id="tableRanking" class="table table-striped">
                 <thead>
                 <tr>
                     <th>User ID</th>
@@ -10,14 +10,47 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#partidas}}
-                    <tr>
-                        <td>{{user_id}}</td>
-                        <td>{{puntaje}}</td>
-                    </tr>
-                {{/partidas}}
                 </tbody>
             </table>
         </article>
     </section>
 </main>
+<script>
+    fetch(`/api/partidasJugadas`)
+            .then(res => res.json())
+            .then(data => {
+                console.log({data})
+
+                if(data["cantidad de partida"] !== 0){
+                    const tableElement = document.getElementById("tableRanking");
+                    const tbody = tableElement.querySelector("tbody");
+
+                    // Limpiar el cuerpo de la tabla antes de agregar nuevos elementos
+                    tbody.innerHTML = "";
+
+                    // Crear filas de datos
+                    data.partidas.forEach(partida => {
+                        const row = document.createElement("tr");
+
+                        const userIdCell = document.createElement("td");
+                        userIdCell.textContent = partida.user_id;
+
+                        const puntajeCell = document.createElement("td");
+                        puntajeCell.textContent = partida.puntaje;
+
+                        row.appendChild(userIdCell);
+                        row.appendChild(puntajeCell);
+
+                        tbody.appendChild(row);
+                    });
+                }else{
+                    console.log("No hay nada")
+                }
+
+            })
+            .catch(err => console.error({err}))
+
+
+
+
+</script>

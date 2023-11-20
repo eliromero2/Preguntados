@@ -4,10 +4,12 @@ class ApiController
 {
     private $preguntaService;
     private $opcionService;
+    private $partidaService;
 
-    public function __construct($preguntaService, $opcionService){
+    public function __construct($preguntaService, $opcionService, $partidaService){
         $this->preguntaService = $preguntaService;
         $this->opcionService = $opcionService;
+        $this->partidaService = $partidaService;
     }
 
     public function pregunta(){
@@ -38,6 +40,10 @@ class ApiController
         ];
 
         echo json_encode($response);
+    }
+
+    public function partidasJugadas(){
+        echo json_encode($this->partidaService->getPartidasAPI());
     }
 
 }

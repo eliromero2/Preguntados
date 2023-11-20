@@ -68,7 +68,7 @@ class Configuracion {
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','OpcionService']],
-            'ApiController' => ['service' => ['PreguntaService','OpcionService']],
+            'ApiController' => ['service' => ['PreguntaService','OpcionService', 'PartidaService']],
             'PerfilController' => ['render','service' => ['UsuarioService']],
         ];
     }

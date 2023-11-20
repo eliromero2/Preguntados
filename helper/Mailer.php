@@ -6,7 +6,7 @@ class Mailer
 
     public function __construct($username, $password, $port,$host) {
         $this->mail = new \PHPMailer\PHPMailer\PHPMailer();
-        $this->mail->SMTPDebug = \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+        $this->mail->SMTPDebug = 0; // \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
         $this->mail->isSMTP();
         $this->mail->Host = $host;
         $this->mail->SMTPAuth = true;

@@ -31,7 +31,7 @@ class  partidaModel{
 
         $resultado = $this->database->select($sql);
 
-        return $resultado[0];
+        return $resultado;
     }
 
     public function getPartidasUser($id){
