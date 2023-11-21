@@ -48,6 +48,10 @@ class PerfilController{
     }
 
     public function show(){
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $data['error'] = @$_SESSION['error'];
+
+        unset($_SESSION['error']);
         $user = $this->userService->getByUserName($_GET['params']);
         $userName = $user['user_name'];
         $data['userData'] = $user;

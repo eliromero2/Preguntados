@@ -74,5 +74,24 @@ class userModel{
         return $resultado;
     }
 
+    public function getUsuarios(){
+        $sql = "SELECT * FROM users";
+        $resultado = $this->database->select($sql);
+        return $resultado;
+    }
+
+    public function getEdadUsuarios(){
+        $sql="SELECT 
+                    id,
+                    nombre_completo,
+                    ano_nacimiento,
+                    YEAR(CURDATE()) - ano_nacimiento AS edad
+                  FROM users";
+        $resultado = $this->database->select($sql);
+
+        return $resultado;
+
+    }
+
 
 }

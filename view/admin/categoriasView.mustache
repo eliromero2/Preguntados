@@ -1,21 +1,21 @@
 <main class="container mt-5">
     <section class="row">
         <article class="col-12">
-            <h1>Historial de Partidas</h1>
+            <h1>Categorias registradas</h1>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>ID Partida</th>
-                    <th>Puntaje</th>
+                    <th>Categorias</th>
+
+
                 </tr>
                 </thead>
                 <tbody>
-                {{#partidas}}
+                {{#categorias}}
                     <tr>
-                        <td>{{id}}</td>
-                        <td>{{puntaje}}</td>
+                        <td>{{id_modulo}}</td>
                     </tr>
-                {{/partidas}}
+                {{/categorias}}
                 </tbody>
             </table>
         </article>

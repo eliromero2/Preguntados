@@ -45,4 +45,14 @@ class UsuarioService
         return $modelResponse;
     }
 
+    public function getEdadUsuarios(){
+        $modelResponse=$this->model->getEdadUsuarios();
+        return $modelResponse;
+    }
+
+    public function getUsuarios(){
+        $modelResponse=$this->model->getUsuarios();
+        return $modelResponse;
+    }
+
 }

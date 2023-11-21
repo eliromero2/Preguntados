@@ -17,7 +17,9 @@ class HomeController{
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['error'] = @$_SESSION['error'];
 
+
         unset($_SESSION['error']);
+
 
        // Logger::dd($data, $_SESSION);
         

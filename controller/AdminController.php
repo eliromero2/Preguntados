@@ -1,4 +1,5 @@
 <?php
+require('third-party/fpdf/fpdf.php');
 class AdminController{
 
     private $userService;
@@ -79,24 +80,49 @@ class AdminController{
 
     public function usuarios() {
         $data['userSession'] = $this->userService->getCurrentSession();
-        $data['error'] = $_SESSION['error'];
+        $data['error'] = @$_SESSION['error'];
         $userRow = $data['userSession']['user'];
         unset($_SESSION['error']);
+
+        $data['usuarios']=$this->userService->getUsuarios();
         
-        $this->render->adminView($userRow,'admin/index', $data);
+        $this->render->adminView($userRow,'admin/usuarios', $data);
     }
 
     public function categorias() {
         $data['userSession'] = $this->userService->getCurrentSession();
-        $data['error'] = $_SESSION['error'];
+        $data['error'] = @$_SESSION['error'];
         $userRow = $data['userSession']['user'];
         unset($_SESSION['error']);
+
+        $data['categorias']=$this->preguntaService->getModules();
         
-        $this->render->adminView($userRow,'admin/index', $data);
+        $this->render->adminView($userRow,'admin/categorias', $data);
     }
 
     public function test(){
         $modelRespose = $this->preguntaService->getPregunta("1");
         echo json_encode(['userSession' => $modelRespose]);
+    }
+
+    public function reporte(){
+
+        /*$pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,'¡Hola, Mundo!');
+        $pdf->Output();*/
+
+
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $data['error'] = @$_SESSION['error'];
+        $userRow = $data['userSession']['user'];
+        unset($_SESSION['error']);
+
+        $data['edad'] = $this->userService->getEdadUsuarios();
+
+        $data['edad_json'] = json_encode($data['edad']);
+
+        $this->render->adminView($userRow,'admin/chart', $data);
     }
 }

@@ -32,7 +32,7 @@ class preguntaModel{
 
 
     public function getModules(){
-        $sql="SELECT DISTINCT modulo FROM preguntas";
+        $sql="SELECT DISTINCT id_modulo FROM preguntas";
         $resultado = $this->database->select($sql);
 
         if (!$resultado || count($resultado) === 0) {
