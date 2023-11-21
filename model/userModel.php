@@ -63,5 +63,16 @@ class userModel{
         return $data;
     }
 
+    public function getUserById($id){
+        $sql = "SELECT * FROM users WHERE id = $id";
+        $resultado = $this->database->select($sql);
+        return $resultado;
+    }
+
+    public function getByUserName($sql){
+        $resultado = $this->database->select($sql);
+        return $resultado;
+    }
+
 
 }

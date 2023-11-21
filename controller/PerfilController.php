@@ -23,13 +23,19 @@ class PerfilController{
 
         unset($_SESSION['error']);
 
+        $userId = $_SESSION['user']['id'];
+
+        $userData = $this->userService->getUserById($userId);
+
+        $data['userData'] = $userData;
+
         $dir='public/qr/';
 
         if(!file_exists($dir)){
             mkdir($dir);
         }
         $nombreArchivo=$dir.'qrPerfil.png';
-        $tamanio=10;
+        $tamanio=7;
         $level='Q';
         $framesize=3;
         $contenido= 'http://localhost/perfil/list';
@@ -37,6 +43,33 @@ class PerfilController{
         QRcode::png($contenido,$nombreArchivo,$level,$tamanio,$framesize);
 
         $data['qrPerfil']=$nombreArchivo;
+
+        $this->render->printView('perfil', $data);
+    }
+
+    public function show(){
+        $user = $this->userService->getByUserName($_GET['params']);
+        $userName = $user['user_name'];
+        $data['userData'] = $user;
+
+        $dir='public/qr/';
+        if(!file_exists($dir)){
+            mkdir($dir);
+        }
+
+        $nombreArchivo= $dir . $userName.'qrPerfil.png';
+        if(!file_exists($nombreArchivo)){
+            $tamanio=7;
+            $level='Q';
+            $framesize=3;
+            $contenido= 'http://localhost/perfil/show/'.$userName;
+
+            QRcode::png($contenido,$nombreArchivo,$level,$tamanio,$framesize);
+
+            $data['qrPerfil']=$nombreArchivo;
+        }else{
+            $data['qrPerfil']=$nombreArchivo;
+        }
 
         $this->render->printView('perfil', $data);
     }

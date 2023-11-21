@@ -7,6 +7,7 @@ include_once("helper/Logger.php");
 include_once('helper/Redirect.php');
 include_once('helper/Request.php');
 include_once('helper/Mailer.php');
+include_once('helper/Sesion.php');
 
 include_once('controller/LoginController.php');
 include_once('controller/RegistroController.php');
@@ -68,7 +69,7 @@ class Configuracion {
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','OpcionService']],
-            'ApiController' => ['service' => ['PreguntaService','OpcionService']],
+            'ApiController' => ['service' => ['PreguntaService','OpcionService', 'PartidaService']],
             'PerfilController' => ['render','service' => ['UsuarioService']],
         ];
     }

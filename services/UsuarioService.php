@@ -33,4 +33,16 @@ class UsuarioService
         return $modelResponse;
     }
 
+    public function getUserById($id){
+        $modelResponse=$this->model->getUserById($id);
+        return $modelResponse;
+    }
+
+    public function getByUserName($userName){
+        $sql = "SELECT * FROM users WHERE user_name = '$userName'";
+        $modelResponse = $this->model->getByUserName($sql);
+
+        return $modelResponse;
+    }
+
 }
