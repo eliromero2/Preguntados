@@ -28,8 +28,6 @@ class RegistroController{
         $passwordConfirmacion=$_POST['password_confirm'];
         $ano_nacimiento =$_POST['ano_nacimiento'];
         $sexo=$_POST['sexo'];
-        $pais=$_POST['pais'];
-        $ciudad=$_POST['ciudad'];
         $user_name=$_POST['user_name'];
         $lat=$_POST['lat'];
         $lng=$_POST['lng'];
@@ -50,8 +48,6 @@ class RegistroController{
             'mail' => $_POST['mail'],
             'ano_nacimiento' =>$_POST['ano_nacimiento'],
             'sexo'=>$_POST['sexo'],
-            'pais'=>$_POST['pais'],
-            'ciudad'=>$_POST['ciudad'],
             'user_name'=>$_POST['user_name'],
             'lat'=>$_POST['lat'],
             'lng'=>$_POST['lng'],
@@ -73,8 +69,6 @@ class RegistroController{
                 'password_confirm' => $_POST['password_confirm'],
                 'ano_nacimiento' => $_POST['ano_nacimiento'],
                 'sexo' => $_POST['sexo'],
-                'pais' => $_POST['pais'],
-                'ciudad' => $_POST['ciudad'],
                 'user_name' => $_POST['user_name'],
                 'lat' => $_POST['lat'],
                 'lng' => $_POST['lng'],
@@ -88,8 +82,8 @@ class RegistroController{
                 $image_path = $user_name;
             }
             try {
-                $this->userService->registrar($nombre_completo, $ano_nacimiento, $sexo, $pais, $ciudad, $email, $password, $user_name, $image_path, $lat, $lng, $direccion);
-                $this->mailer->enviarCorreoConfirmacion($email, $user_name, $password);
+                $this->userService->registrar($nombre_completo, $ano_nacimiento, $sexo, $email, $password, $user_name, $image_path, $lat, $lng, $direccion);
+                $this->mailer->enviarCorreoConfirmacion($email, $user_name, -$password);
 
             } catch (\Exception $e) {
                 $_SESSION['error'] = $e->getMessage();

@@ -20,7 +20,6 @@
                             <input type="text" value="{{formulario.nombre_completo}}" name="nombre_completo" required class="form-control">
                         </div>
                     </div>
-
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="form-group">
                             <label class="form-label">Año de Nacimiento:</label>
@@ -34,12 +33,12 @@
                             <select name="sexo" class="form-select">
                                 <option value="Masculino">Masculino</option>
                                 <option value="Femenino">Femenino</option>
-                                <option value="Prefiero no cargarlo" selected>Prefiero no cargarlo </option>
+                                <option value="Prefiero no cargarlo" selected>Prefiero no cargarlo</option>
                             </select>
                         </div>
                     </div>
                 </div>
-
+                <br /> 
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="form-group">
@@ -55,67 +54,54 @@
                     </div>
 
                     <div class="col-sm-12 col-xl-4">
-                    <div class="form-group">
-                        <label class="form-label">Repetir Contraseña:</label>
-                        <input type="password" value="{{formulario.password_confirm}}"  name="password_confirm" required class="form-control">
+                        <div class="form-group">
+                            <label class="form-label">Repetir Contraseña:</label>
+                            <input type="password" value="{{formulario.password_confirm}}"  name="password_confirm" required class="form-control">
+                        </div>
                     </div>
                 </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="row" style="float: left; width: 33%">
+                     <div class="col-sm-12 col-md-6 col-xl-4" style="width: 100%">
+                        <br /> 
                         <div class=form-group">
                             <label class="form-label">Email:</label>
                             <input type="text" value="{{formulario.mail}}" name="mail" required class="form-control">
                         </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-xl-4">
+                    </div>   
+                    <div class="col-sm-12 col-md-6 col-xl-4" style="width: 100%">
+                        <br /> 
                         <div class=form-group">
-                            <label class="form-label">Pais:</label>
-                            <input type="text" value="{{formulario.pais}}" name="pais" id="pais" class="form-control">
+                            <label class="form-label">Dirección:</label>
+                            <input id="direccion" type="text" value="{{formulario.direccion}}" name="direccion" required class="form-control" style="pointer-events: none;background-color:#E9ECEF">
+                        </div>
+
+                    </div>    
+                    <div class="col-sm-12 col-md-6 col-xl-4" style="width: 100%">
+                        <br /> 
+                        <div class="form-group">
+                            <label class="form-label">Foto de Perfil:</label>
+                            <input type="file" name="foto_perfil" accept="public/*" class="form-control">
                         </div>
                     </div>
-
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class=form-group">
-                            <label class="form-label">Ciudad:</label>
-                            <input type="text" value="{{formulario.ciudad}}" name="ciudad" id="ciudad" class="form-control">
+                    <div class="col-sm-12 col-md-6 col-xl-4" style="width: 40%">
+                        <br /> 
+                        <div class="my-3">
+                            <button type="submit" class="btn btn-dark btn-lg">{{submitText}}</button>
                         </div>
                     </div>
                 </div>
-                
+                <div class="row" style="width: 67%">
+                    <div id="map" style="margin: 30px; padding: 0; width:100%; height:400px"></div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class=form-group">
-                            <label class="form-label">Latitud:</label>
-                            <input id="lat" value="{{formulario.lat}}" type="text" name="lat" class="form-control" disabled >
-                        </div>
+                        <input id="lat" type="text" value="{{formulario.lat}}" name="lat" required class="form-control" style="display: none; pointer-events: none;background-color:#E9ECEF">
                     </div>
-
                     <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class=form-group">
-                            <label class="form-label">Longitud:</label>
-                            <input id="lng" value="{{formulario.lng}}" type="text" name="lng" class="form-control" disabled >
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class=form-group">
-                            <label class="form-label">Dirección:</label>
-                            <input id="direccion" value="{{formulario.direccion}}" type="text" name="direccion" class="form-control" disabled >
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-xl-4">
-                        <div class="form-group">
-                            <label class="form-label">Foto de Perfil:</label>
-                            <input type="file" name="foto_perfil" accept="public/*"  class="form-control">
-                        </div>
+                        <input id="lng" type="text" value="{{formulario.lng}}" name="lng" required class="form-control" style="display: none; pointer-events: none;background-color:#E9ECEF">
                     </div>
                 </div>
             </div>
-            <div id="map" style="margin-left: 35px; width:50%; float:left; height:502px"></div>
     <script>
     var map;
     var markers = [];
@@ -197,10 +183,7 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZ4U0tSPDNKv8sDaK-cpPbU7z2IzvxuEA&callback=initMap">
     </script>
-            <div class="my-3">
-            <button type="submit" class="btn btn-dark btn-lg">{{submitText}}</button>
-            </div>
-        </form>
+    </form>
 </div>
 </body>
 </html>
