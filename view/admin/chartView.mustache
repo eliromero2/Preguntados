@@ -3,34 +3,52 @@
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-
-
         google.charts.load('current', {'packages':['corechart']});
-
-
         google.charts.setOnLoadCallback(drawChart);
 
-
         function drawChart() {
-            // Obtiene los datos de edad en formato JSON desde el controlador.
-            var edadData = {{edad_json}};
 
-            // Crea un arreglo de datos para el gráfico de pastel.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Edad');
-            data.addColumn('number', 'Cantidad');
-            for (var edad in edadData) {
-                data.addRow([edad, edadData[edad]]);
-            }
-
-
-            var options = {'title':'Edad de los usuarios',
-                'width':400,
-                'height':300};
+            fetch('/api/getEdadUsuarios')
+                    .then(res => res.json() )
+                    .then((info) => {
+                        const arrayFrom= Array.from(info).map(item => [item.nombre_completo, item.edad])
+                        console.log(arrayFrom)
+                        const data = google.visualization.arrayToDataTable([
+                            ['Nombre', 'Edad'],
+                                ...arrayFrom
+                        ]);
 
 
-            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
+                        var options = {'title':'Edad de los usuarios',
+                            'width':400,
+                            'height':300};
+
+                        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                        chart.draw(data, options);
+                    }).catch(err => console.error(err));
+
+
+        }
+
+        const generatePdf = () => {
+            fetch('/admin/createPDF')
+                    .then(res => res.json() )
+                    .then((info) => {
+                        const arrayFrom= Array.from(info).map(item => [item.nombre_completo, item.edad])
+                        const data = google.visualization.arrayToDataTable([
+                            ['Nombre', 'Edad'],
+                            ...arrayFrom
+                        ]);
+
+
+                        var options = {'title':'Edad de los usuarios',
+                            'width':400,
+                            'height':300
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                        chart.draw(data, options);
+                    }).catch(err => console.error(err));
         }
     </script>
 </head>
@@ -38,5 +56,6 @@
 <body>
 <!--Div that will hold the pie chart-->
 <div id="chart_div"></div>
+<button type="button" onclick="generatePdf()">DAME EL PDF</button>
 </body>
 </html>

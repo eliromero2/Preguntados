@@ -5,11 +5,13 @@ class ApiController
     private $preguntaService;
     private $opcionService;
     private $partidaService;
+    private $userService;
 
-    public function __construct($preguntaService, $opcionService, $partidaService){
+    public function __construct($preguntaService, $opcionService, $partidaService,$userService){
         $this->preguntaService = $preguntaService;
         $this->opcionService = $opcionService;
         $this->partidaService = $partidaService;
+        $this->userService = $userService;
     }
 
     public function pregunta(){
@@ -45,6 +47,11 @@ class ApiController
     public function partidasJugadas(){
         $partidas = $this->partidaService->getPartidasAPI();
         echo json_encode($partidas);
+    }
+
+    public function getEdadUsuarios(){
+        $data['edad'] = $this->userService->getEdadUsuarios();
+        echo json_encode($data['edad']);
     }
 
 }

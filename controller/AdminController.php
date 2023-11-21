@@ -107,22 +107,25 @@ class AdminController{
 
     public function reporte(){
 
-        /*$pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(40,10,'¡Hola, Mundo!');
-        $pdf->Output();*/
-
-
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['error'] = @$_SESSION['error'];
         $userRow = $data['userSession']['user'];
         unset($_SESSION['error']);
 
-        $data['edad'] = $this->userService->getEdadUsuarios();
-
-        $data['edad_json'] = json_encode($data['edad']);
 
         $this->render->adminView($userRow,'admin/chart', $data);
+    }
+
+    public function createPDF(){
+        // Crear un nuevo objeto PDF
+        $pdf = new FPDF();
+        $pdf->AddPage();
+
+        // Agregar HTML al PDF
+        $html = $this->render->printView('admin/chart');
+        $pdf->Write($html,"asd" );
+
+        // Guardar el PDF en el servidor o mostrarlo en el navegador
+        $pdf->Output('example.pdf', 'D');
     }
 }

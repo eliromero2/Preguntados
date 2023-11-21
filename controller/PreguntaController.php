@@ -35,6 +35,8 @@ class PreguntaController{
         $_SESSION['tiempo_inicio'] = time();
         $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta, true);
 
+        Sesion::setPreguntas($data['pregunta']);
+
         $this->render->printView('pregunta',$data);
     }
 
@@ -74,10 +76,15 @@ class PreguntaController{
                 Redirect::to('/juego/ganado');
             }
 
-            $idPregunta = $this->preguntaService->getRandomId();
-            $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
 
-            Redirect::to("/pregunta/show/$idPregunta");
+            //$idPregunta = $this->preguntaService->getRandomId();
+            //$data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
+
+            $preguntas = Sesion::getPreguntas();
+            $preguntasIds = array_column($preguntas, 'id');
+            $siguientePreguntaId = $this->preguntaService->getRandomIdNotInArray($preguntasIds);
+
+            Redirect::to("/pregunta/show/$siguientePreguntaId");
 
         }else{
             $data['opcionEsCorrecta']= "fin ";

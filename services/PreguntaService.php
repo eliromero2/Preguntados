@@ -38,6 +38,14 @@ class PreguntaService
         return $modelResponse;
     }
 
+    public function getRandomIdNotInArray($excludedIds){
+        $randomId = $this->getRandomId();
+        while (in_array($randomId, $excludedIds)) {
+            $randomId = $this->getRandomId();
+        }
+        return $randomId;
+    }
+
     public function updatePregunta($data){
         $jsonData = json_decode($data);
         return $this->model->update($jsonData);

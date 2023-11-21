@@ -9,7 +9,7 @@ CREATE TABLE users (
    sexo ENUM('Masculino', 'Femenino', 'Otro') DEFAULT 'Otro',
    mail VARCHAR(255) NOT NULL,
    lat VARCHAR(30) NOT NULL,
-   lng VARCHAR(300) NOT NULL,
+   lng VARCHAR(255) NOT NULL,
    direccion VARCHAR(255) NOT NULL,
    password VARCHAR(255) NOT NULL,
    user_name VARCHAR(100) UNIQUE NOT NULL,
@@ -261,4 +261,17 @@ CREATE TABLE ranking (
     user_id INT NOT NULL,
     puntaje VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+DROP TABLE IF EXISTS reporte_pregunta;
+CREATE TABLE reporte_pregunta (
+                         id INT AUTO_INCREMENT PRIMARY KEY,
+                         user_id INT NOT NULL,
+                         pregunta_id INT NOT NULL,
+                         caso VARCHAR(120) DEFAULT NULL,
+                         mensaje VARCHAR(255) DEFAULT NULL,
+                         pregunta_id INT NOT NULL,
+                         resuelto VARCHAR(80) NOT NULL,
+                         FOREIGN KEY (user_id) REFERENCES users(id),
+                             FOREIGN KEY (pregunta_id) REFERENCES preguntas(id)
 );
