@@ -22,6 +22,12 @@ class PartidaService
         return $modelRespose;
     }
 
+    public function getPartidasPDF(){
+        $modelRespose = $this->model->getPartidasPDF();
+        $modelRespose['cantidad de partida'] = count($modelRespose);
+        return $modelRespose;
+    }
+
     public function getPartidasAPI(){
         $modelRespose['partidas'] = $this->model->getPartidas(true);
         $modelRespose['cantidad_partidas'] = count($modelRespose['partidas']);

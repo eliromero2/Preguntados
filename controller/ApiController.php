@@ -45,8 +45,8 @@ class ApiController
     }
 
     public function partidasJugadas(){
-        $partidas = $this->partidaService->getPartidasAPI();
-        echo json_encode($partidas);
+        $data['partidas'] = $this->partidaService->getPartidasAPI();
+        echo json_encode($data['partidas']);
     }
 
     public function getEdadUsuarios(){

@@ -8,18 +8,18 @@
 
         function drawChart() {
 
-            fetch('/api/getEdadUsuarios')
+            fetch('/api/partidasJugadas')
                     .then(res => res.json() )
                     .then((info) => {
-                        const arrayFrom= Array.from(info).map(item => [item.nombre_completo, item.edad])
+                        const arrayFrom= Array.from(info).map(item => [item.user_id, item.puntaje])
                         console.log(arrayFrom)
                         const data = google.visualization.arrayToDataTable([
-                            ['Nombre', 'Edad'],
+                            ['Nombre', 'Puntaje'],
                                 ...arrayFrom
                         ]);
 
 
-                        var options = {'title':'Edad de los usuarios',
+                        var options = {'title':'Usuarios con mejor puntaje',
                             'width':400,
                             'height':300};
 
@@ -56,6 +56,6 @@
 <body>
 <!--Div that will hold the pie chart-->
 <div id="chart_div"></div>
-<button type="button" onclick="generatePdf()">DAME EL PDF</button>
+<a href="/admin/createPDF" class="btn btn-warning">Ver PDF</a>
 </body>
 </html>

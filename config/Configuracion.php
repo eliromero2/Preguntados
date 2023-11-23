@@ -8,6 +8,7 @@ include_once('helper/Redirect.php');
 include_once('helper/Request.php');
 include_once('helper/Mailer.php');
 include_once('helper/Sesion.php');
+/*include_once ('helper/PDF.php');*/
 
 include_once('controller/LoginController.php');
 include_once('controller/RegistroController.php');
@@ -36,6 +37,7 @@ include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpmailer/src/PHPMailer.php');
 include_once('third-party/phpmailer/src/SMTP.php');
 include_once('third-party/phpmailer/src/Exception.php');
+
 
 
 class Configuracion {
@@ -68,9 +70,9 @@ class Configuracion {
             'PreguntaController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','PartidaService']],
             'RankingController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
             'PartidaController' => ['render', 'service' => ['UsuarioService', 'PartidaService']],
-            'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','OpcionService']],
+            'AdminController' => ['render', 'service' => ['UsuarioService', 'PreguntaService','OpcionService','PartidaService']],
             'ApiController' => ['service' => ['PreguntaService','OpcionService', 'PartidaService', 'UsuarioService']],
-            'PerfilController' => ['render','service' => ['UsuarioService']],
+            'PerfilController' => ['pdf','render','service' => ['UsuarioService']],
         ];
     }
 
@@ -96,6 +98,10 @@ class Configuracion {
         );
         return $mailer;
     }
+
+   /* public function getPdf(){
+        return new PDF();
+    }*/
 
     public function getPartidaService(){
         $model = new partidaModel($this->getDatabase());
@@ -159,6 +165,7 @@ class Configuracion {
                 return new $controllerName(...$services);
             case 'RegistroController':
                 return new $controllerName($this->getRender(),$this->getMailer(),...$services);
+
             default:
                 return new $controllerName($this->getRender(),...$services);
         }

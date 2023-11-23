@@ -6,14 +6,18 @@ class AdminController{
     private $preguntaService;
     private $opcionService;
 
+    private $partidaService;
+
     private $render;
     private $data;
 
-    public function __construct($render, $userService, $preguntaService,$opcionService) {
+
+    public function __construct($render, $userService, $preguntaService,$opcionService,$partidaService) {
         $this->render = $render;
         $this->userService = $userService;
         $this->preguntaService = $preguntaService;
         $this->opcionService = $opcionService;
+        $this->partidaService=$partidaService;
         $this->data = [
             "userSession" => $this->userService->getCurrentSession(),
             "error" => $_SESSION['error'] ?? null,
@@ -117,15 +121,36 @@ class AdminController{
     }
 
     public function createPDF(){
-        // Crear un nuevo objeto PDF
+
+        $ranking=$this->partidaService->getPartidasPDF();
+
         $pdf = new FPDF();
         $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        //Header
+        $pdf->Cell(60);
+        $pdf->Cell(70,10,'Registro del ranking',0,0,'C');
+        $pdf->Ln(20);
+        $pdf->Cell(70,10,'Identidicador del usuario',1,0,'C',0);
+        $pdf->Cell(70,10,'Usuario',1,0,'C',0);
+        $pdf->Cell(45,10,'Puntaje',1,1,'C',0);
 
-        // Agregar HTML al PDF
-        $html = $this->render->printView('admin/chart');
-        $pdf->Write($html,"asd" );
+        //Contenido
 
-        // Guardar el PDF en el servidor o mostrarlo en el navegador
-        $pdf->Output('example.pdf', 'D');
+
+        foreach ($ranking as $row) {
+            $pdf->Cell(70,10,$row['user_id'],1,0,'C',0);
+            $pdf->Cell(70,10,$row['user_name'],1,0,'C',0);
+            $pdf->Cell(45,10,$row['puntaje'],1,1,'C',0);
+        }
+
+        // Footer
+        $pdf->SetY(-15);
+        $pdf->SetFont('Arial','I',8);
+        $pdf->Cell(0,10,'Page '.$pdf->PageNo(),0,0,'C');
+
+        ob_end_clean();
+        $pdf->Output();
+
     }
 }
