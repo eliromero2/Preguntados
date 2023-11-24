@@ -53,7 +53,7 @@ class PerfilController{
 
         unset($_SESSION['error']);
         $user = $this->userService->getByUserName($_GET['params']);
-        $userName = $user['user_name'];
+        $userName = @$user['user_name'];
         $data['userData'] = $user;
 
         $dir='public/qr/';
@@ -61,7 +61,7 @@ class PerfilController{
             mkdir($dir);
         }
 
-        $nombreArchivo= $dir . $userName.'qrPerfil.png';
+        $nombreArchivo= $dir . $userName.'qrPerfilUsuario.png';
         if(!file_exists($nombreArchivo)){
             $tamanio=7;
             $level='Q';

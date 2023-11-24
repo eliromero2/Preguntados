@@ -137,17 +137,13 @@ class AdminController{
 
         //Contenido
 
-
         foreach ($ranking as $row) {
-            $pdf->Cell(70,10,$row['user_id'],1,0,'C',0);
-            $pdf->Cell(70,10,$row['user_name'],1,0,'C',0);
-            $pdf->Cell(45,10,$row['puntaje'],1,1,'C',0);
-        }
 
-        // Footer
-        $pdf->SetY(-15);
-        $pdf->SetFont('Arial','I',8);
-        $pdf->Cell(0,10,'Page '.$pdf->PageNo(),0,0,'C');
+            $pdf->Cell(70, 10, $row['user_id'], 1, 0, 'C', 0);
+            $pdf->Cell(70, 10, $row['name'], 1, 0, 'C', 0);
+            $pdf->Cell(45, 10, $row['puntaje'], 1, 1, 'C', 0);
+
+        }
 
         ob_end_clean();
         $pdf->Output();

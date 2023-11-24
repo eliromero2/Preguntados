@@ -55,16 +55,13 @@ class  partidaModel{
 
         return $resultado;
     }
-    public function getPartidasPDF($sort = false){
-        if($sort){
+    public function getPartidasPDF(){
+
             $sql = "SELECT users.id as user_id ,users.user_name as name, SUM(partidas.puntaje) as puntaje
                         FROM partidas
                         JOIN users ON partidas.user_id = users.id
                         GROUP BY users.id
                         ORDER BY puntaje DESC";
-        }else{
-            $sql = "SELECT user_id, SUM(puntaje) as puntaje FROM partidas group by user_id";
-        }
 
         $resultado = $this->database->select($sql);
 
