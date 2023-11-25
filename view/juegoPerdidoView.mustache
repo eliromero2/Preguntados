@@ -8,6 +8,9 @@
             <div class="d-flex align-items-center justify-content-around my-5">
                 <h1>¡Perdiste el juego!</h1>
             </div>
+            {{#error}}
+                <div class="alert alert-danger" role="alert">{{.}}</div>
+            {{/error}}
             <div class="d-flex align-items-center justify-content-around mb-3">
                 <p>Lo siento, no lograste ganar el juego esta vez. ¡Mejor suerte la próxima!</p>
             </div>

@@ -61,6 +61,7 @@ class PreguntaController{
         //logger::info(print_r([ 'opcioncorrecta' => $opcionCorrecta, 'opcionseleccionada' => $opcionSeleccionada,'data' => $data ],true));
         if($tiempoTranscurrido > $duracionMaxima){
             $data['opcionEsCorrecta']= "fin ";
+            $_SESSION['error'] = 'Expiro el tiempo';
 
             $this->partidaService->actualizarPartida($data['userSession']['user']['id'],$_POST['puntaje']);
 
@@ -88,7 +89,6 @@ class PreguntaController{
 
         }else{
             $data['opcionEsCorrecta']= "fin ";
-
             $this->partidaService->actualizarPartida($data['userSession']['user']['id'],$_POST['puntaje']);
 
             Redirect::to('/juego/perdido');
