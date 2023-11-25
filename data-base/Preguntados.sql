@@ -32,12 +32,6 @@ CREATE TABLE tipos (
                        name VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS dificultad_preguntas;
-CREATE TABLE dificultad_preguntas (
-                                      id INT AUTO_INCREMENT PRIMARY KEY,
-                                      dificultad VARCHAR(50) NOT NULL
-);
-
 DROP TABLE IF EXISTS preguntas;
 CREATE TABLE preguntas (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -49,15 +43,12 @@ CREATE TABLE preguntas (
     contestada INT(10) DEFAULT 0,
     id_modulo INT,
     id_tipo INT,
-    dificultad_id INT DEFAULT 1,
     FOREIGN KEY (id_modulo) REFERENCES modulos(id),
-    FOREIGN KEY (id_tipo) REFERENCES tipos(id),
-    FOREIGN KEY (dificultad_id) REFERENCES dificultad_preguntas(id)
+    FOREIGN KEY (id_tipo) REFERENCES tipos(id)
 );
 
 
 
-INSERT INTO dificultad_preguntas (dificultad) VALUES('Facil'),('Media'),('Dificil');
 
 DROP TABLE IF EXISTS confirmacion_registros;
 CREATE TABLE confirmacion_registros (
@@ -78,36 +69,36 @@ CREATE TABLE opciones (
 INSERT INTO modulos(id,name) VALUES (1,'MVC / POO'), (2,'Introducción a HTTP y a las Aplicaciones Web');
 INSERT INTO tipos(id,name) VALUES (1,'Opciones con respuesta única');
 
-INSERT INTO preguntas(pregunta,estado,id_modulo,verificada,accesible,id_tipo, dificultad_id) VALUES
-    ('Si en un script PHP encuentra una llamada a un método de clase de la siguiente manera: Usuario::traerUsuario(); Se trata de:', 'ACTIVA', 1, 'NO', 'NO', 1,2),
-    ('Cuando utilizo una Clase en forma estática siempre se ejecuta el método __construct()', 'ACTIVA', 1, 'SI', 'NO', 1,2),
-    ('La S del acrónimo SOLID es por el concepto Single Responsibility, que indica:', 'ACTIVA', 1, 'SI', 'NO', 1,2),
-    ('El concepto de acoplamiento refiere a:', 'ACTIVA', 1, 'SI', 'NO', 1,2),
-    ('Como concepto general podemos decir que a menos acoplamiento mejor software', 'ACTIVA', 1, 'SI', 'NO', 1,2),
-    ('En software se entiende por patrón de diseño a:', 'ACTIVA', 1, 'SI', 'NO', 1,2),
-    ('El patrón MVC se utiliza mucho en aplicaciones web porque:', 'ACTIVA', 1, 'SI', 'NO', 1,2),
-    ('En un modelo MVC el que recibe normalmente la petición del cliente es:', 'ACTIVA', 1, 'SI', 'NO', 1,1),
-    ('El modelo en un esquema MVC es el encargado de almacenar y ejecutar la lógica del negocio', 'ACTIVA', 1, 'SI', 'NO', 1,1),
-    ('Uno de los objetivos del modelo MVC es separar en la aplicación el modelo de negocios de las interfaces de usuario', 'ACTIVA', 1, 'SI', 'NO', 1,1),
-    ('El enrutador en un modelo MVC es el encargado de ejecutar las operaciones de acceso a la base de datos', 'ACTIVA', 1, 'SI', 'NO', 1,1),
-    ('El folding en una aplicación web se refiere a:', 'ACTIVA', 1, 'SI', 'NO', 1,1),
-    ('Si estoy desarrollando usando TDD estoy', 'ACTIVA', 1, 'SI', 'NO', 1,1),
-    ('El patrón MVC esta compuesto por:', 'ACTIVA', 1, 'SI', 'NO', 1,1),
-    ('En un patrón MVC la Vista es la encargada de', 'ACTIVA', 1, 'SI', 'NO', 1,3),
-    ('La principal diferencia entre los enfoques Responsive y Mobile First es', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('Observando la siguiente imagen, cuál de las dos opciones (A o B) le parece más adecuada para describir el enfoque Mobile first.', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('La principal diferencia entre una Aplicación Web y una Aplicación monolítica (por ejemplo una Win32) es:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('El protocolo a través del cuál se realiza todo el intercambio de datos entre un servidor web y un cliente es:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('El protocolo HTTP tiene entre sus características ser:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('El protocolo DNS es:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('El protocolo HTTP implementa comandos, entre ellos:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 500, ha ocurrido:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 400, ha ocurrido:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 200, ha ocurrido:', 'ACTIVA', 2, 'SI', 'SI', 1,3),
-    ('En una petición GET, los parámetros de la petición se pasan a través de....', 'ACTIVA', 2, 'SI', 'NO', 1,3),
-    ('Se denomina Scripting del lado del cliente, o programación Front-end o Client Side Scripting a:', 'ACTIVA', 2, 'SI', 'NO', 1,3),
-    ('Se denomina Scripting del lado del servidor, o programación Back-end o Server Side Scripting a:', 'ACTIVA', 2, 'SI', 'NO', 1,3),
-    ('La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:', 'ACTIVA', 2, 'SI', 'NO', 1,3);
+INSERT INTO preguntas(pregunta,estado,id_modulo,verificada,accesible,id_tipo) VALUES
+    ('Si en un script PHP encuentra una llamada a un método de clase de la siguiente manera: Usuario::traerUsuario(); Se trata de:', 'ACTIVA', 1, 'NO', 'NO', 1),
+    ('Cuando utilizo una Clase en forma estática siempre se ejecuta el método __construct()', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('La S del acrónimo SOLID es por el concepto Single Responsibility, que indica:', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('El concepto de acoplamiento refiere a:', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('Como concepto general podemos decir que a menos acoplamiento mejor oftware', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('En software se entiende por patrón de diseño a:', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('El patrón MVC se utiliza mucho en aplicaciones web porque:', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('En un modelo MVC el que recibe normalmente la petición del cliente es:', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('El modelo en un esquema MVC es el encargado de almacenar y ejecutar la lógica del negocio', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('Uno de los objetivos del modelo MVC es separar en la aplicación el modelo de negocios de las interfaces de usuario', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('El enrutador en un modelo MVC es el encargado de ejecutar las operaciones de acceso a la base de datos', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('El folding en una aplicación web se refiere a:', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('Si estoy desarrollando usando TDD estoy', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('El patrón MVC esta compuesto por:', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('En un patrón MVC la Vista es la encargada de', 'ACTIVA', 1, 'SI', 'NO', 1),
+    ('La principal diferencia entre los enfoques Responsive y Mobile First es', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('Observando la siguiente imagen, cuál de las dos opciones (A o B) le parece más adecuada para describir el enfoque Mobile first.', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('La principal diferencia entre una Aplicación Web y una Aplicación monolítica (por ejemplo una Win32) es:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('El protocolo a través del cuál se realiza todo el intercambio de datos entre un servidor web y un cliente es:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('El protocolo HTTP tiene entre sus características ser:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('El protocolo DNS es:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('El protocolo HTTP implementa comandos, entre ellos:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 500, ha ocurrido:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 400, ha ocurrido:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('El protocolo HTTP implementa códigos de error de respuesta, si recibo un código de la serie 200, ha ocurrido:', 'ACTIVA', 2, 'SI', 'SI', 1),
+    ('En una petición GET, los parámetros de la petición se pasan a través de....', 'ACTIVA', 2, 'SI', 'NO', 1),
+    ('Se denomina Scripting del lado del cliente, o programación Front-end o Client Side Scripting a:', 'ACTIVA', 2, 'SI', 'NO', 1),
+    ('Se denomina Scripting del lado del servidor, o programación Back-end o Server Side Scripting a:', 'ACTIVA', 2, 'SI', 'NO', 1),
+    ('La petición de un recurso determinado a un sitio Web (imagen, archivo, etc.) se canaliza mediante:', 'ACTIVA', 2, 'SI', 'NO', 1);
 
 INSERT INTO opciones (pregunta_id, opcion, opcion_correcta) VALUES
 (1, 'Una llamada al método por referencia', 'NO'),
@@ -270,8 +261,7 @@ CREATE TABLE reporte_pregunta (
                          pregunta_id INT NOT NULL,
                          caso VARCHAR(120) DEFAULT NULL,
                          mensaje VARCHAR(255) DEFAULT NULL,
-                         pregunta_id INT NOT NULL,
                          resuelto VARCHAR(80) NOT NULL,
                          FOREIGN KEY (user_id) REFERENCES users(id),
-                             FOREIGN KEY (pregunta_id) REFERENCES preguntas(id)
+                        FOREIGN KEY (pregunta_id) REFERENCES preguntas(id)
 );
