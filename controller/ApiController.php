@@ -56,6 +56,8 @@ class ApiController
             "resultRespuestas" => $resultRespuestas,
         ];
 
+        $_SESSION['success'] = "Se creo la sugerencia de pregunta";
+
         echo json_encode($response);
     }
 
