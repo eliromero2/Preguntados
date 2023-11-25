@@ -36,13 +36,13 @@ class OpcionService
 
        return $updateOptions;
     }
-    public function createOpciones($data){
+    public function createOpciones($data, $isSugerir = false){
         $dataToModel = new stdClass();
         $dataToModel->opciones = $data->respuestas;
         $dataToModel->respuesta_correcta = $data->repuesta_correcta;
         $dataToModel->id_pregunta = $data->pregunta_id;
-
-        $createOptions = $this->model->createOpciones($dataToModel);
+        Logger::json($dataToModel->opciones);
+        $createOptions = $this->model->createOpciones($dataToModel, $isSugerir);
 
         if(boolval($createOptions)){
             $_SESSION['success'] = 'Pregunta y Opciones creadas!';

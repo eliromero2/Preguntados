@@ -34,7 +34,7 @@ class PreguntaController{
         $_SESSION['tiempo_inicio'] = time();
         $data['pregunta'] = $this->preguntaService->getPreguntaByNivel($idPregunta, $data['userSession']['nivel'] ,true);
 
-        Sesion::setPreguntas($data['pregunta']);
+        Sesion::setPreguntas($data['pregunta']['id']);
 
         $this->render->printView('pregunta',$data);
     }
@@ -76,10 +76,6 @@ class PreguntaController{
                 Redirect::to('/juego/ganado');
             }
 
-
-            //$idPregunta = $this->preguntaService->getRandomId();
-            //$data['pregunta'] = $this->preguntaService->getPregunta($idPregunta,true);
-
             $preguntas = Sesion::getPreguntas();
             $preguntasIds = array_column($preguntas, 'id');
             $siguientePreguntaId = $this->preguntaService->getRandomIdNotInArray($preguntasIds);
@@ -91,9 +87,15 @@ class PreguntaController{
             $this->partidaService->actualizarPartida($data['userSession']['user']['id'],$_POST['puntaje']);
 
             Redirect::to('/juego/perdido');
-
         }
 
         $this->render->authView($data['userSession'],'pregunta',$data);
+    }
+
+    public function sugerir(){
+        $data['modulos'] = $this->preguntaService->getAllModules();
+        $data['tipos'] = $this->preguntaService->getAllTypes();
+
+        $this->render->printView('sugerirPregunta', $data);
     }
 }

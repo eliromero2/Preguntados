@@ -204,6 +204,24 @@ class preguntaModel{
         }
     }
 
+    public function sugerir($data){
+        try {
+            $sql = "INSERT INTO 
+                        preguntas_sugeridas (pregunta, modulo, id_tipo)
+                    VALUES ('$data->pregunta','$data->modulo','$data->id_tipo')";
+
+            $result = $this->database->query($sql);
+
+            return $result;
+
+        } catch (PDOException $e) {
+            // Manejar errores de base de datos
+            // Puedes personalizar este bloque según tus necesidades
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function delete($id){
         $sql = "DELETE FROM preguntas WHERE id = '$id'";
         return $this->database->query($sql);

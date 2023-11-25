@@ -44,6 +44,21 @@ class ApiController
         echo json_encode($response);
     }
 
+
+    public function sugerirPregunta(){
+        $data = json_decode(file_get_contents('php://input'));
+        $resultPregunta = $this->preguntaService->createSugerirPregunta($data);
+        $data->pregunta_id = $resultPregunta;
+        $resultRespuestas = $this->opcionService->createOpciones($data, true);
+
+        $response = [
+            'resultPregunta' => $resultPregunta,
+            "resultRespuestas" => $resultRespuestas,
+        ];
+
+        echo json_encode($response);
+    }
+
     public function partidasJugadas(){
         $data['partidas'] = $this->partidaService->getPartidasAPI();
         echo json_encode($data['partidas']);

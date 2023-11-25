@@ -36,9 +36,9 @@ class PreguntaService
         return $modelResponse;
     }
 
-    public function getPreguntaByNivel($id, $level,$forUser= false){
+    public function getPreguntaByNivel($level,$forUser= false){
 
-        $levelString = is_numeric($level) ? (floatval($level) <= 0.33 ? 'Facil' : (floatval($level) <= 0.66 ? 'Medio' : 'Dificil')) : 'No válido';
+        $levelString = Sesion::parseUserLevel($level);
 
         $modelResponse = $this->model->getPreguntaByNivel($levelString, $forUser);
 
@@ -70,6 +70,10 @@ class PreguntaService
 
     public function createPregunta($data){
         return $this->model->create($data);
+    }
+
+    public function createSugerirPregunta($data){
+        return $this->model->sugerir($data);
     }
 
     public function deletePregunta($id){

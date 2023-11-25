@@ -47,7 +47,14 @@ CREATE TABLE preguntas (
     FOREIGN KEY (id_tipo) REFERENCES tipos(id)
 );
 
-
+DROP TABLE IF EXISTS opciones;
+CREATE TABLE opciones (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          pregunta_id INT,
+                          opcion TEXT NOT NULL,
+                          opcion_correcta VARCHAR(2) DEFAULT 'NO',
+                          FOREIGN KEY (pregunta_id) REFERENCES preguntas(id) ON DELETE CASCADE
+);
 
 
 DROP TABLE IF EXISTS confirmacion_registros;
@@ -57,14 +64,6 @@ CREATE TABLE confirmacion_registros (
     token VARCHAR(32) NOT NULL
 );
 
-DROP TABLE IF EXISTS opciones;
-CREATE TABLE opciones (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    pregunta_id INT,
-    opcion TEXT NOT NULL,
-    opcion_correcta VARCHAR(2) DEFAULT 'NO',
-    FOREIGN KEY (pregunta_id) REFERENCES preguntas(id) ON DELETE CASCADE
-);
 
 INSERT INTO modulos(id,name) VALUES (1,'MVC / POO'), (2,'Introducción a HTTP y a las Aplicaciones Web');
 INSERT INTO tipos(id,name) VALUES (1,'Opciones con respuesta única');
@@ -264,4 +263,22 @@ CREATE TABLE reporte_pregunta (
                          resuelto VARCHAR(80) NOT NULL,
                          FOREIGN KEY (user_id) REFERENCES users(id),
                         FOREIGN KEY (pregunta_id) REFERENCES preguntas(id)
+);
+
+DROP TABLE IF EXISTS preguntas_sugeridas;
+CREATE TABLE preguntas_sugeridas (
+                           id INT AUTO_INCREMENT PRIMARY KEY,
+                           pregunta TEXT NOT NULL,
+                           modulo VARCHAR(80),
+                           id_tipo INT,
+                           FOREIGN KEY (id_tipo) REFERENCES tipos(id)
+);
+
+DROP TABLE IF EXISTS opciones_sugeridas;
+CREATE TABLE opciones_sugeridas (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          pregunta_id INT,
+                          opcion TEXT NOT NULL,
+                          opcion_correcta VARCHAR(2) DEFAULT 'NO',
+                          FOREIGN KEY (pregunta_id) REFERENCES preguntas_sugeridas(id) ON DELETE CASCADE
 );

@@ -15,13 +15,9 @@ class HomeController{
     public function list() {
 
         $data['userSession'] = $this->userService->getCurrentSession();
+        $data['userSession']['nivel'] = Sesion::parseUserLevel($data['userSession']['nivel']);;
         $data['error'] = @$_SESSION['error'];
-
-
         unset($_SESSION['error']);
-
-
-       // Logger::dd($data, $_SESSION);
         
         $this->render->printView('home', $data);
     }

@@ -28,7 +28,8 @@
                             <p>Nombre: {{nombre_completo}}</p>
                             <p>Sexo: {{sexo}}</p>
                             <p>Mail: {{mail}}</p>
-                       <!-- <p>Puntaje: {{puntaje}}</p>-->
+                            <p>Nivel de jugador: {{userSession.nivel}}</p>
+                            <p>Puntaje: {{userSession.puntaje}}</p>
                         </div>
 
                     </div>
@@ -40,6 +41,7 @@
                 <a href="/juego/crear" class="btn btn-success">Nuevo Juego</a>
                 <a href="/ranking" class="btn btn-secondary">Ranking</a>
                 <a href="/partida" class="btn btn-info">Partidas</a>
+                <a href="/pregunta/sugerir" class="btn btn-warning">Sugerir una pregunta</a>
             </div>
             {{/userSession.user}}
         </div>

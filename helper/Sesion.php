@@ -13,5 +13,8 @@ class Sesion{
         return self::$preguntas;
     }
 
+    public static function parseUserLevel($level){
+        return is_numeric($level) ? (floatval($level) <= 0.33 ? 'Facil' : (floatval($level) <= 0.66 ? 'Medio' : 'Dificil')) : 'No válido';
+    }
 
 }
