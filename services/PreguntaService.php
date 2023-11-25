@@ -20,8 +20,8 @@ class PreguntaService
         return $this->model->getRandomId();
     }
 
-    public function getPregunta($id){
-        $modelResponse = $this->model->getPreguntaBy($id);
+    public function getPregunta($id, $forUser= false){
+        $modelResponse = $this->model->getPreguntaBy($id, $forUser);
 
         $indexedOpciones = array_map(function($item, $index) use ($modelResponse) {
             return [
