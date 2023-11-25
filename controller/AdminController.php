@@ -50,7 +50,7 @@ class AdminController{
         $this->data['pregunta'] = $this->preguntaService->getPregunta($_GET["params"]);
         $this->data['modulos'] = $this->preguntaService->getAllModules();
         $this->data['tipos'] = $this->preguntaService->getAllTypes();
-        $this->data['dificultades'] = $this->preguntaService->getAllLevels();
+        $this->data['reportId'] = $_GET['reportId'];
 
         $this->data['action'] = '/admin/editarPregunta/'.$this->data["pregunta"]["pregunta_id"];
         $this->data['submitText'] = 'Editar pregunta';
@@ -110,6 +110,12 @@ class AdminController{
 
         $data['sugerencias'] = $this->preguntaService->getSugerencias();
         $data['reportes'] = $this->preguntaService->getReportes();
+
+        $data['success'] = $_SESSION['success'];
+        $data['error'] = $_SESSION['error'];
+
+        unset($_SESSION['success']);
+        unset($_SESSION['error']);
 
         $this->render->adminView($userRow,'admin/sugerencias', $data);
     }

@@ -21,8 +21,11 @@ class ApiController
     }
 
     public function editarPregunta(){
-       $resultPregunta = $this->preguntaService->updatePregunta(file_get_contents('php://input'));
-       $resultRespuestas = $this->opcionService->updateOpciones(file_get_contents('php://input'));
+        $data = file_get_contents('php://input');
+       $resultPregunta = $this->preguntaService->updatePregunta($data);
+       $resultRespuestas = $this->opcionService->updateOpciones($data);
+
+       $this->preguntaService->resolveInProgressReportPregunta(json_decode($data)->report_id);
 
        $response = [
            'resultPregunta' => $resultPregunta,
@@ -77,6 +80,32 @@ class ApiController
         $_SESSION['success'] = "Se creo la sugerencia de pregunta";
 
         echo json_encode($response);
+    }
+
+    public function descartarReporte(){
+        $data = json_decode(file_get_contents('php://input'));
+        $result = $this->preguntaService->descartarReportPregunta($data->id);
+
+        if($result){
+            $_SESSION['success'] = "Se descarto el reporte";
+        }else{
+            $_SESSION['error'] = "No se pudo descartar el reporte";
+        }
+
+        echo json_encode($result);
+    }
+
+    public function resolverReporte(){
+        $data = json_decode(file_get_contents('php://input'));
+        $result = $this->preguntaService->resolveReportPregunta($data->id);
+
+        if($result){
+            $_SESSION['success'] = "Se empezo a resolver el reporte";
+        }else{
+            $_SESSION['error'] = "No se pudo empezar a resolver el reporte";
+        }
+
+        echo json_encode($result);
     }
 
     public function partidasJugadas(){

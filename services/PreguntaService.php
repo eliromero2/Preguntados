@@ -81,6 +81,21 @@ class PreguntaService
         return $this->model->reportar($data);
     }
 
+    public function descartarReportPregunta($id){
+        $sql = "DELETE FROM reporte_pregunta WHERE id = '$id'";
+        return $this->model->deleteReport($sql);
+    }
+
+    public function resolveReportPregunta($id){
+        $sql = "UPDATE reporte_pregunta SET resuelto = 'En Proceso' WHERE id = '$id'";
+        return $this->model->run($sql);
+    }
+
+    public function resolveInProgressReportPregunta($id){
+        $sql = "UPDATE reporte_pregunta SET resuelto = 'SI' WHERE id = '$id'";
+        return $this->model->run($sql);
+    }
+
     public function deletePregunta($id){
         return $this->model->delete($id);
     }
@@ -105,7 +120,19 @@ class PreguntaService
     public function getReportes()
     {
         $sql = "SELECT * FROM reporte_pregunta";
-        return $this->model->preguntasReportadas($sql);
+        $modelResponse = $this->model->preguntasReportadas($sql);
+
+        foreach ($modelResponse as $key => $mr){
+            if($mr['resuelto'] == 'SI'){
+                $modelResponse[$key]['resolved'] = true;
+            }
+
+            if($mr['resuelto'] == 'En Proceso'){
+                $modelResponse[$key]['inProgress'] = true;
+            }
+        }
+
+        return $modelResponse;
     }
 
     public function getModules(){

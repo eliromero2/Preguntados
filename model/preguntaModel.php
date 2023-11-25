@@ -178,8 +178,7 @@ class preguntaModel{
                 estado = '$data->estado',
                 accesible = '$accesible',
                 id_modulo = '$data->id_modulo',
-                id_tipo = '$data->id_tipo',
-                dificultad_id = '$data->dificultad_id'
+                id_tipo = '$data->id_tipo'
             WHERE id = '$data->pregunta_id'";
 
             $result = $this->database->query($sql);
@@ -274,6 +273,14 @@ class preguntaModel{
 
     public function delete($id){
         $sql = "DELETE FROM preguntas WHERE id = '$id'";
+        return $this->database->query($sql);
+    }
+
+    public function deleteReport($sql){
+        return $this->database->query($sql);
+    }
+
+    public function resolveInProgressReport($sql){
         return $this->database->query($sql);
     }
 

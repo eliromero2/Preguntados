@@ -28,6 +28,7 @@
                     </div>
 
                     {{#pregunta.preguntaRow}}
+                        <input type="hidden" name="report_id" value="{{reportId}}">
                         <div class="row">
                             <div class="col-6 col-md-3 my-auto">
                                 <div class="form-group d-flex align-items-center">
@@ -58,17 +59,6 @@
                                         {{#modulos}}
                                             <option value="{{id}}">{{name}}</option>
                                         {{/modulos}}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-4">
-                                <div class="form-group">
-                                    <label class="form-label">Dificultad:</label>
-                                    <select class="form-select" name="dificultad_id">
-                                        {{#dificultades}}
-                                            <option value="{{id}}">{{dificultad}}</option>
-                                        {{/dificultades}}
                                     </select>
                                 </div>
                             </div>
@@ -107,17 +97,6 @@
                                         {{#modulos}}
                                             <option value="{{id}}">{{name}}</option>
                                         {{/modulos}}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-4">
-                                <div class="form-group">
-                                    <label class="form-label">Dificultad:</label>
-                                    <select class="form-select" name="dificultad_id">
-                                        {{#dificultades}}
-                                            <option value="{{id}}">{{dificultad}}</option>
-                                        {{/dificultades}}
                                     </select>
                                 </div>
                             </div>
