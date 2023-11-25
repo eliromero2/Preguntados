@@ -6,6 +6,10 @@ class preguntaModel{
     public function __construct($database){
         $this->database = $database;
     }
+
+    public function run($sql){
+       return $this->database->query($sql);
+    }
     
     public function all()
     {

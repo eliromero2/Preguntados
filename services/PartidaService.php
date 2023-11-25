@@ -50,4 +50,9 @@ class PartidaService
 
         return $puntaje['puntaje'];
     }
+
+    public function preguntaContestada($id){
+        $sql = "UPDATE preguntas SET contestada = contestada + 1 WHERE id = $id";
+        $this->model->run($sql);
+    }
 }

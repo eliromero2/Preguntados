@@ -58,7 +58,7 @@ class PreguntaController{
         $tiempoTranscurrido = time() - $tiempoInicio;
 
         $duracionMaxima = 30;
-        logger::info(print_r([ 'opcioncorrecta' => $opcionCorrecta, 'opcionseleccionada' => $opcionSeleccionada,'data' => $data ],true));
+        //logger::info(print_r([ 'opcioncorrecta' => $opcionCorrecta, 'opcionseleccionada' => $opcionSeleccionada,'data' => $data ],true));
         if($tiempoTranscurrido > $duracionMaxima){
             $data['opcionEsCorrecta']= "fin ";
 
@@ -68,7 +68,7 @@ class PreguntaController{
         }
         if ($opcionSeleccionada == $opcionCorrecta){
             $data['opcionEsCorrecta']= "La es opcion correcta ";
-
+            $this->partidaService->preguntaContestada($_POST['id']);
             $data['puntaje'] =  intval($_POST['puntaje']) + 1;
 
             $this->partidaService->actualizarPartida($data['userSession']['user']['id'],  $data['puntaje']);

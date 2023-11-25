@@ -7,6 +7,11 @@ class  partidaModel{
         $this->database = $database;
     }
 
+    public function run($sql){
+        return $this->database->query($sql);
+    }
+
+
     public function createPartida($id){
         $sql ="INSERT INTO partidas (user_id, puntaje) VALUES ($id,0)";
 
