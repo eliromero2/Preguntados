@@ -55,4 +55,19 @@ class PartidaService
         $sql = "UPDATE preguntas SET contestada = contestada + 1 WHERE id = $id";
         $this->model->run($sql);
     }
+
+    public function getNivelUsuario($id){
+        $sql = "SELECT puntaje FROM partidas where user_id = '$id'";
+        $modelResponse = $this->model->run($sql);
+
+        $cantidadDePartidasJugadas = count($modelResponse);
+
+        $puntajesEnteros = array_map(function($item) {
+            return intval($item['puntaje']);
+        },$modelResponse);
+
+        $promedio = number_format((array_sum($puntajesEnteros) / $cantidadDePartidasJugadas) / 10, 2);
+
+        return $promedio;
+    }
 }

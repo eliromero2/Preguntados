@@ -103,6 +103,58 @@ class preguntaModel{
         return $resultado[0];
     }
 
+    public function getPreguntaByNivel($level, $forUser = false){
+
+        $sql = "SELECT
+                    p.*,
+                    AVG(p.contestada * 1.0 / p.entregadas) AS promedio,
+                    CASE
+                        WHEN AVG(p.contestada * 1.0 / p.entregadas) <= 0.33 THEN 'Dificil'
+                        WHEN AVG(p.contestada * 1.0 / p.entregadas) <= 0.66 THEN 'Medio'
+                        ELSE 'Facil'
+                    END AS nivel
+                FROM
+                    preguntas p
+                group by p.id";
+
+        $preguntasPorNivel = $this->database->select($sql);
+
+        if (empty($preguntasPorNivel)) {
+            Logger::info('$preguntasPorNivel: ' . print_r($preguntasPorNivel,true));
+            return false;
+        }
+
+        $levelFilter = array_filter($preguntasPorNivel, function ($pregunta) use ($level){
+           return $pregunta['nivel'] === $level;
+        });
+
+        $countPreguntas = count($levelFilter);
+        $preguntaIndex = array_rand($levelFilter);
+        //Logger::json(array_keys($levelFilter),$preguntaIndex);
+
+        $idPregunta = $levelFilter[$preguntaIndex]['id'];
+        //Logger::json($levelFilter[$preguntaIndex],$idPregunta);
+        $sql = "SELECT pregunta_id, GROUP_CONCAT(opcion SEPARATOR ';') AS opciones, MAX(CASE WHEN opcion_correcta = 'SI' THEN opcion END) AS opcion_correcta FROM opciones WHERE pregunta_id = $idPregunta GROUP BY pregunta_id";
+
+        $resultado = $this->database->select($sql);
+        $resultado[0]['pregunta'] = $levelFilter[$preguntaIndex]['pregunta'];
+
+
+        if (empty($resultado[0])) {
+            Logger::info('No se encontraron opciones para la pregunta con ID: ' . $idPregunta);
+            return false;
+        }
+
+        if($forUser){
+            $this->database->query("UPDATE preguntas SET entregadas = entregadas + 1 WHERE id = $idPregunta");
+        }
+
+        $resultado[0]['opciones'] = explode(';', $resultado[0]['opciones']);
+        $resultado[0]['preguntaRow'] = $levelFilter[$preguntaIndex];
+
+        return $resultado[0];
+    }
+
 
     public function getRandomId(){
         $sql = "SELECT COUNT(pregunta) total FROM preguntas";

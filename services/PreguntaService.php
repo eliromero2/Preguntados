@@ -33,7 +33,24 @@ class PreguntaService
 
         $modelResponse['opciones'] = $indexedOpciones;
 
-        //Logger::dd($modelResponse);
+        return $modelResponse;
+    }
+
+    public function getPreguntaByNivel($id, $level,$forUser= false){
+
+        $levelString = is_numeric($level) ? (floatval($level) <= 0.33 ? 'Facil' : (floatval($level) <= 0.66 ? 'Medio' : 'Dificil')) : 'No válido';
+
+        $modelResponse = $this->model->getPreguntaByNivel($levelString, $forUser);
+
+        $indexedOpciones = array_map(function($item, $index) use ($modelResponse) {
+            return [
+                'index' => $index + 1,
+                'opcion' => $item,
+                'opcion_correcta' => $item === $modelResponse['opcion_correcta'] ?? null
+            ];
+        }, $modelResponse['opciones'], array_keys($modelResponse['opciones']));
+
+        $modelResponse['opciones'] = $indexedOpciones;
 
         return $modelResponse;
     }

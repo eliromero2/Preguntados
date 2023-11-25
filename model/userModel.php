@@ -60,6 +60,8 @@ class userModel{
             $data['puntaje'] = $this->partidaService->getPuntajeUser($data['user']['id']);
         }
 
+        $data['nivel'] = $this->partidaService->getNivelUsuario($data['user']['id']);
+
         return $data;
     }
 

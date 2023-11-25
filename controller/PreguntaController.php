@@ -30,10 +30,9 @@ class PreguntaController{
         $data['userSession'] = $this->userService->getCurrentSession();
         $data['puntaje'] = $this->partidaService->getPartidaPuntaje($data['userSession']);
 
-
         $idPregunta = $_GET['params'] ?? $this->preguntaService->getRandomId();
         $_SESSION['tiempo_inicio'] = time();
-        $data['pregunta'] = $this->preguntaService->getPregunta($idPregunta, true);
+        $data['pregunta'] = $this->preguntaService->getPreguntaByNivel($idPregunta, $data['userSession']['nivel'] ,true);
 
         Sesion::setPreguntas($data['pregunta']);
 

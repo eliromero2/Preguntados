@@ -33,7 +33,15 @@ class Database {
             return mysqli_insert_id($this->conn);
         }
 
+        if (strpos(strtoupper($sql), 'SELECT') === 0) {
 
+            $rows = array();
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $rows[] = $row;
+            }
+            return $rows;
+        }
 
         return boolval($result);
     }
