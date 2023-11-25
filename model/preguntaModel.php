@@ -13,10 +13,17 @@ class preguntaModel{
     
     public function all()
     {
-        $sql = "SELECT p.*, GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones, GROUP_CONCAT(CASE WHEN o.opcion_correcta = 'SI' THEN o.opcion END SEPARATOR ';') AS opciones_correctas FROM preguntas AS p
-                                                                                                                                                                                    LEFT JOIN opciones AS o
-                                                                                                                                                                                    ON p.id = o.pregunta_id
-                                                                                                                                                                                    GROUP BY p.id";
+        $sql = "SELECT 
+                    p.*, 
+                    GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones, 
+                    GROUP_CONCAT(CASE WHEN 
+                        o.opcion_correcta = 'SI' 
+                        THEN o.opcion 
+                        END SEPARATOR ';') AS opciones_correctas 
+                FROM preguntas AS p
+                    LEFT JOIN opciones AS o
+                    ON p.id = o.pregunta_id
+                    GROUP BY p.id";
 
         $resultado = $this->database->select($sql);
 
@@ -220,6 +227,31 @@ class preguntaModel{
             echo "Error: " . $e->getMessage();
             return false;
         }
+    }
+
+    public function preguntasSugeridas($sql)
+    {
+        $resultado = $this->database->select($sql);
+        if (empty($resultado)) {
+            Logger::info('No se encontraron preguntas sugeridas con opciones.');
+            return false;
+        }
+
+        foreach ($resultado as &$row) {
+            if($row['opciones']){
+                $row['opciones'] = explode(';', $row['opciones']);
+                $row['opciones_correctas'] = explode(';', $row['opciones_correctas']);
+            }
+        }
+
+        $row['opciones'] = array_values(array_filter($row['opciones']));
+
+        return $resultado;
+    }
+
+    public function preguntasReportadas($sql)
+    {
+        return $this->database->select($sql);
     }
 
     public function delete($id){

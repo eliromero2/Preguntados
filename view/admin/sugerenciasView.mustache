@@ -1,0 +1,57 @@
+<main class="container">
+    <div class="row mt-5">
+        <div class="col">
+            {{#error}}
+                <div class="alert alert-danger" role="alert">{{.}}</div>
+            {{/error}}
+            {{#success}}
+                <div class="alert alert-success" role="alert">{{.}}</div>
+            {{/success}}
+
+
+                <h1 class="mb-5">Sugerencias</h1>
+                <div class="row mb-3">
+                    {{#sugerencias}}
+                        <div class="col-sm-6 col-md-4">
+                            <form id="formSugerencia_{{id}}" class="card" >
+                                <input type="hidden" name="id" value="{{id}}">
+                                <input type="hidden" name="modulo" value="{{modulo}}">
+                                <input type="hidden" name="id_tipo" value="{{id_tipo}}">
+                                <div class="card-body mb-3">
+                                    <h5 class="card-title">{{pregunta}}</h5>
+                                    <p class="card-text">Modulo: {{modulo}}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    {{#opciones}}
+                                        <li class="list-group-item">{{.}}</li>
+                                        <input type="hidden" name="opcion[]" value="{{.}}">
+                                    {{/opciones}}
+                                </ul>
+                                <div class="card-body">
+                                    <a href="/api/aceptarSugerencia" class="btn btn-success">Aceptar</a>
+                                    <a href="/api/descartarSugerencia" class="btn btn-danger">Descartar</a>
+                                </div>
+                            </form>
+                        </div>
+                    {{/sugerencias}}
+                </div>
+
+
+            {{#reportes}}
+            {{/reportes}}
+
+            {{^sugerencias}}
+                <div class="alert alert-success" role="alert">No hay sugerencias de preguntas</div>
+            {{/sugerencias}}
+
+            {{^reportes}}
+                <div class="alert alert-success" role="alert">No hay reportes</div>
+
+            {{/reportes}}
+
+            <script>
+
+            </script>
+        </div>
+    </div>
+</main>

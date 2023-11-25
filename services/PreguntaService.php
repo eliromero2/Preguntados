@@ -80,6 +80,28 @@ class PreguntaService
         return $this->model->delete($id);
     }
 
+    public function getSugerencias()
+    {
+        $sql = "SELECT 
+                    p.*, 
+                    GROUP_CONCAT(o.opcion SEPARATOR ';') AS opciones, 
+                    GROUP_CONCAT(CASE WHEN 
+                        o.opcion_correcta = 'SI' 
+                        THEN o.opcion 
+                        END SEPARATOR ';') AS opciones_correctas 
+                FROM preguntas_sugeridas AS p
+                    LEFT JOIN opciones_sugeridas AS o
+                    ON p.id = o.pregunta_id
+                    GROUP BY p.id";
+
+        return $this->model->preguntasSugeridas($sql);
+    }
+
+    public function getReportes()
+    {
+        $sql = "SELECT * FROM reporte_pregunta";
+        return $this->model->preguntasReportadas($sql);
+    }
 
     public function getModules(){
         return $this->model->getModules();

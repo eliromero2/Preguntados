@@ -41,7 +41,6 @@ class OpcionService
         $dataToModel->opciones = $data->respuestas;
         $dataToModel->respuesta_correcta = $data->repuesta_correcta;
         $dataToModel->id_pregunta = $data->pregunta_id;
-        Logger::json($dataToModel->opciones);
         $createOptions = $this->model->createOpciones($dataToModel, $isSugerir);
 
         if(boolval($createOptions)){

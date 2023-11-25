@@ -57,6 +57,10 @@ class PartidaService
     }
 
     public function getNivelUsuario($id){
+        if(!$id){
+            return null;
+        }
+
         $sql = "SELECT puntaje FROM partidas where user_id = '$id'";
         $modelResponse = $this->model->run($sql);
 
@@ -66,7 +70,7 @@ class PartidaService
             return intval($item['puntaje']);
         },$modelResponse);
 
-        $promedio = number_format((array_sum($puntajesEnteros) / $cantidadDePartidasJugadas) / 10, 2);
+        $promedio = is_numeric($puntajesEnteros) ? number_format((array_sum($puntajesEnteros) / $cantidadDePartidasJugadas) / 10, 2): 0;
 
         return $promedio;
     }

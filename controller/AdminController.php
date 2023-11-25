@@ -104,9 +104,14 @@ class AdminController{
         $this->render->adminView($userRow,'admin/categorias', $data);
     }
 
-    public function test(){
-        $modelRespose = $this->preguntaService->getPregunta("1");
-        echo json_encode(['userSession' => $modelRespose]);
+    public function sugerencias(){
+        $data['userSession'] = $this->userService->getCurrentSession();
+        $userRow = $data['userSession']['user'];
+
+        $data['sugerencias'] = $this->preguntaService->getSugerencias();
+        $data['reportes'] = $this->preguntaService->getReportes();
+
+        $this->render->adminView($userRow,'admin/sugerencias', $data);
     }
 
     public function reporte(){
