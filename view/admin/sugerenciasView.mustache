@@ -10,7 +10,8 @@
 
 
                 <h1 class="mb-5">Sugerencias</h1>
-                <div class="row mb-3">
+                <h2 class="mb-3">Preguntas</h2>
+                <div class="row mb-3 py-3 px-2 bg-secondary rounded">
                     {{#sugerencias}}
                         <div class="col-sm-6 col-md-4">
                             <form id="formSugerencia_{{id}}" class="card" >
@@ -34,21 +35,35 @@
                             </form>
                         </div>
                     {{/sugerencias}}
+                    {{^sugerencias}}
+                        <div class="alert alert-success" role="alert">No hay sugerencias de preguntas</div>
+                    {{/sugerencias}}
                 </div>
 
-
-            {{#reportes}}
-            {{/reportes}}
-
-            {{^sugerencias}}
-                <div class="alert alert-success" role="alert">No hay sugerencias de preguntas</div>
-            {{/sugerencias}}
-
-            {{^reportes}}
-                <div class="alert alert-success" role="alert">No hay reportes</div>
-
-            {{/reportes}}
-
+            <h2 class="mb-3">Reportes</h2>
+            <div class="row py-3 px-2 bg-secondary rounded">
+                {{#reportes}}
+                    <div class="col-sm-6 col-md-4">
+                        <form id="formReporte_{{id}}" class="card alert alert-danger" >
+                            <input type="hidden" name="id" value="{{id}}">
+                            <input type="hidden" name="user_id" value="{{user_id}}">
+                            <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{caso}}</h5>
+                                <p class="card-text">Resuelto: {{resuelto}}</p>
+                                <p class="card-text">Mensaje: {{mensaje}}</p>
+                            </div>
+                            <div class="card-body">
+                                <a href="/api/resolverReporte" class="btn btn-success">Resolver</a>
+                                <a href="/api/descartarReporte" class="btn btn-danger">Descartar</a>
+                            </div>
+                        </form>
+                    </div>
+                {{/reportes}}
+                {{^reportes}}
+                    <div class="alert alert-success" role="alert">No hay reportes</div>
+                {{/reportes}}
+            </div>
             <script>
 
             </script>

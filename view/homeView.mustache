@@ -25,7 +25,7 @@
                 <div class="card card-body mb-3 ">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="../public/avatar/{{user_name}}.jpg" class="rounded-circle" alt="">
+                            <img src="../public/avatar/{{user_name}}.jpg" width="300px" class="rounded-circle" alt="">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h4>Informacion del usuario: </h4>
@@ -35,18 +35,25 @@
                             <p>Nivel de jugador: {{userSession.nivel}}</p>
                             <p>Puntaje: {{userSession.puntaje}}</p>
                         </div>
+                        <div class="flex-grow-1  d-flex flex-column align-items-center justify-content-center mb-3">
+                            <div class="mb-3">
+                                {{#userSession.isAdmin}}
+                                    <a href="/admin" class="btn btn-dark">Panel Administrativo</a>
+                                {{/userSession.isAdmin}}
+                                <a href="/juego/crear" class="btn btn-success">Nuevo Juego</a>
+                            </div>
+                            <div>
+                                <a href="/ranking" class="btn btn-secondary">Ranking</a>
+                                <a href="/partida" class="btn btn-info">Partidas</a>
+                                {{^userSession.isAdmin}}
+                                    <a href="/pregunta/sugerir" class="btn btn-warning">Sugerir una pregunta</a>
+                                {{/userSession.isAdmin}}
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            <div class="d-flex align-items-center justify-content-around mb-3">
-                {{#userSession.isAdmin}}
-                    <a href="/admin" class="btn btn-success">Panel Administrativo</a>
-                {{/userSession.isAdmin}}
-                <a href="/juego/crear" class="btn btn-success">Nuevo Juego</a>
-                <a href="/ranking" class="btn btn-secondary">Ranking</a>
-                <a href="/partida" class="btn btn-info">Partidas</a>
-                <a href="/pregunta/sugerir" class="btn btn-warning">Sugerir una pregunta</a>
-            </div>
+
             {{/userSession.user}}
         </div>
     </div>

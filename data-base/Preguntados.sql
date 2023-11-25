@@ -260,7 +260,7 @@ CREATE TABLE reporte_pregunta (
                          pregunta_id INT NOT NULL,
                          caso VARCHAR(120) DEFAULT NULL,
                          mensaje VARCHAR(255) DEFAULT NULL,
-                         resuelto VARCHAR(80) NOT NULL,
+                         resuelto VARCHAR(80) DEFAULT 'NO',
                          FOREIGN KEY (user_id) REFERENCES users(id),
                         FOREIGN KEY (pregunta_id) REFERENCES preguntas(id)
 );

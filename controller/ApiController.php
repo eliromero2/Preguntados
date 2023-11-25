@@ -6,12 +6,14 @@ class ApiController
     private $opcionService;
     private $partidaService;
     private $userService;
+    private $session;
 
     public function __construct($preguntaService, $opcionService, $partidaService,$userService){
         $this->preguntaService = $preguntaService;
         $this->opcionService = $opcionService;
         $this->partidaService = $partidaService;
         $this->userService = $userService;
+
     }
 
     public function pregunta(){
@@ -54,6 +56,22 @@ class ApiController
         $response = [
             'resultPregunta' => $resultPregunta,
             "resultRespuestas" => $resultRespuestas,
+        ];
+
+        $_SESSION['success'] = "Se creo la sugerencia de pregunta";
+
+        echo json_encode($response);
+    }
+
+    public function reportPregunta(){
+        $data = json_decode(file_get_contents('php://input'));
+        $data->pregunta_id = $_GET['params'];
+        $data->user_id = $this->userService->getCurrentSession()['user']['id'];
+        $resultPregunta = $this->preguntaService->createReportPregunta($data);
+        $data->pregunta_id = $resultPregunta;
+
+        $response = [
+            'resultPregunta' => $resultPregunta,
         ];
 
         $_SESSION['success'] = "Se creo la sugerencia de pregunta";

@@ -22,7 +22,7 @@
                                     <p class="card-text">{{pregunta}}</p>
                                 </div>
                                 <div class="card-section mb-3 d-flex align-content-center">
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#reportingModal">Reportar Pregunta</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#reportingModal" onclick="stopTimer()">Reportar Pregunta</button>
                                 </div>
                             </div>
                             <div class="card-section mb-3">
@@ -89,7 +89,7 @@
 
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h4 class="modal-title">Modal Heading</h4>
+                            <h4 class="modal-title">Reportar Pregunta</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <form id="reportingModalForm">
@@ -116,7 +116,7 @@
             </div>
 
             <script>
-
+                const formElementModal = document.getElementById("reportingModal")
                 var duracionMaxima = 30; // Duración máxima en segundos
                 var tiempoRestante = duracionMaxima;
 
@@ -138,8 +138,19 @@
                     }
                 }, 1000); // 1000 milisegundos = 1 segundo
 
+                const stopTimer = () =>{
+                    clearInterval(temporizador);
+                }
+
                 const inputId = document.querySelector("form#formulario-pregunta > input[name='id']");
                 const reportPregunta = (e) =>{
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    const formValues = {}
+
+                    formData.forEach((value, key) => {
+                        formValues[key] = value;
+                    });
 
                     let options = {
                         method: 'POST',
@@ -149,11 +160,13 @@
                         body: JSON.stringify(formValues)
                     };
 
-                    fetch(`api/reportPregunta/${input.value}`, options)
+                    fetch(`/api/reportPregunta/${inputId.value}`, options)
                             .then(res => res.json())
-                            .then( data => console.log({data}))
+                            .then( data => window.location.href = "/juego/perdido")
                             .catch(err => console.error({err}))
                 }
+
+                formElementModal.addEventListener('submit', reportPregunta)
             </script>
         </div>
 </main>

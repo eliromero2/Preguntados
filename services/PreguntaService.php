@@ -76,6 +76,11 @@ class PreguntaService
         return $this->model->sugerir($data);
     }
 
+    public function createReportPregunta($data){
+
+        return $this->model->reportar($data);
+    }
+
     public function deletePregunta($id){
         return $this->model->delete($id);
     }

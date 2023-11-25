@@ -16,7 +16,7 @@
             {{/userSession.user}}
 
             {{#userSession.user}}
-                <h1>Bienvenido {{user_name}}[{{rol}}]!</h1>
+                <h1>Panel</h1>
 
                 <div class="card card-body mb-3 ">
                     <div class="d-flex align-items-center">
@@ -30,16 +30,20 @@
                             <p>Mail: {{mail}}</p>
                             <p>Puntaje: {{puntaje}}</p>
                         </div>
+                        <div class="flex-grow-1  d-flex flex-column align-items-center justify-content-center mb-3">
+                            <div class="mb-3">
+                                    <a href="/admin/preguntas" class="btn btn-success">Preguntas</a>
+                                    <a href="/admin/sugerencias" class="btn btn-dark">Sugerencias</a>
+                            </div>
+                            <div>
+                                <a href="/admin/categorias" class="btn btn-secondary">Categorias</a>
+                                <a href="/admin/usuarios" class="btn btn-info">Usuarios</a>
+                                <a href="/admin/reporte" class="btn btn-warning">Generar Reporte</a>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            <div class="d-flex align-items-center justify-content-around mb-3">
-                <a href="/admin/preguntas" class="btn btn-success">Preguntas</a>
-                <a href="/admin/sugerencias" class="btn btn-info">Sugerencias</a>
-                <a href="/admin/categorias" class="btn btn-secondary">Categorias</a>
-                <a href="/admin/usuarios" class="btn btn-info">Usuarios</a>
-                <a href="/admin/reporte" class="btn btn-warning">Generar Reporte</a>
-            </div>
             {{/userSession.user}}
         </div>
     </div>

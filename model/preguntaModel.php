@@ -229,6 +229,24 @@ class preguntaModel{
         }
     }
 
+    public function reportar($data){
+
+        try {
+            $sql = "INSERT INTO 
+                        reporte_pregunta (user_id,pregunta_id, caso, mensaje)
+                    VALUES ('$data->user_id','$data->pregunta_id','$data->caso','$data->comentario')";
+
+            $result = $this->database->query($sql);
+
+            return $result;
+
+        } catch (PDOException $e) {
+            // Manejar errores de base de datos
+            // Puedes personalizar este bloque según tus necesidades
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
     public function preguntasSugeridas($sql)
     {
         $resultado = $this->database->select($sql);

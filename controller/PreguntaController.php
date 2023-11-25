@@ -34,7 +34,7 @@ class PreguntaController{
         $_SESSION['tiempo_inicio'] = time();
         $data['pregunta'] = $this->preguntaService->getPreguntaByNivel($idPregunta, $data['userSession']['nivel'] ,true);
 
-        Sesion::setPreguntas($data['pregunta']['id']);
+        Sesion::setPreguntas($data['pregunta']);
 
         $this->render->printView('pregunta',$data);
     }
