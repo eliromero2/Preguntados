@@ -54,6 +54,9 @@ class PreguntaService
 
         return $modelResponse;
     }
+    public function getNivelPreguntaById($id, $forUser = false){
+        return $this->model->getNivelPreguntaById($id, $forUser = false);
+    }
 
     public function getRandomIdNotInArray($excludedIds){
         $randomId = $this->getRandomId();

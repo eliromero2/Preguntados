@@ -33,6 +33,7 @@ class PreguntaController{
         $idPregunta = $_GET['params'] ?? $this->preguntaService->getRandomId();
         $_SESSION['tiempo_inicio'] = time();
         $data['pregunta'] = $this->preguntaService->getPreguntaByNivel($data['userSession']['nivel'] ,true);
+        $data['dificultad'] = $this->preguntaService->getNivelPreguntaById($idPregunta ,true);
 
         Sesion::setPreguntas($data['pregunta']);
 

@@ -162,6 +162,36 @@ class preguntaModel{
         return $resultado[0];
     }
 
+    public function getNivelPreguntaById($id, $forUser = false) {
+        $sql = "SELECT
+                AVG(p.contestada * 1.0 / p.entregadas) AS promedio,
+                CASE
+                    WHEN AVG(p.contestada * 1.0 / p.entregadas) <= 0.33 THEN 'Dificil'
+                    WHEN AVG(p.contestada * 1.0 / p.entregadas) <= 0.66 THEN 'Medio'
+                    ELSE 'Facil'
+                END AS nivel
+            FROM
+                preguntas p
+            WHERE
+                p.id = '$id'";
+
+
+        $preguntaPorId = $this->database->select($sql);
+
+        if (empty($preguntaPorId)) {
+            Logger::info('No se encontró pregunta con ID: ' . $id);
+            return false;
+        }
+
+        $nivel = $preguntaPorId[0]['nivel'];
+
+        if ($forUser) {
+            $this->database->query("UPDATE preguntas SET entregadas = entregadas + 1 WHERE id = $id");
+        }
+
+        return $nivel;
+    }
+
 
     public function getRandomId(){
         $sql = "SELECT COUNT(pregunta) total FROM preguntas";
