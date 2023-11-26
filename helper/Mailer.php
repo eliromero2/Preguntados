@@ -46,7 +46,7 @@ class Mailer
     public function sendMail(){
         try {
             $mailSend = $this->mail->Send();
-            $_SESSION['success'] = 'SE MANDO CARAJO';
+            $_SESSION['success'] = 'Se envio el mail correctamente';
             Logger::info($mailSend);
             Redirect::to('/home/list');
         }catch(Exception $exception){

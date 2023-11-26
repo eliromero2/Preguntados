@@ -19,7 +19,8 @@ class HomeController{
         $data['error'] = @$_SESSION['error'];
         $data['success'] = @$_SESSION['success'];
         unset($_SESSION['error']);
-        
+        unset($_SESSION['success']);
+
         $this->render->printView('home', $data);
     }
 }
