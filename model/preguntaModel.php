@@ -137,6 +137,7 @@ class preguntaModel{
 
         $countPreguntas = count($levelFilter);
         $preguntaIndex = array_rand($levelFilter);
+
         //Logger::json(array_keys($levelFilter),$preguntaIndex);
 
         $idPregunta = $levelFilter[$preguntaIndex]['id'];
