@@ -26,7 +26,7 @@ class JuegoController{
 
     public function perdido() {
         $data['userSession'] = $this->userService->getCurrentSession();
-        $data['error'] = $_SESSION['error'];
+        $data['error'] = @$_SESSION['error'];
         unset($_SESSION['error']);
         $this->render->authView($data['userSession'],'juegoPerdido', $data);
     }
