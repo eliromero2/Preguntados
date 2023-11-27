@@ -185,10 +185,6 @@ class preguntaModel{
 
         $nivel = $preguntaPorId[0]['nivel'];
 
-        if ($forUser) {
-            $this->database->query("UPDATE preguntas SET entregadas = entregadas + 1 WHERE id = $id");
-        }
-
         return $nivel;
     }
 
