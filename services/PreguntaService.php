@@ -120,6 +120,12 @@ class PreguntaService
         return $this->model->preguntasSugeridas($sql);
     }
 
+    public function descartarSuggestPregunta($id){
+        $sql = "DELETE FROM preguntas_sugeridas WHERE id = '$id'";
+
+        return $this->model->deleteSuggest($sql);
+    }
+
     public function getReportes()
     {
         $sql = "SELECT * FROM reporte_pregunta";

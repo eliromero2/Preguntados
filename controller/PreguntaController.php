@@ -37,6 +37,7 @@ class PreguntaController{
 
         Sesion::setPreguntas($data['pregunta']);
 
+
         $this->render->printView('pregunta',$data);
     }
 
@@ -46,7 +47,8 @@ class PreguntaController{
 
         $idPreguntaActual = $_POST['id'];
 
-        
+
+
         $data['pregunta'] = $this->preguntaService->getPregunta($idPreguntaActual, true);
 
         $opcionSeleccionada = $_POST['opcion'];
@@ -68,6 +70,7 @@ class PreguntaController{
             Redirect::to('/juego/perdido');
         }
         if ($opcionSeleccionada == $opcionCorrecta){
+
             $data['opcionEsCorrecta']= "La es opcion correcta ";
             $this->partidaService->preguntaContestada($_POST['id']);
             $data['puntaje'] =  intval($_POST['puntaje']) + 1;

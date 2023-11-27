@@ -110,7 +110,8 @@ class preguntaModel{
         return $resultado[0];
     }
 
-    public function getPreguntaByNivel($level, $forUser = false){
+    public function getPreguntaByNivel($level, $forUser=false){
+
 
         $sql = "SELECT
                     p.*,
@@ -137,6 +138,7 @@ class preguntaModel{
 
         $countPreguntas = count($levelFilter);
         $preguntaIndex = array_rand($levelFilter);
+
         //Logger::json(array_keys($levelFilter),$preguntaIndex);
 
         $idPregunta = $levelFilter[$preguntaIndex]['id'];
@@ -283,7 +285,18 @@ class preguntaModel{
         foreach ($resultado as &$row) {
             if($row['opciones']){
                 $row['opciones'] = explode(';', $row['opciones']);
-                $row['opciones_correctas'] = explode(';', $row['opciones_correctas']);
+                $opcionesDetail = [];
+
+                foreach ($row['opciones'] as $opcion){
+                    $aux = ["nombre" => $opcion];
+                    if($opcion === $row['opciones_correctas']){
+                        $aux['correcta'] = $opcion === $row['opciones_correctas'];
+                    }
+
+                    $opcionesDetail[] = $aux;
+                }
+
+                $row['opciones'] = $opcionesDetail;
             }
         }
 
@@ -305,6 +318,10 @@ class preguntaModel{
     public function deleteReport($sql){
         return $this->database->query($sql);
     }
+
+public function deleteSuggest($sql){
+        return $this->database->query($sql);
+}
 
     public function resolveInProgressReport($sql){
         return $this->database->query($sql);

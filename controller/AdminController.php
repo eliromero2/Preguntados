@@ -109,10 +109,11 @@ class AdminController{
         $userRow = $data['userSession']['user'];
 
         $data['sugerencias'] = $this->preguntaService->getSugerencias();
+
         $data['reportes'] = $this->preguntaService->getReportes();
 
-        $data['success'] = $_SESSION['success'];
-        $data['error'] = $_SESSION['error'];
+        $data['success'] = @$_SESSION['success'];
+        $data['error'] = @$_SESSION['error'];
 
         unset($_SESSION['success']);
         unset($_SESSION['error']);

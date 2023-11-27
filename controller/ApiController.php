@@ -66,6 +66,21 @@ class ApiController
         echo json_encode($response);
     }
 
+    public function descartarSugerencia(){
+        $data = json_decode(file_get_contents('php://input'));
+        $result = $this->preguntaService->descartarSuggestPregunta($data->id);
+
+        Logger::dd($result);
+
+        if($result){
+            $_SESSION['success'] = "Se descarto la sugerencia";
+        }else{
+            $_SESSION['error'] = "No se pudo descartar la sugerencia";
+        }
+
+        echo json_encode($result);
+    }
+
     public function reportPregunta(){
         $data = json_decode(file_get_contents('php://input'));
         $data->pregunta_id = $_GET['params'];

@@ -20,7 +20,7 @@ class HomeController{
         $data['success'] = @$_SESSION['success'];
         unset($_SESSION['error']);
         unset($_SESSION['success']);
-
+        echo '<script>localStorage.removeItem("tiempoRestante");</script>';
         $this->render->printView('home', $data);
     }
 }
