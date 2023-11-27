@@ -110,7 +110,8 @@ class preguntaModel{
         return $resultado[0];
     }
 
-    public function getPreguntaByNivel($level, $forUser = false){
+    public function getPreguntaByNivel($level, $forUser=false){
+
 
         $sql = "SELECT
                     p.*,
