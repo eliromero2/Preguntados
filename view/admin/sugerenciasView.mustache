@@ -26,12 +26,12 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     {{#opciones}}
-                                        <li class="list-group-item">{{.}}</li>
-                                        <input type="hidden" name="opcion[]" value="{{.}}">
+                                        <li class="list-group-item {{#correcta}} bg-success text-white{{/correcta}}">{{nombre}}</li>
+                                        <input type="hidden" name="opcion[]" value="{{nombre}}">
                                     {{/opciones}}
                                 </ul>
                                 <div class="card-footer">
-                                    <button type="button" class="btn btn-success" onclick="aceptarSugerencia('{{id}}')">Aceptar</button>
+                                    <button type="button" class="btn btn-success" onclick="resolverSugerencia('{{id}}')">Aceptar</button>
                                     <button type="button" class="btn btn-danger" onclick="descartarSugerencia('{{id}}')">Descartar</button>
                                 </div>
                             </form>
@@ -79,6 +79,41 @@
                 {{/reportes}}
             </div>
             <script>
+
+                function resolverSugerencia(suggestId) {
+                    fetch('/api/resolverSugerencia', {
+                        method: 'POST', // O el método que corresponda
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({id: suggestId}),
+                    })
+                            .then(response => {// Realizar acciones adicionales si es necesario
+                                console.log('Reporte resuelto con éxito');
+                            })
+                            .catch(error => {
+                                console.error('Error al resolver el reporte:', error);
+                            }).finally(() => window.location.href = `/admin/pregunta/crearPregunta?suggestId=${suggestId}`)
+                }
+
+                function descartarSugerencia(suggestId) {
+                    fetch('/api/descartarSugerencia', {
+                        method: 'POST', // O el método que corresponda
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({id: suggestId}),
+                    })
+                            .then(response => {
+                                // Realizar acciones adicionales si es necesario
+                                console.log(response);
+                            })
+                            .catch(error => {
+                                console.error('Error al descartar el reporte:', error);
+                            }).finally(() => window.location.href = "/admin/sugerencias");
+                }
+
+
 
                 function resolverReporte(reportId, preguntaId) {
                     fetch('/api/resolverReporte', {

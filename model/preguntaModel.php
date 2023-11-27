@@ -287,7 +287,18 @@ class preguntaModel{
         foreach ($resultado as &$row) {
             if($row['opciones']){
                 $row['opciones'] = explode(';', $row['opciones']);
-                $row['opciones_correctas'] = explode(';', $row['opciones_correctas']);
+                $opcionesDetail = [];
+
+                foreach ($row['opciones'] as $opcion){
+                    $aux = ["nombre" => $opcion];
+                    if($opcion === $row['opciones_correctas']){
+                        $aux['correcta'] = $opcion === $row['opciones_correctas'];
+                    }
+
+                    $opcionesDetail[] = $aux;
+                }
+
+                $row['opciones'] = $opcionesDetail;
             }
         }
 
@@ -309,6 +320,10 @@ class preguntaModel{
     public function deleteReport($sql){
         return $this->database->query($sql);
     }
+
+public function deleteSuggest($sql){
+        return $this->database->query($sql);
+}
 
     public function resolveInProgressReport($sql){
         return $this->database->query($sql);
