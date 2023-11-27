@@ -26,3 +26,9 @@
 </body>
 
 </html>
+<script>
+    formElement.addEventListener("submit", function (event) {
+        event.preventDefault();
+        localStorage.removeItem("tiempoRestante");
+    })
+</script>

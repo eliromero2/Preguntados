@@ -110,7 +110,8 @@ class preguntaModel{
         return $resultado[0];
     }
 
-    public function getPreguntaByNivel($level, $forUser = false){
+    public function getPreguntaByNivel($level, $forUser=false){
+
 
         $sql = "SELECT
                     p.*,
@@ -137,6 +138,7 @@ class preguntaModel{
 
         $countPreguntas = count($levelFilter);
         $preguntaIndex = array_rand($levelFilter);
+
         //Logger::json(array_keys($levelFilter),$preguntaIndex);
 
         $idPregunta = $levelFilter[$preguntaIndex]['id'];

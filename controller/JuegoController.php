@@ -34,7 +34,7 @@ class JuegoController{
     public function crear() {
         $data['userSession'] = $this->userService->getCurrentSession();
         $this->partidaService->createPartida($data['userSession']['user']['id']);
-
+        echo '<script>localStorage.removeItem("tiempoRestante");</script>';
         $idRandom = $this->preguntaService->getRandomId();
 
         Redirect::to("/pregunta/show/$idRandom");

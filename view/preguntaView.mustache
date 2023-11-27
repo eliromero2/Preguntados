@@ -8,6 +8,8 @@
                     </div>
 
                     <form id="formulario-pregunta" method="post" action="/pregunta/validarOpcion">
+
+
                         <input type="hidden" name="id" value="{{pregunta_id}}">
 
                         <div class="card card-body mb-5">
@@ -87,21 +89,26 @@
             </div>
 
             <script>
+
                 const formElementModal = document.getElementById("reportingModal")
+                const  formElementPregunta = document.getElementById("formulario-pregunta")
                 var duracionMaxima = 30; // Duración máxima en segundos
-                var tiempoRestante = duracionMaxima;
+                //var tiempoRestante = duracionMaxima;
+                let tiempoRestante = localStorage.getItem('tiempoRestante')||duracionMaxima;
 
                 // Actualiza la barra de progreso cada segundo
                 var temporizador = setInterval(function() {
                     // Calcula el porcentaje completado
                     var porcentajeCompletado = (duracionMaxima - tiempoRestante) / duracionMaxima * 100;
 
+
+
                     // Actualiza el ancho de la barra de progreso
                     document.getElementById('barraProgreso').style.width = porcentajeCompletado + '%';
 
                     // Disminuye el tiempo restante
                     tiempoRestante--;
-
+                    localStorage.setItem('tiempoRestante', tiempoRestante);
                     // Si el tiempo ha llegado a cero, detén el temporizador
                     if (tiempoRestante < 0) {
                         clearInterval(temporizador);
@@ -131,13 +138,28 @@
                         body: JSON.stringify(formValues)
                     };
 
+
                     fetch(`/api/reportPregunta/${inputId.value}`, options)
                             .then(res => res.json())
                             .then( data => window.location.href = "/juego/perdido")
                             .catch(err => console.error({err}))
                 }
+                const validarPregunta = (e) => {
+                    e.preventDefault();
+
+
+                    localStorage.removeItem('tiempoRestante');
+
+
+                    formElementPregunta.submit();
+                };
+
 
                 formElementModal.addEventListener('submit', reportPregunta)
+                formElementPregunta.addEventListener('submit',validarPregunta)
+
             </script>
         </div>
 </main>
+
+
